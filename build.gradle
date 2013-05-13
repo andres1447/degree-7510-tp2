@@ -1,0 +1,46 @@
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'eclipse'
+
+// Project versioning
+version = '1.0'
+
+// Java compilation properties
+sourceCompatibility = '1.7'
+targetCompatibility = '1.7'
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Técnicas de Diseño - TP2', 'Implementation-Version': version
+    }
+}
+
+// Application assembly properties
+mainClassName = "Define"
+
+// Dependency repositories
+repositories {
+  mavenCentral()
+}
+
+// Dependencies
+dependencies {
+  // Guice
+  compile 'com.google.guava:guava:14.0.1'
+
+  // Test dependencies
+  testCompile group: 'junit', name: 'junit', version: '4.+'
+}
+
+// Latex generation
+task prepareDocs {
+  description "Prepare doc building environment"
+  doLast {
+    def buildDir = file("build/docs")
+    buildDir.mkdirs()
+  }
+}
+
+task docs(type: Exec, dependsOn: [ prepareDocs ]) {
+  description "Generate the pdf report"
+  commandLine "pdflatex", "--output-directory", "build/docs", "src/docs/informe.tex"
+}
