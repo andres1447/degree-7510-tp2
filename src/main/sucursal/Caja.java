@@ -14,11 +14,15 @@ public class Caja {
 	private List<Oferta> ofertas;
 	private EstadoCaja estado;
 	private Compra compraActual;
+	private Sucursal sucursal;
 	
-	public Caja() {
+	
+	public Caja(Sucursal sucursal) {
 		compras = new LinkedList<Compra>();
 		estado = new EstadoCaja();
 		compraActual = null;
+		this.sucursal = sucursal;
+		ofertas = sucursal.getOfertas();
 	}
 
 	public void abrirCaja() throws CajaYaAbiertaException {
@@ -33,7 +37,9 @@ public class Caja {
 		return estado.estaAbierta();
 	}
 	
-	public void iniciarCompra() throws CompraEnProcesoException {
+	public void iniciarCompra() throws CompraEnProcesoException, CajaNoInicializadaException {
+		if (!estaAbierta())
+			throw new CajaNoInicializadaException();
 		if (compraActual != null) {
 			throw new CompraEnProcesoException();
 		}
@@ -49,7 +55,7 @@ public class Caja {
 	}
 
 	public void visualizarTotal() {
-		
+		ofertas = sucursal.getOfertas();
 	}
 
 	public void visualizarDescuentosAplicados() {
@@ -59,9 +65,6 @@ public class Caja {
 	public void indicarMedioDePago(Pago pago) {
 	}
 
-	private void aplicarDescuentosPago() {
-	
-	}
 
 	public void confirmarCompra() {
 		aplicarDescuentosItems();

@@ -5,6 +5,7 @@ import org.junit.*;
 import sucursal.Caja;
 import sucursal.Pago;
 import sucursal.Producto;
+import sucursal.Sucursal;
 import sucursal.exceptions.CompraNoInicializadaException;
 import sucursal.exceptions.CajaNoInicializadaException;
 import sucursal.exceptions.CajaYaAbiertaException;
@@ -26,7 +27,7 @@ public class CajaTest {
 	@Test
 	public void testCajaCreadaCerrada()
 		throws Exception {
-		Caja miCaja = new Caja();
+		Caja miCaja = new Caja(new Sucursal());
 		assertFalse(miCaja.estaAbierta());
 	}
 
@@ -40,7 +41,7 @@ public class CajaTest {
 	@Test
 	public void testAbrirCajaCerrada()
 		throws Exception {
-		Caja miCaja = new Caja();
+		Caja miCaja = new Caja(new Sucursal());
 		miCaja.abrirCaja();
 		assertTrue(miCaja.estaAbierta());
 	}
@@ -54,7 +55,7 @@ public class CajaTest {
 	@Test
 	public void testReabrirCajaCerrada()
 		throws Exception {
-		Caja miCaja = new Caja();
+		Caja miCaja = new Caja(new Sucursal());
 		miCaja.abrirCaja();
 		assertTrue(miCaja.estaAbierta());
 		miCaja.cerrarCaja();
@@ -73,7 +74,7 @@ public class CajaTest {
 	@Test(expected = sucursal.exceptions.CajaYaAbiertaException.class)
 	public void testAbrirCajaYaAbierta()
 		throws Exception {
-		Caja miCaja = new Caja();
+		Caja miCaja = new Caja(new Sucursal());
 		miCaja.abrirCaja();
 		miCaja.abrirCaja();
 	}
@@ -87,7 +88,7 @@ public class CajaTest {
 	@Test(expected = sucursal.exceptions.CajaNoInicializadaException.class)
 	public void testAgregarProductosCajaCerrada()
 		throws Exception {
-		Caja miCaja = new Caja();
+		Caja miCaja = new Caja(new Sucursal());
 		Producto nuevoProducto = new Producto();
 		miCaja.agregarProductos(nuevoProducto);
 	}
@@ -101,7 +102,7 @@ public class CajaTest {
 	@Test(expected = sucursal.exceptions.CompraNoInicializadaException.class)
 	public void testAgregarProductosCompraNoIniciada()
 		throws Exception {
-		Caja miCaja = new Caja();
+		Caja miCaja = new Caja(new Sucursal());
 		miCaja.abrirCaja();
 		Producto nuevoProducto = new Producto();
 		miCaja.agregarProductos(nuevoProducto);
@@ -115,7 +116,7 @@ public class CajaTest {
 	@Test(expected = sucursal.exceptions.CajaNoInicializadaException.class)
 	public void testCerrarCajaNoAbierta()
 		throws Exception {
-		Caja miCaja = new Caja();
+		Caja miCaja = new Caja(new Sucursal());
 		miCaja.cerrarCaja();
 	}
 
@@ -127,7 +128,7 @@ public class CajaTest {
 	@Test
 	public void testAperturaYCierreCaja()
 		throws Exception {
-		Caja miCaja = new Caja();
+		Caja miCaja = new Caja(new Sucursal());
 		miCaja.abrirCaja();
 		assertTrue(miCaja.estaAbierta());
 		miCaja.cerrarCaja();
@@ -142,7 +143,7 @@ public class CajaTest {
 	 * @throws Exception
 	 *
 	 */
-	@Ignore
+/*	@Ignore
 	@Test
 	public void testConfirmarCompra_1()
 		throws Exception {
@@ -154,12 +155,12 @@ public class CajaTest {
 		// add additional test code here
 	}
 
-	/**
+	*//**
 	 * Run the void indicarMedioDePago(Pago) method test.
 	 *
 	 * @throws Exception
 	 *
-	 */
+	 *//*
 	@Ignore
 	@Test
 	public void testIndicarMedioDePago_1()
@@ -173,12 +174,12 @@ public class CajaTest {
 		// add additional test code here
 	}
 
-	/**
+	*//**
 	 * Run the void iniciarCompra() method test.
 	 *
 	 * @throws Exception
 	 *
-	 */
+	 *//*
 	@Ignore
 	@Test
 	public void testIniciarCompra_1()
@@ -191,12 +192,12 @@ public class CajaTest {
 		// add additional test code here
 	}
 
-	/**
+	*//**
 	 * Run the void iniciarCompra() method test.
 	 *
 	 * @throws Exception
 	 *
-	 */
+	 *//*
 	@Ignore
 	@Test
 	public void testIniciarCompra_2()
@@ -209,12 +210,12 @@ public class CajaTest {
 		// add additional test code here
 	}
 
-	/**
+	*//**
 	 * Run the void visualizarDescuentosAplicados() method test.
 	 *
 	 * @throws Exception
 	 *
-	 */
+	 *//*
 	@Ignore
 	@Test
 	public void testVisualizarDescuentosAplicados_1()
@@ -227,12 +228,12 @@ public class CajaTest {
 		// add additional test code here
 	}
 
-	/**
+	*//**
 	 * Run the void visualizarTotal() method test.
 	 *
 	 * @throws Exception
 	 *
-	 */
+	 *//*
 	@Ignore
 	@Test
 	public void testVisualizarTotal_1()
@@ -245,7 +246,7 @@ public class CajaTest {
 		// add additional test code here
 	}
 
-	/**
+	*//**
 	 * Perform pre-test initialization.
 	 *
 	 * @throws Exception
