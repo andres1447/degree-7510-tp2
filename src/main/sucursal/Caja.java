@@ -1,7 +1,10 @@
 package sucursal;
 
-import java.util.LinkedList;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.xml.stream.XMLStreamException;
 
 import sucursal.exceptions.CajaNoInicializadaException;
 import sucursal.exceptions.CajaYaAbiertaException;
@@ -18,11 +21,15 @@ public class Caja {
 	
 	
 	public Caja(Sucursal sucursal) {
-		compras = new LinkedList<Compra>();
+		compras = new ArrayList<Compra>();
 		estado = new EstadoCaja();
 		compraActual = null;
 		this.sucursal = sucursal;
-		ofertas = sucursal.getOfertas();
+		try {
+			ofertas = sucursal.getOfertas();
+		} catch (FileNotFoundException | XMLStreamException e) {
+			ofertas = new ArrayList<Oferta>();
+		}
 	}
 
 	public void abrirCaja() throws CajaYaAbiertaException {
@@ -55,7 +62,11 @@ public class Caja {
 	}
 
 	public void visualizarTotal() {
-		ofertas = sucursal.getOfertas();
+		try {
+			ofertas = sucursal.getOfertas();
+		} catch (FileNotFoundException | XMLStreamException e) {
+			ofertas = new ArrayList<Oferta>();
+		}
 	}
 
 	public void visualizarDescuentosAplicados() {
