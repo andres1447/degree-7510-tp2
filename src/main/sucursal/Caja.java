@@ -1,6 +1,7 @@
 package sucursal;
 
 public class Caja {
+	public Caja(){}
 	public void abrirCaja(){}
 	public void iniciarCompra(){}
 	public void agregarProductos(){}
