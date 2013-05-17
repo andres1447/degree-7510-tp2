@@ -1,4 +1,4 @@
-package sucursal;
+package sucursal.exceptions;
 
 public class CompraNoInicializadaException extends Exception {
 

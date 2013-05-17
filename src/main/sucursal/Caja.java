@@ -3,6 +3,11 @@ package sucursal;
 import java.util.LinkedList;
 import java.util.List;
 
+import sucursal.exceptions.CajaNoInicializadaException;
+import sucursal.exceptions.CajaYaAbiertaException;
+import sucursal.exceptions.CompraEnProcesoException;
+import sucursal.exceptions.CompraNoInicializadaException;
+
 public class Caja {
 
 	private List<Compra> compras;
@@ -52,8 +57,7 @@ public class Caja {
 	}
 
 	private void aplicarDescuentosPago() {
-		// TODO Auto-generated method stub
-		
+	
 	}
 
 	public void confirmarCompra() {
