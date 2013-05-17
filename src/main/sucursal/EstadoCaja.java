@@ -5,7 +5,7 @@ import sucursal.exceptions.CajaYaAbiertaException;
 
 public enum EstadoCaja {
 
-	ABIERTA(1), CERRADA(0);
+	CERRADA(0), ABIERTA(1);
 
 	private static int EST_ABIERTA = 1;
 	private static int EST_CERRADA = 0;	
@@ -13,7 +13,7 @@ public enum EstadoCaja {
 	private int estado;
 	
 	private EstadoCaja(int est){
-		estado = est;
+		this.estado = est;
 	}
 	
 	public boolean estaAbierta() {
@@ -24,13 +24,13 @@ public enum EstadoCaja {
 		if (estaAbierta()) {
 			throw new CajaYaAbiertaException();
 		}
-		estado = EstadoCaja.EST_ABIERTA;
+		this.estado = EstadoCaja.EST_ABIERTA;
 	}
 	
 	public void cerrarCaja() throws CajaNoInicializadaException {
 		if (!estaAbierta()) {
 			throw new CajaNoInicializadaException();
 		}
-		estado = EstadoCaja.EST_CERRADA;
+		this.estado = EstadoCaja.EST_CERRADA;
 	}
 }

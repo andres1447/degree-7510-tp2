@@ -17,6 +17,8 @@ import static org.junit.Assert.*;
  * @version $Revision: 1.0 $
  */
 public class CajaTest {
+	private Caja miCaja;
+	
 	/**
 	 * Run the Caja() constructor test.
 	 *
@@ -26,11 +28,10 @@ public class CajaTest {
 	@Test
 	public void testCajaCreadaCerrada()
 		throws Exception {
-
-		Caja miCaja = new Caja();
 		assertFalse(miCaja.estaAbierta());
 	}
 
+	
 	/**
 	 * Run the void abrirCaja() method test.
 	 *
@@ -40,7 +41,6 @@ public class CajaTest {
 	@Test
 	public void testAbrirCajaCerrada()
 		throws Exception {
-		Caja miCaja = new Caja();
 		miCaja.abrirCaja();
 		assertTrue(miCaja.estaAbierta());
 	}
@@ -50,17 +50,12 @@ public class CajaTest {
 	 *
 	 * @throws Exception
 	 *
-	 * @generatedBy CodePro at 17/05/13 11:38
 	 */
 	@Test(expected = sucursal.exceptions.CajaYaAbiertaException.class)
-	public void testAbrirCaja_2()
+	public void testAbrirCajaYaAbierta()
 		throws Exception {
-		Caja fixture = new Caja();
-		fixture.indicarMedioDePago(new Pago());
-
-		fixture.abrirCaja();
-
-		// add additional test code here
+		miCaja.abrirCaja();
+		miCaja.abrirCaja();
 	}
 
 	/**
@@ -72,7 +67,6 @@ public class CajaTest {
 	@Test(expected = sucursal.exceptions.CajaNoInicializadaException.class)
 	public void testAgregarProductosCajaCerrada()
 		throws Exception {
-		Caja miCaja = new Caja();
 		Producto nuevoProducto = new Producto();
 		miCaja.agregarProductos(nuevoProducto);
 	}
@@ -86,10 +80,9 @@ public class CajaTest {
 	@Test(expected = sucursal.exceptions.CompraNoInicializadaException.class)
 	public void testAgregarProductosCompraNoIniciada()
 		throws Exception {
-		Caja fixture = new Caja();
-		fixture.abrirCaja();
+		miCaja.abrirCaja();
 		Producto nuevoProducto = new Producto();
-		fixture.agregarProductos(nuevoProducto);
+		miCaja.agregarProductos(nuevoProducto);
 	}
 
 	/**
@@ -100,8 +93,7 @@ public class CajaTest {
 	@Test(expected = sucursal.exceptions.CajaNoInicializadaException.class)
 	public void testCerrarCajaNoAbierta()
 		throws Exception {
-		Caja fixture = new Caja();
-		fixture.cerrarCaja();
+		miCaja.cerrarCaja();
 	}
 
 	/**
@@ -109,13 +101,13 @@ public class CajaTest {
 	 *
 	 * @throws Exception
 	 */
-	@Test(expected = sucursal.exceptions.CajaNoInicializadaException.class)
-	public void testCerrarCaja_2()
+	@Test
+	public void testAperturaYCierreCaja()
 		throws Exception {
-		Caja fixture = new Caja();
-		fixture.indicarMedioDePago(new Pago());
-
-		fixture.cerrarCaja();
+		miCaja.abrirCaja();
+		assertTrue(miCaja.estaAbierta());
+		miCaja.cerrarCaja();
+		assertTrue(!miCaja.estaAbierta());
 
 		// add additional test code here
 	}
@@ -126,6 +118,7 @@ public class CajaTest {
 	 * @throws Exception
 	 *
 	 */
+	@Ignore
 	@Test
 	public void testConfirmarCompra_1()
 		throws Exception {
@@ -143,6 +136,7 @@ public class CajaTest {
 	 * @throws Exception
 	 *
 	 */
+	@Ignore
 	@Test
 	public void testIndicarMedioDePago_1()
 		throws Exception {
@@ -161,6 +155,7 @@ public class CajaTest {
 	 * @throws Exception
 	 *
 	 */
+	@Ignore
 	@Test
 	public void testIniciarCompra_1()
 		throws Exception {
@@ -178,6 +173,7 @@ public class CajaTest {
 	 * @throws Exception
 	 *
 	 */
+	@Ignore
 	@Test
 	public void testIniciarCompra_2()
 		throws Exception {
@@ -195,6 +191,7 @@ public class CajaTest {
 	 * @throws Exception
 	 *
 	 */
+	@Ignore
 	@Test
 	public void testVisualizarDescuentosAplicados_1()
 		throws Exception {
@@ -212,6 +209,7 @@ public class CajaTest {
 	 * @throws Exception
 	 *
 	 */
+	@Ignore
 	@Test
 	public void testVisualizarTotal_1()
 		throws Exception {
@@ -232,7 +230,7 @@ public class CajaTest {
 	@Before
 	public void setUp()
 		throws Exception {
-		// add additional set up code here
+		miCaja = new Caja();
 	}
 
 	/**
@@ -244,7 +242,7 @@ public class CajaTest {
 	@After
 	public void tearDown()
 		throws Exception {
-		// Add additional tear down code here
+		miCaja = null;
 	}
 
 	/**
