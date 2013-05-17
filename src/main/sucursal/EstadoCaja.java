@@ -3,34 +3,34 @@ package sucursal;
 import sucursal.exceptions.CajaNoInicializadaException;
 import sucursal.exceptions.CajaYaAbiertaException;
 
-public enum EstadoCaja {
+enum EstCaja {
+	CERRADA(), ABIERTA();
 
-	ABIERTA(1), CERRADA(0);
+}
 
-	private static int EST_ABIERTA = 1;
-	private static int EST_CERRADA = 0;	
+public class EstadoCaja {
+
+	private EstCaja estado;
 	
-	private int estado;
-	
-	private EstadoCaja(int est){
-		estado = est;
+	public EstadoCaja(){
+		this.estado = EstCaja.CERRADA;
 	}
 	
 	public boolean estaAbierta() {
-		return this.estado == EstadoCaja.EST_ABIERTA;
+		return this.estado == EstCaja.ABIERTA;
 	}
 	
 	public void abrirCaja() throws CajaYaAbiertaException {
 		if (estaAbierta()) {
 			throw new CajaYaAbiertaException();
 		}
-		estado = EstadoCaja.EST_ABIERTA;
+		this.estado = EstCaja.ABIERTA;
 	}
 	
 	public void cerrarCaja() throws CajaNoInicializadaException {
 		if (!estaAbierta()) {
 			throw new CajaNoInicializadaException();
 		}
-		estado = EstadoCaja.EST_CERRADA;
+		this.estado = EstCaja.CERRADA;
 	}
 }
