@@ -14,11 +14,10 @@ public class Caja {
 	private List<Oferta> ofertas;
 	private EstadoCaja estado;
 	private Compra compraActual;
-	private Pago pagoActual;
 	
 	public Caja() {
 		compras = new LinkedList<Compra>();
-		estado = EstadoCaja.CERRADA;
+		estado = new EstadoCaja();
 		compraActual = null;
 	}
 
@@ -58,8 +57,6 @@ public class Caja {
 	}
 
 	public void indicarMedioDePago(Pago pago) {
-		pagoActual = pago;
-		aplicarDescuentosPago();
 	}
 
 	private void aplicarDescuentosPago() {

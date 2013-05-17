@@ -17,8 +17,6 @@ import static org.junit.Assert.*;
  * @version $Revision: 1.0 $
  */
 public class CajaTest {
-	private Caja miCaja;
-	
 	/**
 	 * Run the Caja() constructor test.
 	 *
@@ -28,6 +26,7 @@ public class CajaTest {
 	@Test
 	public void testCajaCreadaCerrada()
 		throws Exception {
+		Caja miCaja = new Caja();
 		assertFalse(miCaja.estaAbierta());
 	}
 
@@ -41,6 +40,7 @@ public class CajaTest {
 	@Test
 	public void testAbrirCajaCerrada()
 		throws Exception {
+		Caja miCaja = new Caja();
 		miCaja.abrirCaja();
 		assertTrue(miCaja.estaAbierta());
 	}
@@ -51,9 +51,29 @@ public class CajaTest {
 	 * @throws Exception
 	 *
 	 */
+	@Test
+	public void testReabrirCajaCerrada()
+		throws Exception {
+		Caja miCaja = new Caja();
+		miCaja.abrirCaja();
+		assertTrue(miCaja.estaAbierta());
+		miCaja.cerrarCaja();
+		assertFalse(miCaja.estaAbierta());
+		miCaja.abrirCaja();
+		assertTrue(miCaja.estaAbierta());
+	}
+	
+	
+	/**
+	 * Run the void abrirCaja() method test.
+	 *
+	 * @throws Exception
+	 *
+	 */
 	@Test(expected = sucursal.exceptions.CajaYaAbiertaException.class)
 	public void testAbrirCajaYaAbierta()
 		throws Exception {
+		Caja miCaja = new Caja();
 		miCaja.abrirCaja();
 		miCaja.abrirCaja();
 	}
@@ -67,6 +87,7 @@ public class CajaTest {
 	@Test(expected = sucursal.exceptions.CajaNoInicializadaException.class)
 	public void testAgregarProductosCajaCerrada()
 		throws Exception {
+		Caja miCaja = new Caja();
 		Producto nuevoProducto = new Producto();
 		miCaja.agregarProductos(nuevoProducto);
 	}
@@ -80,6 +101,7 @@ public class CajaTest {
 	@Test(expected = sucursal.exceptions.CompraNoInicializadaException.class)
 	public void testAgregarProductosCompraNoIniciada()
 		throws Exception {
+		Caja miCaja = new Caja();
 		miCaja.abrirCaja();
 		Producto nuevoProducto = new Producto();
 		miCaja.agregarProductos(nuevoProducto);
@@ -93,6 +115,7 @@ public class CajaTest {
 	@Test(expected = sucursal.exceptions.CajaNoInicializadaException.class)
 	public void testCerrarCajaNoAbierta()
 		throws Exception {
+		Caja miCaja = new Caja();
 		miCaja.cerrarCaja();
 	}
 
@@ -104,6 +127,7 @@ public class CajaTest {
 	@Test
 	public void testAperturaYCierreCaja()
 		throws Exception {
+		Caja miCaja = new Caja();
 		miCaja.abrirCaja();
 		assertTrue(miCaja.estaAbierta());
 		miCaja.cerrarCaja();
@@ -230,7 +254,6 @@ public class CajaTest {
 	@Before
 	public void setUp()
 		throws Exception {
-		miCaja = new Caja();
 	}
 
 	/**
@@ -242,7 +265,7 @@ public class CajaTest {
 	@After
 	public void tearDown()
 		throws Exception {
-		miCaja = null;
+
 	}
 
 	/**
