@@ -3,6 +3,8 @@ package sucursal;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -27,7 +29,7 @@ public class CompraUI extends JPanel {
 	private JTable table;
 
 	private JButton btnAgregarProducto;
-	private JButton btnBorrarProducto;
+	private JButton btnBorrarUltimoProducto;
 
 	private JLabel lblNombreProducto;
 	private JLabel lblMarcaProducto;
@@ -51,33 +53,60 @@ public class CompraUI extends JPanel {
 		setLayout(new FormLayout(new ColumnSpec[] {
 				ColumnSpec.decode("max(200dlu;min):grow"),
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
-				FormFactory.GROWING_BUTTON_COLSPEC,},
-			new RowSpec[] {
+				FormFactory.GROWING_BUTTON_COLSPEC, }, new RowSpec[] {
 				RowSpec.decode("default:grow"),
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("default:grow"),
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,}));
+				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC, }));
 		add(getScrollPane(), "1, 1, 1, 5, fill, fill");
 		add(getPnlDescProducto(), "3, 1, fill, fill");
-		add(getBtnBorrarProducto(), "3, 3");
+		add(getBtnBorrarUltimoProducto(), "3, 3");
 		add(getBtnAgregarProducto(), "1, 7");
 	}
 
 	private JButton getBtnAgregarProducto() {
 		if (btnAgregarProducto == null) {
 			btnAgregarProducto = new JButton("Agregar Producto");
+			btnAgregarProducto.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					((DefaultTableModel) table.getModel())
+							.addRow(new String[] {});
+					getBtnBorrarUltimoProducto().setEnabled(true);
+					table.setRowSelectionInterval(table.getRowCount() - 1,
+							table.getRowCount() - 1);
+					
+					
+					/*
+					 * TODO: Agregar producto a la caja
+					 */
+				}
+			});
 		}
 		return btnAgregarProducto;
 	}
 
-	private JButton getBtnBorrarProducto() {
-		if (btnBorrarProducto == null) {
-			btnBorrarProducto = new JButton("Borrar Producto");
+	private JButton getBtnBorrarUltimoProducto() {
+		if (btnBorrarUltimoProducto == null) {
+			btnBorrarUltimoProducto = new JButton("Deshacer");
+			btnBorrarUltimoProducto.setEnabled(false);
+			btnBorrarUltimoProducto.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					((DefaultTableModel) table.getModel()).removeRow(table
+							.getRowCount() - 1);
+					if (table.getRowCount() == 0)
+						getBtnBorrarUltimoProducto().setEnabled(false);
+					else
+						table.setRowSelectionInterval(table.getRowCount() - 1,
+								table.getRowCount() - 1);
+					
+					/*
+					 * TODO: Borra ultimo producto agregado de la caja
+					 */
+				}
+			});
 		}
-		return btnBorrarProducto;
+		return btnBorrarUltimoProducto;
 	}
 
 	private JPanel getPnlDescProducto() {
@@ -167,6 +196,7 @@ public class CompraUI extends JPanel {
 					new String[] { "Cantidad", "Producto", "Precio Unid.",
 							"Total" });
 			table.setModel(model);
+			table.setEnabled(false);
 			table.setFillsViewportHeight(true);
 		}
 		return table;

@@ -47,7 +47,7 @@ public class AppUI {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Caja c = new Caja();
+					Caja c = new Caja(new Sucursal());
 					AppUI window = new AppUI(c);
 					window.frmCaja.setVisible(true);
 				} catch (Exception e) {
@@ -101,11 +101,10 @@ public class AppUI {
 	private Container getPnlCajaCerrada() {
 		if (pnlCajaCerrada == null) {
 			pnlCajaCerrada = new JPanel();
-			pnlCajaCerrada.setLayout(new FormLayout(new ColumnSpec[] {
-					ColumnSpec.decode("default:grow"),},
-				new RowSpec[] {
-					FormFactory.LINE_GAP_ROWSPEC,
-					RowSpec.decode("default:grow"),}));
+			pnlCajaCerrada.setLayout(new FormLayout(
+					new ColumnSpec[] { ColumnSpec.decode("default:grow"), },
+					new RowSpec[] { FormFactory.LINE_GAP_ROWSPEC,
+							RowSpec.decode("default:grow"), }));
 			pnlCajaCerrada.add(getBtnAbrirCaja(), "1, 2, center, center");
 		}
 		return pnlCajaCerrada;
@@ -136,10 +135,9 @@ public class AppUI {
 			pnlCajaAbierta.setLayout(new FormLayout(new ColumnSpec[] {
 					ColumnSpec.decode("default:grow"),
 					FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
-					ColumnSpec.decode("default:grow"),},
-				new RowSpec[] {
+					ColumnSpec.decode("default:grow"), }, new RowSpec[] {
 					FormFactory.LINE_GAP_ROWSPEC,
-					RowSpec.decode("default:grow"),}));
+					RowSpec.decode("default:grow"), }));
 			pnlCajaAbierta.add(getBtnCerrarCaja(), "1, 2, center, center");
 			pnlCajaAbierta.add(getBtnIniciarCompra(), "3, 2, center, center");
 
@@ -158,6 +156,10 @@ public class AppUI {
 					} catch (CompraEnProcesoException e) {
 						JOptionPane.showMessageDialog(null,
 								"Compra en proceso.", "Error",
+								JOptionPane.WARNING_MESSAGE);
+					} catch (CajaNoInicializadaException e) {
+						JOptionPane.showMessageDialog(null,
+								"La caja se encuentra cerrada", "Error",
 								JOptionPane.WARNING_MESSAGE);
 					}
 				}
@@ -228,6 +230,11 @@ public class AppUI {
 			btnCancelarCompra.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					showCajaAbierta();
+
+					/*
+					 * TODO: Cancelar compra en la caja
+					 */
+					
 					/*
 					 * try { caja.cancelarCompra(); } catch
 					 * (CajaNoInicializadaException e) {
