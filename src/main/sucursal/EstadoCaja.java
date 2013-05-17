@@ -4,10 +4,11 @@ import sucursal.exceptions.CajaNoInicializadaException;
 import sucursal.exceptions.CajaYaAbiertaException;
 
 public enum EstadoCaja {
+
 	ABIERTA(1), CERRADA(0);
-	
+
 	private static int EST_ABIERTA = 1;
-	private static int EST_CERRADA = 0;
+	private static int EST_CERRADA = 0;	
 	
 	private int estado;
 	

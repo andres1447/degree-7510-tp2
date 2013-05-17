@@ -30,13 +30,19 @@ public class Caja {
 		estado.cerrarCaja();
 	}
 
+	public boolean estaAbierta() {
+		return estado.estaAbierta();
+	}
+	
 	public void iniciarCompra() throws CompraEnProcesoException {
 		if (compraActual != null) {
 			throw new CompraEnProcesoException();
 		}
 	}
 
-	public void agregarProductos(Producto nuevoProducto) throws CompraNoInicializadaException {
+	public void agregarProductos(Producto nuevoProducto) throws CompraNoInicializadaException, CajaNoInicializadaException {
+		if (!estaAbierta())
+			throw new CajaNoInicializadaException();
 		if (compraActual == null) {
 			throw new CompraNoInicializadaException();
 		}
@@ -52,8 +58,8 @@ public class Caja {
 	}
 
 	public void indicarMedioDePago(Pago pago) {
-		aplicarDescuentosPago();
 		pagoActual = pago;
+		aplicarDescuentosPago();
 	}
 
 	private void aplicarDescuentosPago() {
