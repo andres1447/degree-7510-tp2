@@ -18,8 +18,7 @@ public class Caja {
 	private EstadoCaja estado;
 	private Compra compraActual;
 	private Sucursal sucursal;
-	
-	
+
 	public Caja(Sucursal sucursal) {
 		compras = new ArrayList<Compra>();
 		estado = new EstadoCaja();
@@ -43,16 +42,19 @@ public class Caja {
 	public boolean estaAbierta() {
 		return estado.estaAbierta();
 	}
-	
-	public void iniciarCompra() throws CompraEnProcesoException, CajaNoInicializadaException {
+
+	public void iniciarCompra() throws CompraEnProcesoException,
+			CajaNoInicializadaException {
 		if (!estaAbierta())
 			throw new CajaNoInicializadaException();
 		if (compraActual != null) {
 			throw new CompraEnProcesoException();
 		}
+		compraActual = new Compra();
 	}
 
-	public void agregarProductos(Producto nuevoProducto) throws CompraNoInicializadaException, CajaNoInicializadaException {
+	public void agregarProductos(Producto nuevoProducto)
+			throws CompraNoInicializadaException, CajaNoInicializadaException {
 		if (!estaAbierta())
 			throw new CajaNoInicializadaException();
 		if (compraActual == null) {
@@ -70,20 +72,19 @@ public class Caja {
 	}
 
 	public void visualizarDescuentosAplicados() {
-		
+
 	}
 
 	public void indicarMedioDePago(Pago pago) {
 	}
-
 
 	public void confirmarCompra() {
 		aplicarDescuentosItems();
 		compras.add(compraActual);
 		compraActual = null;
 	}
-	
+
 	private void aplicarDescuentosItems() {
-		
-	}	
+
+	}
 }

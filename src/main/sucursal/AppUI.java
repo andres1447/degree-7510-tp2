@@ -234,7 +234,7 @@ public class AppUI {
 					/*
 					 * TODO: Cancelar compra en la caja
 					 */
-					
+
 					/*
 					 * try { caja.cancelarCompra(); } catch
 					 * (CajaNoInicializadaException e) {
