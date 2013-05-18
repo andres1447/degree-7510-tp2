@@ -4,7 +4,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
@@ -23,6 +25,8 @@ public class Sucursal implements ActualizadorOfertas {
 
 	private List<Caja> cajas = new ArrayList<Caja>();
 
+	private Map<Integer, Producto> productos = new HashMap<Integer, Producto>();
+	
 	public Caja abrirCaja() {
 		Caja c = new Caja(this);
 		cajas.add(c);
