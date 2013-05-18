@@ -17,16 +17,16 @@ public class Caja {
 	private List<Oferta> ofertas;
 	private EstadoCaja estado;
 	private Compra compraActual;
-	private Sucursal sucursal;
+	private ActualizadorOfertas actualizador;
 	
 	
-	public Caja(Sucursal sucursal) {
+	public Caja(ActualizadorOfertas actualizador) {
 		compras = new ArrayList<Compra>();
 		estado = new EstadoCaja();
 		compraActual = null;
-		this.sucursal = sucursal;
+		this.actualizador = actualizador;
 		try {
-			ofertas = sucursal.getOfertas();
+			ofertas = actualizador.getOfertas();
 		} catch (FileNotFoundException | XMLStreamException e) {
 			ofertas = new ArrayList<Oferta>();
 		}
@@ -61,12 +61,16 @@ public class Caja {
 		compraActual.agregarProducto(nuevoProducto);
 	}
 
-	public void visualizarTotal() {
+	private void actualizarOfertas() {
 		try {
-			ofertas = sucursal.getOfertas();
+			ofertas = actualizador.getOfertas();
 		} catch (FileNotFoundException | XMLStreamException e) {
 			ofertas = new ArrayList<Oferta>();
 		}
+	}
+	
+	public void visualizarTotal() {
+
 	}
 
 	public void visualizarDescuentosAplicados() {
@@ -78,6 +82,7 @@ public class Caja {
 
 
 	public void confirmarCompra() {
+		actualizarOfertas();
 		aplicarDescuentosItems();
 		compras.add(compraActual);
 		compraActual = null;
