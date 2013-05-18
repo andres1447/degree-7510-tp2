@@ -83,6 +83,10 @@ public class Caja {
 	public void indicarMedioDePago(Pago pago) {
 	}
 
+	public void cancelarCompra() {
+		compraActual = null;
+	}
+	
 	public void confirmarCompra() {
 		actualizarOfertas();
 		aplicarDescuentosItems();
@@ -90,6 +94,7 @@ public class Caja {
 		compraActual = null;
 	}
 
+	
 	private void aplicarDescuentosItems() {
 
 	}
