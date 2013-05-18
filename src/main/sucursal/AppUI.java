@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import sucursal.exceptions.CajaNoInicializadaException;
+import sucursal.exceptions.CajaYaAbiertaException;
 import sucursal.exceptions.CompraEnProcesoException;
 import sucursal.exceptions.MaximoDeCajasYaHabilidatasException;
 
@@ -61,10 +62,13 @@ public class AppUI {
 
 	/**
 	 * Create the application.
+	 * 
+	 * @throws MaximoDeCajasYaHabilidatasException
 	 */
-	public AppUI(Sucursal sucursal) {
+	public AppUI(Sucursal sucursal) throws MaximoDeCajasYaHabilidatasException {
 		this.sucursal = sucursal;
 		initialize();
+		this.caja = this.sucursal.habilitarCaja();
 	}
 
 	/**
@@ -117,14 +121,13 @@ public class AppUI {
 			btnAbrirCaja = new JButton("Abrir Caja");
 			btnAbrirCaja.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
+
 					try {
-						caja = sucursal.habilitarCaja();
-					} catch (MaximoDeCajasYaHabilidatasException e) {
-						JOptionPane
-								.showMessageDialog(
-										null,
-										"Ya se encuentran todas las cajas habilitadas.",
-										"Error", JOptionPane.WARNING_MESSAGE);
+						caja.abrirCaja();
+					} catch (CajaYaAbiertaException e) {
+						JOptionPane.showMessageDialog(null,
+								"La caja ya se encuentra abierta.", "Error",
+								JOptionPane.WARNING_MESSAGE);
 					}
 					showCajaAbierta();
 
