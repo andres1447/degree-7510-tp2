@@ -13,8 +13,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import sucursal.exceptions.CajaNoInicializadaException;
-import sucursal.exceptions.CajaYaAbiertaException;
 import sucursal.exceptions.CompraEnProcesoException;
+import sucursal.exceptions.MaximoDeCajasYaHabilidatasException;
 
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
@@ -38,6 +38,8 @@ public class AppUI {
 	private JPanel pnlCompra;
 	private JButton btnCancelarCompra;
 	private JButton btnConfirmarCompra;
+	private Sucursal sucursal;
+
 	private Caja caja;
 
 	/**
@@ -47,8 +49,8 @@ public class AppUI {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Caja c = new Caja(new Sucursal());
-					AppUI window = new AppUI(c);
+					Sucursal sucursal = new Sucursal();
+					AppUI window = new AppUI(sucursal);
 					window.frmCaja.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -60,8 +62,8 @@ public class AppUI {
 	/**
 	 * Create the application.
 	 */
-	public AppUI(Caja caja) {
-		this.caja = caja;
+	public AppUI(Sucursal sucursal) {
+		this.sucursal = sucursal;
 		initialize();
 	}
 
@@ -116,13 +118,16 @@ public class AppUI {
 			btnAbrirCaja.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					try {
-						caja.abrirCaja();
-						showCajaAbierta();
-					} catch (CajaYaAbiertaException e) {
-						JOptionPane.showMessageDialog(null,
-								"La caja ya se encuentra abierta.", "Error",
-								JOptionPane.WARNING_MESSAGE);
+						caja = sucursal.habilitarCaja();
+					} catch (MaximoDeCajasYaHabilidatasException e) {
+						JOptionPane
+								.showMessageDialog(
+										null,
+										"Ya se encuentran todas las cajas habilitadas.",
+										"Error", JOptionPane.WARNING_MESSAGE);
 					}
+					showCajaAbierta();
+
 				}
 			});
 		}

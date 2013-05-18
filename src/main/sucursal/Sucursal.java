@@ -15,22 +15,28 @@ import javax.xml.stream.events.EndElement;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 
+import sucursal.exceptions.MaximoDeCajasYaHabilidatasException;
+
 public class Sucursal implements ActualizadorOfertas {
 
 	static final String RUTA_OFERTAS = "ofertas.xml";
 
 	private static final String OFERTA = "oferta";
+	private static final int CANTIDAD_CAJAS = 3;
 
 	private List<Oferta> ofertas = null;
 
 	private List<Caja> cajas = new ArrayList<Caja>();
 
 	private Map<Integer, Producto> productos = new HashMap<Integer, Producto>();
-	
-	public Caja abrirCaja() {
-		Caja c = new Caja(this);
-		cajas.add(c);
-		return c;
+
+	public Caja habilitarCaja() throws MaximoDeCajasYaHabilidatasException {
+		if (cajas.size() < CANTIDAD_CAJAS) {
+			Caja c = new Caja(this);
+			cajas.add(c);
+			return c;
+		}
+		throw new MaximoDeCajasYaHabilidatasException();
 	}
 
 	/**

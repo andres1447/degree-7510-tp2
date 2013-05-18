@@ -12,8 +12,15 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.DocumentFilter;
 import javax.swing.text.MaskFormatter;
+import javax.swing.text.PlainDocument;
 
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
@@ -24,12 +31,15 @@ public class LineProductoUI extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 
-	private JFormattedTextField txtCant, txtCodigo;
+	private JTextField txtCant;
+	private JFormattedTextField txtCodigo;
+	private ITicket ticket;
 
 	/**
 	 * Create the dialog.
 	 */
-	public LineProductoUI() {
+	public LineProductoUI(ITicket ticket) {
+		this.ticket = ticket;
 		initComponents();
 	}
 
@@ -89,10 +99,10 @@ public class LineProductoUI extends JDialog {
 				panel.add(lblCantidad, gbc_lblCantidad);
 			}
 			{
-				try {
-					txtCant = new JFormattedTextField(new MaskFormatter("####"));
-				} catch (ParseException e) {
-				}
+				txtCant = new JTextField();
+				PlainDocument doc = (PlainDocument) txtCant.getDocument();
+				doc.setDocumentFilter(new MyIntFilter());
+
 				GridBagConstraints gbc_txtCant = new GridBagConstraints();
 				gbc_txtCant.anchor = GridBagConstraints.WEST;
 				gbc_txtCant.insets = new Insets(0, 0, 5, 0);
@@ -110,10 +120,25 @@ public class LineProductoUI extends JDialog {
 				JButton okButton = new JButton("OK");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
+						if (txtCodigo.getText().equals("  -   -    ")) {
+							JOptionPane.showMessageDialog(null,
+									"Codigo de producto erroneo", "Error",
+									JOptionPane.WARNING_MESSAGE);
+							return;
+						} else if (txtCant.getText().isEmpty()
+								|| txtCant.getText().equals("0")) {
+							JOptionPane.showMessageDialog(null,
+									"Cantidad de producto erronea", "Error",
+									JOptionPane.WARNING_MESSAGE);
+						}
+
 						/*
 						 * TODO: Devolver LineProducto
 						 */
 						setVisible(false);
+						ticket.agregarLineProducto(new LineProducto(
+								new Producto(), Integer.parseInt(txtCant
+										.getText())));
 					}
 				});
 				okButton.setActionCommand("OK");
@@ -134,5 +159,65 @@ public class LineProductoUI extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+	}
+}
+
+class MyIntFilter extends DocumentFilter {
+	@Override
+	public void insertString(FilterBypass fb, int offset, String string,
+			AttributeSet attr) throws BadLocationException {
+
+		Document doc = fb.getDocument();
+		StringBuilder sb = new StringBuilder();
+		sb.append(doc.getText(0, doc.getLength()));
+		sb.insert(offset, string);
+
+		if (test(sb.toString())) {
+			super.insertString(fb, offset, string, attr);
+		} else {
+			// warn the user and don't allow the insert
+		}
+	}
+
+	private boolean test(String text) {
+		try {
+			Integer.parseInt(text);
+			return true;
+		} catch (NumberFormatException e) {
+			return false;
+		}
+	}
+
+	@Override
+	public void replace(FilterBypass fb, int offset, int length, String text,
+			AttributeSet attrs) throws BadLocationException {
+
+		Document doc = fb.getDocument();
+		StringBuilder sb = new StringBuilder();
+		sb.append(doc.getText(0, doc.getLength()));
+		sb.replace(offset, offset + length, text);
+
+		if (test(sb.toString())) {
+			super.replace(fb, offset, length, text, attrs);
+		} else {
+			// warn the user and don't allow the insert
+		}
+
+	}
+
+	@Override
+	public void remove(FilterBypass fb, int offset, int length)
+			throws BadLocationException {
+		Document doc = fb.getDocument();
+		StringBuilder sb = new StringBuilder();
+		sb.append(doc.getText(0, doc.getLength()));
+		sb.delete(offset, offset + length);
+
+		if (test(sb.toString())) {
+			super.remove(fb, offset, length);
+		} else {
+			// warn the user and don't allow the insert
+		}
+
 	}
 }

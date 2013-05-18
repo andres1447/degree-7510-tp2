@@ -54,7 +54,7 @@ public class Caja {
 		compraActual = new Compra();
 	}
 
-	public void agregarProductos(Producto nuevoProducto)
+	public void agregarProductos(LineProducto nuevoProducto)
 			throws CompraNoInicializadaException, CajaNoInicializadaException {
 		if (!estaAbierta())
 			throw new CajaNoInicializadaException();

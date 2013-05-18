@@ -24,5 +24,11 @@ public class LineProducto {
 	public void setCantidad(int cantidad) {
 		this.cantidad = cantidad;
 	}
-	
+
+	public String[] getTuplaDeDatos() {
+		String[] tupla = new String[] { producto.getCodigo(),
+				producto.getNombre(), producto.getPrecioUnitario(),
+				Integer.toString(cantidad) };
+		return tupla;
+	}
 }

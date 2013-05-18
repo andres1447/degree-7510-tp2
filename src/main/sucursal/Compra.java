@@ -2,7 +2,7 @@ package sucursal;
 
 public class Compra {
 
-	public void agregarProducto(Producto nuevoProducto) {
+	public void agregarProducto(LineProducto nuevoProducto) {
 	}
 
 }

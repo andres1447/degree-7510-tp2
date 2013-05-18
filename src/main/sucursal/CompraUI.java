@@ -20,7 +20,7 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 
-public class CompraUI extends JPanel{
+public class CompraUI extends JPanel implements ITicket {
 
 	private static final long serialVersionUID = 1L;
 
@@ -70,13 +70,8 @@ public class CompraUI extends JPanel{
 			btnAgregarProducto = new JButton("Agregar Producto");
 			btnAgregarProducto.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					LineProductoUI lP = new LineProductoUI();
+					LineProductoUI lP = new LineProductoUI(CompraUI.this);
 					lP.setVisible(true);
-					((DefaultTableModel) table.getModel())
-							.addRow(new String[] {});
-					getBtnBorrarUltimoProducto().setEnabled(true);
-					table.setRowSelectionInterval(table.getRowCount() - 1,
-							table.getRowCount() - 1);
 
 					/*
 					 * TODO: Agregar producto a la caja
@@ -85,6 +80,17 @@ public class CompraUI extends JPanel{
 			});
 		}
 		return btnAgregarProducto;
+	}
+
+	@Override
+	public void agregarLineProducto(LineProducto lineProducto) {
+		((DefaultTableModel) table.getModel()).addRow(lineProducto
+				.getTuplaDeDatos());
+		getBtnBorrarUltimoProducto().setEnabled(true);
+		table.setRowSelectionInterval(table.getRowCount() - 1,
+				table.getRowCount() - 1);
+
+		// caja.agregarProductos(lineProducto);
 	}
 
 	private JButton getBtnBorrarUltimoProducto() {
