@@ -84,7 +84,8 @@ public class CajaTest {
 	@Test(expected = sucursal.exceptions.CajaNoInicializadaException.class)
 	public void testAgregarProductosCajaCerrada() throws Exception {
 		Caja miCaja = new Caja(new Sucursal());
-		LineProducto nuevoProducto = new LineProducto(new Producto(), 1);
+		LineProducto nuevoProducto = new LineProducto(
+				Producto.getProductoPorCodigo(""), 1);
 		miCaja.agregarProductos(nuevoProducto);
 	}
 
@@ -98,7 +99,8 @@ public class CajaTest {
 	public void testAgregarProductosCompraNoIniciada() throws Exception {
 		Caja miCaja = new Caja(new Sucursal());
 		miCaja.abrirCaja();
-		LineProducto nuevoProducto = new LineProducto(new Producto(), 1);
+		LineProducto nuevoProducto = new LineProducto(
+				Producto.getProductoPorCodigo(""), 1);
 		miCaja.agregarProductos(nuevoProducto);
 	}
 
