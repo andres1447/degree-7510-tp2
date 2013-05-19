@@ -92,6 +92,7 @@ public class Caja {
 	public void indicarMedioDePago(Pago pago) {
 	}
 
+
 	public void confirmarCompra() throws CompraNoInicializadaException {
 		if (compraActual == null)
 			throw new CompraNoInicializadaException();
@@ -101,6 +102,7 @@ public class Caja {
 		compraActual = null;
 	}
 
+	
 	private void aplicarDescuentosItems() {
 
 	}
