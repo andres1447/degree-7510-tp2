@@ -26,9 +26,11 @@ public class CajaTest {
 	 * @throws Exception
 	 * 
 	 */
+	Sucursal sucursal = new Sucursal();
+	
 	@Test
 	public void testCajaCreadaCerrada() throws Exception {
-		Caja miCaja = new Caja(new Sucursal());
+		Caja miCaja = sucursal.habilitarCaja();
 		assertFalse(miCaja.estaAbierta());
 	}
 
@@ -40,7 +42,7 @@ public class CajaTest {
 	 */
 	@Test
 	public void testAbrirCajaCerrada() throws Exception {
-		Caja miCaja = new Caja(new Sucursal());
+		Caja miCaja = sucursal.habilitarCaja();
 		miCaja.abrirCaja();
 		assertTrue(miCaja.estaAbierta());
 	}
@@ -53,7 +55,7 @@ public class CajaTest {
 	 */
 	@Test
 	public void testReabrirCajaCerrada() throws Exception {
-		Caja miCaja = new Caja(new Sucursal());
+		Caja miCaja = sucursal.habilitarCaja();
 		miCaja.abrirCaja();
 		assertTrue(miCaja.estaAbierta());
 		miCaja.cerrarCaja();
@@ -70,7 +72,7 @@ public class CajaTest {
 	 */
 	@Test(expected = sucursal.exceptions.CajaYaAbiertaException.class)
 	public void testAbrirCajaYaAbierta() throws Exception {
-		Caja miCaja = new Caja(new Sucursal());
+		Caja miCaja = sucursal.habilitarCaja();
 		miCaja.abrirCaja();
 		miCaja.abrirCaja();
 	}
@@ -83,7 +85,7 @@ public class CajaTest {
 	 */
 	@Test(expected = sucursal.exceptions.CajaNoInicializadaException.class)
 	public void testAgregarProductosCajaCerrada() throws Exception {
-		Caja miCaja = new Caja(new Sucursal());
+		Caja miCaja = sucursal.habilitarCaja();
 		LineProducto nuevoProducto = new LineProducto(new Producto(), 1);
 		miCaja.agregarProductos(nuevoProducto);
 	}
@@ -96,7 +98,7 @@ public class CajaTest {
 	 */
 	@Test(expected = sucursal.exceptions.CompraNoInicializadaException.class)
 	public void testAgregarProductosCompraNoIniciada() throws Exception {
-		Caja miCaja = new Caja(new Sucursal());
+		Caja miCaja = sucursal.habilitarCaja();
 		miCaja.abrirCaja();
 		LineProducto nuevoProducto = new LineProducto(new Producto(), 1);
 		miCaja.agregarProductos(nuevoProducto);
@@ -109,7 +111,7 @@ public class CajaTest {
 	 */
 	@Test(expected = sucursal.exceptions.CajaNoInicializadaException.class)
 	public void testCerrarCajaNoAbierta() throws Exception {
-		Caja miCaja = new Caja(new Sucursal());
+		Caja miCaja = sucursal.habilitarCaja();
 		miCaja.cerrarCaja();
 	}
 
@@ -120,13 +122,11 @@ public class CajaTest {
 	 */
 	@Test
 	public void testAperturaYCierreCaja() throws Exception {
-		Caja miCaja = new Caja(new Sucursal());
+		Caja miCaja = sucursal.habilitarCaja();
 		miCaja.abrirCaja();
 		assertTrue(miCaja.estaAbierta());
 		miCaja.cerrarCaja();
 		assertTrue(!miCaja.estaAbierta());
-
-		// add additional test code here
 	}
 
 	/**
@@ -135,16 +135,17 @@ public class CajaTest {
 	 * @throws Exception
 	 * 
 	 */
-	/*
-	 * @Ignore
-	 * 
-	 * @Test public void testConfirmarCompra_1() throws Exception { Caja fixture
-	 * = new Caja(); fixture.indicarMedioDePago(new Pago());
-	 * 
-	 * fixture.confirmarCompra();
-	 * 
-	 * // add additional test code here }
-	 *//**
+
+	@Test
+	public void testConfirmarCompra_1() throws Exception {
+		Caja miCaja = sucursal.habilitarCaja();
+		
+//		fixture.confirmarCompra();
+
+		// add additional test code here }
+	}
+
+	/**
 	 * Run the void indicarMedioDePago(Pago) method test.
 	 * 
 	 * @throws Exception
