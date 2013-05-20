@@ -18,8 +18,7 @@ public class Caja {
 	private EstadoCaja estado;
 	private Compra compraActual;
 	private ActualizadorOfertas actualizador;
-	
-	
+
 	public Caja(ActualizadorOfertas actualizador) {
 		compras = new ArrayList<Compra>();
 		estado = new EstadoCaja();
@@ -64,6 +63,16 @@ public class Caja {
 		compraActual.agregarProducto(nuevoProducto);
 	}
 
+	public void eliminarUltimaEntradaDeCompra()
+			throws CompraNoInicializadaException, CajaNoInicializadaException {
+		if (!estaAbierta())
+			throw new CajaNoInicializadaException();
+		if (compraActual == null) {
+			throw new CompraNoInicializadaException();
+		}
+		compraActual.eliminarUltimoProducto();
+	}
+
 	private void actualizarOfertas() {
 		try {
 			ofertas = actualizador.getOfertas();
@@ -71,7 +80,7 @@ public class Caja {
 			ofertas = new ArrayList<Oferta>();
 		}
 	}
-	
+
 	public void visualizarTotal() {
 
 	}
@@ -83,11 +92,10 @@ public class Caja {
 	public void indicarMedioDePago(Pago pago) {
 	}
 
-	public void cancelarCompra() {
-		compraActual = null;
-	}
-	
-	public void confirmarCompra() {
+
+	public void confirmarCompra() throws CompraNoInicializadaException {
+		if (compraActual == null)
+			throw new CompraNoInicializadaException();
 		actualizarOfertas();
 		aplicarDescuentosItems();
 		compras.add(compraActual);
@@ -96,6 +104,13 @@ public class Caja {
 
 	
 	private void aplicarDescuentosItems() {
+
+	}
+
+	public void cancelarCompra() throws CompraNoInicializadaException {
+		if (compraActual == null)
+			throw new CompraNoInicializadaException();
+		compraActual = null;
 
 	}
 }

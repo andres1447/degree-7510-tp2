@@ -41,6 +41,7 @@ public class LineProductoUI extends JDialog {
 	public LineProductoUI(ITicket ticket) {
 		this.ticket = ticket;
 		initComponents();
+		setModal(true);
 	}
 
 	private void initComponents() {
@@ -130,15 +131,13 @@ public class LineProductoUI extends JDialog {
 							JOptionPane.showMessageDialog(null,
 									"Cantidad de producto erronea", "Error",
 									JOptionPane.WARNING_MESSAGE);
+							return;
 						}
 
-						/*
-						 * TODO: Devolver LineProducto
-						 */
 						setVisible(false);
-						ticket.agregarLineProducto(new LineProducto(
-								new Producto(), Integer.parseInt(txtCant
-										.getText())));
+						ticket.agregarLineProducto(new LineProducto(Producto
+								.getProductoPorCodigo(txtCodigo.getText()),
+								Integer.parseInt(txtCant.getText())));
 					}
 				});
 				okButton.setActionCommand("OK");
@@ -149,9 +148,6 @@ public class LineProductoUI extends JDialog {
 				JButton cancelButton = new JButton("Cancel");
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						/*
-						 * TODO: Cancelar LineProducto
-						 */
 						setVisible(false);
 					}
 				});
@@ -180,6 +176,8 @@ class MyIntFilter extends DocumentFilter {
 	}
 
 	private boolean test(String text) {
+		if (text.isEmpty())
+			return true;
 		try {
 			Integer.parseInt(text);
 			return true;

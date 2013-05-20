@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import sucursal.exceptions.CajaNoInicializadaException;
 import sucursal.exceptions.CajaYaAbiertaException;
 import sucursal.exceptions.CompraEnProcesoException;
+import sucursal.exceptions.CompraNoInicializadaException;
 import sucursal.exceptions.MaximoDeCajasYaHabilidatasException;
 
 import com.jgoodies.forms.factories.FormFactory;
@@ -67,8 +68,9 @@ public class AppUI {
 	 */
 	public AppUI(Sucursal sucursal) throws MaximoDeCajasYaHabilidatasException {
 		this.sucursal = sucursal;
-		initialize();
 		this.caja = this.sucursal.habilitarCaja();
+		initialize();
+
 	}
 
 	/**
@@ -83,7 +85,7 @@ public class AppUI {
 		frmCaja.getContentPane().setLayout(new CardLayout(0, 0));
 		frmCaja.getContentPane().add(getPnlCajaCerrada(), CAJA_CERRADA_PANEL);
 		frmCaja.getContentPane().add(getPnlCajaAbierta(), CAJA_ABIERTA_PANEL);
-		frmCaja.getContentPane().add(getPnlCompra(), COMPRA_PANEL);
+
 	}
 
 	private void showCajaCerrada() {
@@ -99,6 +101,8 @@ public class AppUI {
 	}
 
 	private void showCompra() {
+
+		frmCaja.getContentPane().add(getPnlCompra(), COMPRA_PANEL);
 		((CardLayout) frmCaja.getContentPane().getLayout()).show(
 				this.frmCaja.getContentPane(), COMPRA_PANEL);
 
@@ -224,7 +228,11 @@ public class AppUI {
 			btnConfirmarCompra = new JButton("Confirmar Compra");
 			btnConfirmarCompra.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					caja.confirmarCompra();
+					try {
+						caja.confirmarCompra();
+						pnlCompra = null;
+					} catch (CompraNoInicializadaException e1) {
+					}
 					showCajaAbierta();
 				}
 			});
@@ -242,14 +250,15 @@ public class AppUI {
 					/*
 					 * TODO: Cancelar compra en la caja
 					 */
+					try {
+						caja.cancelarCompra();
+						pnlCompra = null;
+					} catch (CompraNoInicializadaException e1) {
+						JOptionPane.showMessageDialog(null,
+								"No hay compra para cancelar.", "Error",
+								JOptionPane.WARNING_MESSAGE);
+					}
 
-					/*
-					 * try { caja.cancelarCompra(); } catch
-					 * (CajaNoInicializadaException e) {
-					 * JOptionPane.showMessageDialog(null,
-					 * "La caja ya se encuentra cerrada.", "Error",
-					 * JOptionPane.WARNING_MESSAGE); }
-					 */
 				}
 			});
 		}
