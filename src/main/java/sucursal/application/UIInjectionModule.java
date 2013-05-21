@@ -1,9 +1,11 @@
 package sucursal.application;
 
 import sucursal.ui.Loader;
-import sucursal.ui.MainUI;
+import sucursal.ui.MainView;
+import sucursal.ui.SimpleDialog;
 import sucursal.ui.swing.SwingLoader;
-import sucursal.ui.swing.SwingMainUI;
+import sucursal.ui.swing.SwingMainView;
+import sucursal.ui.swing.SwingSimpleDialog;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
@@ -17,6 +19,7 @@ public class UIInjectionModule extends AbstractModule {
 	@Override
 	protected void configure() {
 		bind(Loader.class).to(SwingLoader.class);
-		bind(MainUI.class).to(SwingMainUI.class);
+		bind(MainView.class).to(SwingMainView.class);
+		bind(SimpleDialog.class).to(SwingSimpleDialog.class);
 	}
 }

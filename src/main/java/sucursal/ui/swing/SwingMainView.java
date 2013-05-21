@@ -12,13 +12,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import sucursal.exceptions.CajaNoInicializadaException;
-import sucursal.exceptions.CajaYaAbiertaException;
 import sucursal.exceptions.CompraEnProcesoException;
 import sucursal.exceptions.CompraNoInicializadaException;
 import sucursal.exceptions.MaximoDeCajasYaHabilidatasException;
 import sucursal.modelo.Caja;
-import sucursal.modelo.Sucursal;
-import sucursal.ui.MainUI;
+import sucursal.modelo.EventoObservable;
+import sucursal.modelo.EventoObservable.Observador;
+import sucursal.ui.MainView;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -28,12 +28,18 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 
 @Singleton
-public class SwingMainUI extends JFrame implements MainUI {
+public class SwingMainView extends JFrame implements MainView {
 	private static final long serialVersionUID = -3714802935785385343L;
 
 	private final static String CAJA_CERRADA_PANEL = "CAJA_CERRADA_PANEL";
 	private final static String CAJA_ABIERTA_PANEL = "CAJA_ABIERTA_PANEL";
 	private final static String COMPRA_PANEL = "COMPRA_PANEL";
+
+	private final EventoObservable<MainView, Boolean> onAbrirCaja = new EventoObservable<MainView, Boolean>(
+			this);
+	
+	private final EventoObservable<MainView, Boolean> onCerrarCaja = new EventoObservable<MainView, Boolean>(
+			this);
 
 	private JPanel pnlCajaCerrada;
 	private JButton btnAbrirCaja;
@@ -45,9 +51,22 @@ public class SwingMainUI extends JFrame implements MainUI {
 	private JPanel pnlCompra;
 	private JButton btnCancelarCompra;
 	private JButton btnConfirmarCompra;
-	private Sucursal sucursal;
 
 	private Caja caja;
+
+	private Observador<Caja, Boolean> onCajaAbierta = new Observador<Caja, Boolean>() {
+		@Override
+		public void notificar(Caja observable, Boolean data) {
+			showCajaAbierta();
+		}
+	};
+
+	private Observador<Caja, Boolean> onCajaCerrada = new Observador<Caja, Boolean>() {
+		@Override
+		public void notificar(Caja observable, Boolean data) {
+			showCajaCerrada();
+		}
+	};
 
 	/**
 	 * Create the application.
@@ -55,11 +74,8 @@ public class SwingMainUI extends JFrame implements MainUI {
 	 * @throws MaximoDeCajasYaHabilidatasException
 	 */
 	@Inject
-	public SwingMainUI(Sucursal sucursal) throws MaximoDeCajasYaHabilidatasException {
-		this.sucursal = sucursal;
-		this.caja = this.sucursal.habilitarCaja();
+	public SwingMainView() {
 		initialize();
-
 	}
 
 	/**
@@ -89,7 +105,6 @@ public class SwingMainUI extends JFrame implements MainUI {
 	}
 
 	private void showCompra() {
-
 		getContentPane().add(getPnlCompra(), COMPRA_PANEL);
 		((CardLayout) getContentPane().getLayout()).show(getContentPane(),
 				COMPRA_PANEL);
@@ -113,16 +128,7 @@ public class SwingMainUI extends JFrame implements MainUI {
 			btnAbrirCaja = new JButton("Abrir Caja");
 			btnAbrirCaja.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-
-					try {
-						caja.abrirCaja();
-					} catch (CajaYaAbiertaException e) {
-						JOptionPane.showMessageDialog(null,
-								"La caja ya se encuentra abierta.", "Error",
-								JOptionPane.WARNING_MESSAGE);
-					}
-					showCajaAbierta();
-
+					onAbrirCaja.notificar(true);
 				}
 			});
 		}
@@ -173,14 +179,7 @@ public class SwingMainUI extends JFrame implements MainUI {
 			btnCerrarCaja = new JButton("Cerrar Caja");
 			btnCerrarCaja.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					try {
-						caja.cerrarCaja();
-						showCajaCerrada();
-					} catch (CajaNoInicializadaException e) {
-						JOptionPane.showMessageDialog(null,
-								"La caja ya se encuentra cerrada.", "Error",
-								JOptionPane.WARNING_MESSAGE);
-					}
+					onCerrarCaja.notificar(true);
 				}
 			});
 		}
@@ -254,7 +253,28 @@ public class SwingMainUI extends JFrame implements MainUI {
 	}
 
 	@Override
-	public void launch() {
+	public void display() {
 		setVisible(true);
+	}
+
+	@Override
+	public void observar(final Caja caja) {
+		if (this.caja != null) {
+			this.caja.getOnCajaAbierta().desregistrar(onCajaAbierta);
+			this.caja.getOnCajaCerrada().desregistrar(onCajaCerrada);
+		}
+		this.caja = caja;
+		this.caja.getOnCajaAbierta().registrar(onCajaAbierta);
+		this.caja.getOnCajaCerrada().registrar(onCajaCerrada);
+	}
+
+	@Override
+	public EventoObservable<MainView, Boolean> getOnAbrirCaja() {
+		return onAbrirCaja;
+	}
+
+	@Override
+	public EventoObservable<MainView, Boolean> getOnCerrarCaja() {
+		return onCerrarCaja;
 	}
 }
