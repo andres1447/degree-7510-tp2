@@ -18,13 +18,17 @@ import sucursal.exceptions.CompraNoInicializadaException;
 import sucursal.exceptions.MaximoDeCajasYaHabilidatasException;
 import sucursal.modelo.Caja;
 import sucursal.modelo.Sucursal;
+import sucursal.ui.MainUI;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 
-public class AppUI extends JFrame {
+@Singleton
+public class SwingMainUI extends JFrame implements MainUI {
 	private static final long serialVersionUID = -3714802935785385343L;
 
 	private final static String CAJA_CERRADA_PANEL = "CAJA_CERRADA_PANEL";
@@ -50,7 +54,8 @@ public class AppUI extends JFrame {
 	 * 
 	 * @throws MaximoDeCajasYaHabilidatasException
 	 */
-	public AppUI(Sucursal sucursal) throws MaximoDeCajasYaHabilidatasException {
+	@Inject
+	public SwingMainUI(Sucursal sucursal) throws MaximoDeCajasYaHabilidatasException {
 		this.sucursal = sucursal;
 		this.caja = this.sucursal.habilitarCaja();
 		initialize();
@@ -246,5 +251,10 @@ public class AppUI extends JFrame {
 			});
 		}
 		return btnCancelarCompra;
+	}
+
+	@Override
+	public void launch() {
+		setVisible(true);
 	}
 }

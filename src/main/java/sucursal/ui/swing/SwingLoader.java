@@ -2,9 +2,10 @@ package sucursal.ui.swing;
 
 import java.awt.EventQueue;
 
-import sucursal.modelo.Sucursal;
 import sucursal.ui.Loader;
+import sucursal.ui.MainUI;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 /**
@@ -13,15 +14,29 @@ import com.google.inject.Singleton;
 @Singleton
 public class SwingLoader implements Loader {
 	/**
+	 * The main application UI to load
+	 */
+	private final MainUI mainUI;
+
+	/**
+	 * Creates a new {@link SwingLoader} instance
+	 * 
+	 * @param mainUI
+	 *            the main application UI to load
+	 */
+	@Inject
+	public SwingLoader(final MainUI mainUI) {
+		this.mainUI = mainUI;
+	}
+
+	/**
 	 * The runnable task to invoke on application startup which loads the
 	 * application UI
 	 */
 	private final Runnable loadApplicationUI = new Runnable() {
 		public void run() {
 			try {
-				Sucursal sucursal = new Sucursal();
-				AppUI window = new AppUI(sucursal);
-				window.setVisible(true);
+				mainUI.launch();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
