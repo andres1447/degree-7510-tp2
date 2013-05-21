@@ -1,6 +1,6 @@
 package sucursal.application;
 
-import sucursal.ui.UILoader;
+import sucursal.ui.Loader;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -11,19 +11,19 @@ import com.google.inject.Injector;
  */
 public class Application {
 	/**
-	 * The {@link UILoader}, in charge of loading the main application UI.
+	 * The {@link Loader}, in charge of loading the main application UI.
 	 */
-	private final UILoader uiLoader;
+	private final Loader uiLoader;
 
 	/**
 	 * Creates a new {@link Application} instance
 	 * 
 	 * @param uiLoader
-	 *            the {@link UILoader}, in charge of loading the main
+	 *            the {@link Loader}, in charge of loading the main
 	 *            application UI.
 	 */
 	@Inject
-	public Application(final UILoader uiLoader) {
+	public Application(final Loader uiLoader) {
 		this.uiLoader = uiLoader;
 	}
 

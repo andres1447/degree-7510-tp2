@@ -1,7 +1,7 @@
 package sucursal.application;
 
-import sucursal.ui.UILoader;
-import sucursal.ui.swing.SwingUILoader;
+import sucursal.ui.Loader;
+import sucursal.ui.swing.SwingLoader;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
@@ -14,6 +14,6 @@ import com.google.inject.Module;
 public class UIInjectionModule extends AbstractModule {
 	@Override
 	protected void configure() {
-		bind(UILoader.class).to(SwingUILoader.class);
+		bind(Loader.class).to(SwingLoader.class);
 	}
 }

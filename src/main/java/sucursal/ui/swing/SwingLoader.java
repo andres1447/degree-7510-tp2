@@ -3,15 +3,15 @@ package sucursal.ui.swing;
 import java.awt.EventQueue;
 
 import sucursal.modelo.Sucursal;
-import sucursal.ui.UILoader;
+import sucursal.ui.Loader;
 
 import com.google.inject.Singleton;
 
 /**
- * {@link UILoader} implementation which loads the Swing application windows
+ * {@link Loader} implementation which loads the Swing application windows
  */
 @Singleton
-public class SwingUILoader implements UILoader {
+public class SwingLoader implements Loader {
 	/**
 	 * The runnable task to invoke on application startup which loads the
 	 * application UI
@@ -29,7 +29,7 @@ public class SwingUILoader implements UILoader {
 	};
 
 	/**
-	 * Implements {@link UILoader#loadUI()} to use AWT infrastructure to display
+	 * Implements {@link Loader#loadUI()} to use AWT infrastructure to display
 	 * the application window on the AWT event thread.
 	 */
 	@Override
