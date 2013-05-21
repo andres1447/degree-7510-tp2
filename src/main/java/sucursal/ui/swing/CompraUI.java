@@ -1,4 +1,4 @@
-package sucursal.ui;
+package sucursal.ui.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Font;

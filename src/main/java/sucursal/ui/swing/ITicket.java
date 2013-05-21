@@ -1,4 +1,4 @@
-package sucursal.ui;
+package sucursal.ui.swing;
 
 import sucursal.modelo.LineProducto;
 

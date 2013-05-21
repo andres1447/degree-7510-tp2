@@ -1,4 +1,4 @@
-package sucursal.ui;
+package sucursal.ui.swing;
 
 import java.awt.CardLayout;
 import java.awt.Component;
