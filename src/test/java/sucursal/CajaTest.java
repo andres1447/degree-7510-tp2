@@ -7,10 +7,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import sucursal.Caja;
-import sucursal.LineProducto;
-import sucursal.Producto;
-import sucursal.Sucursal;
+import sucursal.modelo.Caja;
+import sucursal.modelo.LineProducto;
+import sucursal.modelo.Producto;
+import sucursal.modelo.Sucursal;
 
 /**
  * The class <code>CajaTest</code> contains tests for the class

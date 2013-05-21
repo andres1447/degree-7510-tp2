@@ -1,4 +1,4 @@
-package sucursal;
+package sucursal.modelo;
 
 import java.util.Stack;
 

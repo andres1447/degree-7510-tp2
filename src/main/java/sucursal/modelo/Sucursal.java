@@ -1,4 +1,4 @@
-package sucursal;
+package sucursal.modelo;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -40,7 +40,7 @@ public class Sucursal implements ActualizadorOfertas {
 	}
 
 	/**
-	 * @see sucursal.ActualizadorOfertas#getOfertas()
+	 * @see sucursal.modelo.ActualizadorOfertas#getOfertas()
 	 */
 	@Override
 	public List<Oferta> getOfertas() throws FileNotFoundException,

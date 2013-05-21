@@ -15,7 +15,7 @@ jar {
 }
 
 // Application assembly properties
-mainClassName = "sucursal.AppUI"
+mainClassName = "sucursal.Application"
 
 // Dependency repositories
 repositories {

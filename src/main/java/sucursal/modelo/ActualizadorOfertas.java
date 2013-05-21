@@ -1,4 +1,4 @@
-package sucursal;
+package sucursal.modelo;
 
 import java.io.FileNotFoundException;
 import java.util.List;

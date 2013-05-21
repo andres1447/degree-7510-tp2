@@ -1,4 +1,6 @@
-package sucursal;
+package sucursal.ui;
+
+import sucursal.modelo.LineProducto;
 
 
 public interface ITicket {

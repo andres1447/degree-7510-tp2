@@ -1,4 +1,4 @@
-package sucursal;
+package sucursal.ui;
 
 import java.awt.CardLayout;
 import java.awt.Component;
@@ -17,6 +17,8 @@ import sucursal.exceptions.CajaYaAbiertaException;
 import sucursal.exceptions.CompraEnProcesoException;
 import sucursal.exceptions.CompraNoInicializadaException;
 import sucursal.exceptions.MaximoDeCajasYaHabilidatasException;
+import sucursal.modelo.Caja;
+import sucursal.modelo.Sucursal;
 
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
@@ -43,23 +45,6 @@ public class AppUI {
 	private Sucursal sucursal;
 
 	private Caja caja;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Sucursal sucursal = new Sucursal();
-					AppUI window = new AppUI(sucursal);
-					window.frmCaja.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the application.
@@ -263,6 +248,10 @@ public class AppUI {
 			});
 		}
 		return btnCancelarCompra;
+	}
+
+	public void show() {
+		frmCaja.setVisible(true);
 	}
 
 }
