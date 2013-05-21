@@ -3,7 +3,6 @@ package sucursal.ui.swing;
 import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.Container;
-import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -25,12 +24,12 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 
-public class AppUI {
+public class AppUI extends JFrame {
+	private static final long serialVersionUID = -3714802935785385343L;
+
 	private final static String CAJA_CERRADA_PANEL = "CAJA_CERRADA_PANEL";
 	private final static String CAJA_ABIERTA_PANEL = "CAJA_ABIERTA_PANEL";
 	private final static String COMPRA_PANEL = "COMPRA_PANEL";
-
-	private JFrame frmCaja;
 
 	private JPanel pnlCajaCerrada;
 	private JButton btnAbrirCaja;
@@ -62,34 +61,33 @@ public class AppUI {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frmCaja = new JFrame();
-		frmCaja.setTitle("Caja");
-		frmCaja.setResizable(false);
-		frmCaja.setBounds(100, 100, 700, 400);
-		frmCaja.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmCaja.getContentPane().setLayout(new CardLayout(0, 0));
-		frmCaja.getContentPane().add(getPnlCajaCerrada(), CAJA_CERRADA_PANEL);
-		frmCaja.getContentPane().add(getPnlCajaAbierta(), CAJA_ABIERTA_PANEL);
+		setTitle("Caja");
+		setResizable(false);
+		setBounds(100, 100, 700, 400);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		getContentPane().setLayout(new CardLayout(0, 0));
+		getContentPane().add(getPnlCajaCerrada(), CAJA_CERRADA_PANEL);
+		getContentPane().add(getPnlCajaAbierta(), CAJA_ABIERTA_PANEL);
 
 	}
 
 	private void showCajaCerrada() {
-		((CardLayout) frmCaja.getContentPane().getLayout()).show(
-				this.frmCaja.getContentPane(), CAJA_CERRADA_PANEL);
+		((CardLayout) getContentPane().getLayout()).show(getContentPane(),
+				CAJA_CERRADA_PANEL);
 
 	}
 
 	private void showCajaAbierta() {
-		((CardLayout) frmCaja.getContentPane().getLayout()).show(
-				this.frmCaja.getContentPane(), CAJA_ABIERTA_PANEL);
+		((CardLayout) getContentPane().getLayout()).show(getContentPane(),
+				CAJA_ABIERTA_PANEL);
 
 	}
 
 	private void showCompra() {
 
-		frmCaja.getContentPane().add(getPnlCompra(), COMPRA_PANEL);
-		((CardLayout) frmCaja.getContentPane().getLayout()).show(
-				this.frmCaja.getContentPane(), COMPRA_PANEL);
+		getContentPane().add(getPnlCompra(), COMPRA_PANEL);
+		((CardLayout) getContentPane().getLayout()).show(getContentPane(),
+				COMPRA_PANEL);
 
 	}
 
@@ -249,9 +247,4 @@ public class AppUI {
 		}
 		return btnCancelarCompra;
 	}
-
-	public void show() {
-		frmCaja.setVisible(true);
-	}
-
 }

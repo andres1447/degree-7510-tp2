@@ -21,7 +21,7 @@ public class SwingUILoader implements UILoader {
 			try {
 				Sucursal sucursal = new Sucursal();
 				AppUI window = new AppUI(sucursal);
-				window.show();
+				window.setVisible(true);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
