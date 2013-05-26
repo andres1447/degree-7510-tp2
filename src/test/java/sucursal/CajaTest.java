@@ -243,15 +243,4 @@ public class CajaTest {
 	public void tearDown() throws Exception {
 
 	}
-
-	/**
-	 * Launch the test.
-	 * 
-	 * @param args
-	 *            the command line arguments
-	 * 
-	 */
-	public static void main(String[] args) {
-		new org.junit.runner.JUnitCore().run(CajaTest.class);
-	}
 }
