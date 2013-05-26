@@ -1,4 +1,4 @@
-package sucursal;
+package sucursal.ui.swing;
 
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -21,6 +21,9 @@ import javax.swing.text.Document;
 import javax.swing.text.DocumentFilter;
 import javax.swing.text.MaskFormatter;
 import javax.swing.text.PlainDocument;
+
+import sucursal.modelo.LineProducto;
+import sucursal.modelo.Producto;
 
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;

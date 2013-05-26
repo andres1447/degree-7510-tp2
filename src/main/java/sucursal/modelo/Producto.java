@@ -1,4 +1,4 @@
-package sucursal;
+package sucursal.modelo;
 
 public class Producto {
 

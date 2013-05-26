@@ -15,7 +15,7 @@ jar {
 }
 
 // Application assembly properties
-mainClassName = "Define"
+mainClassName = "sucursal.application.Application"
 
 // Dependency repositories
 repositories {
@@ -24,8 +24,14 @@ repositories {
 
 // Dependencies
 dependencies {
-  // Guice
+  // Guava
   compile 'com.google.guava:guava:14.0.1'
+  
+  // Guice
+  compile 'com.google.inject:guice:3.0'
+
+  // JGoodies forms
+  compile 'com.jgoodies:forms:1.2.1'
 
   // Test dependencies
   testCompile group: 'junit', name: 'junit', version: '4.+'

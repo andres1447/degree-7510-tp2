@@ -1,4 +1,4 @@
-package sucursal;
+package sucursal.modelo;
 
 import sucursal.exceptions.CajaNoInicializadaException;
 import sucursal.exceptions.CajaYaAbiertaException;

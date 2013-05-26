@@ -1,10 +1,7 @@
-package sucursal;
+package sucursal.modelo;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.xml.stream.XMLStreamException;
 
 import sucursal.exceptions.CajaNoInicializadaException;
 import sucursal.exceptions.CajaYaAbiertaException;
@@ -12,31 +9,38 @@ import sucursal.exceptions.CompraEnProcesoException;
 import sucursal.exceptions.CompraNoInicializadaException;
 
 public class Caja {
+	/**
+	 * Evento observable que se dispara cuando el estado pasa a abierta
+	 */
+	private final EventoObservable<Caja, Boolean> onCajaAbierta = new EventoObservable<>(
+			this);
+
+	/**
+	 * Evento observable que se dispara cuando el estado pasa a cerrada
+	 */
+	private final EventoObservable<Caja, Boolean> onCajaCerrada = new EventoObservable<>(
+			this);
 
 	private List<Compra> compras;
-	private List<Oferta> ofertas;
 	private EstadoCaja estado;
 	private Compra compraActual;
-	private ActualizadorOfertas actualizador;
 
-	public Caja(ActualizadorOfertas actualizador) {
+	public Caja() {
 		compras = new ArrayList<Compra>();
 		estado = new EstadoCaja();
 		compraActual = null;
-		this.actualizador = actualizador;
-		try {
-			ofertas = actualizador.getOfertas();
-		} catch (FileNotFoundException | XMLStreamException e) {
-			ofertas = new ArrayList<Oferta>();
-		}
 	}
 
 	public void abrirCaja() throws CajaYaAbiertaException {
 		estado.abrirCaja();
+
+		onCajaAbierta.notificar(true);
 	}
 
 	public void cerrarCaja() throws CajaNoInicializadaException {
 		estado.cerrarCaja();
+
+		onCajaCerrada.notificar(true);
 	}
 
 	public boolean estaAbierta() {
@@ -73,14 +77,6 @@ public class Caja {
 		compraActual.eliminarUltimoProducto();
 	}
 
-	private void actualizarOfertas() {
-		try {
-			ofertas = actualizador.getOfertas();
-		} catch (FileNotFoundException | XMLStreamException e) {
-			ofertas = new ArrayList<Oferta>();
-		}
-	}
-
 	public void visualizarTotal() {
 
 	}
@@ -92,17 +88,14 @@ public class Caja {
 	public void indicarMedioDePago(Pago pago) {
 	}
 
-
 	public void confirmarCompra() throws CompraNoInicializadaException {
 		if (compraActual == null)
 			throw new CompraNoInicializadaException();
-		actualizarOfertas();
 		aplicarDescuentosItems();
 		compras.add(compraActual);
 		compraActual = null;
 	}
 
-	
 	private void aplicarDescuentosItems() {
 
 	}
@@ -113,4 +106,13 @@ public class Caja {
 		compraActual = null;
 
 	}
+
+	public EventoObservable<Caja, Boolean> getOnCajaAbierta() {
+		return onCajaAbierta;
+	}
+
+	public EventoObservable<Caja, Boolean> getOnCajaCerrada() {
+		return onCajaCerrada;
+	}
+
 }

@@ -1,4 +1,4 @@
-package test.sucursal;
+package sucursal;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -7,10 +7,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import sucursal.Caja;
-import sucursal.LineProducto;
-import sucursal.Producto;
-import sucursal.Sucursal;
+import sucursal.modelo.Caja;
+import sucursal.modelo.LineProducto;
+import sucursal.modelo.Producto;
+import sucursal.modelo.Sucursal;
 
 /**
  * The class <code>CajaTest</code> contains tests for the class
@@ -73,7 +73,7 @@ public class CajaTest {
 	 */
 	@Test(expected = sucursal.exceptions.CajaYaAbiertaException.class)
 	public void testAbrirCajaYaAbierta() throws Exception {
-		Caja miCaja = new Caja(new Sucursal());
+		Caja miCaja = new Caja();
 		miCaja.abrirCaja();
 		miCaja.abrirCaja();
 	}
@@ -86,7 +86,7 @@ public class CajaTest {
 	 */
 	@Test(expected = sucursal.exceptions.CajaNoInicializadaException.class)
 	public void testAgregarProductosCajaCerrada() throws Exception {
-		Caja miCaja = new Caja(new Sucursal());
+		Caja miCaja = new Caja();
 		LineProducto nuevoProducto = new LineProducto(Producto.getProductoPorCodigo(""), 1);
 		miCaja.agregarProductos(nuevoProducto);
 	}
@@ -99,7 +99,7 @@ public class CajaTest {
 	 */
 	@Test(expected = sucursal.exceptions.CompraNoInicializadaException.class)
 	public void testAgregarProductosCompraNoIniciada() throws Exception {
-		Caja miCaja = new Caja(new Sucursal());
+		Caja miCaja = new Caja();
 		miCaja.abrirCaja();
 		LineProducto nuevoProducto = new LineProducto(Producto.getProductoPorCodigo(""), 1);
 		miCaja.agregarProductos(nuevoProducto);
@@ -112,7 +112,7 @@ public class CajaTest {
 	 */
 	@Test(expected = sucursal.exceptions.CajaNoInicializadaException.class)
 	public void testCerrarCajaNoAbierta() throws Exception {
-		Caja miCaja = new Caja(new Sucursal());
+		Caja miCaja = new Caja();
 		miCaja.cerrarCaja();
 	}
 
@@ -123,7 +123,7 @@ public class CajaTest {
 	 */
 	@Test
 	public void testAperturaYCierreCaja() throws Exception {
-		Caja miCaja = new Caja(new Sucursal());
+		Caja miCaja = new Caja();
 		miCaja.abrirCaja();
 		assertTrue(miCaja.estaAbierta());
 		miCaja.cerrarCaja();
@@ -242,16 +242,5 @@ public class CajaTest {
 	@After
 	public void tearDown() throws Exception {
 
-	}
-
-	/**
-	 * Launch the test.
-	 * 
-	 * @param args
-	 *            the command line arguments
-	 * 
-	 */
-	public static void main(String[] args) {
-		new org.junit.runner.JUnitCore().run(CajaTest.class);
 	}
 }

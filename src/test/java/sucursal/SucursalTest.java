@@ -1,7 +1,7 @@
 /**
  * 
  */
-package test.sucursal;
+package sucursal;
 
 import static org.junit.Assert.*;
 

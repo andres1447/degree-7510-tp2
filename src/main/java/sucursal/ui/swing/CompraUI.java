@@ -1,4 +1,4 @@
-package sucursal;
+package sucursal.ui.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
@@ -21,6 +21,9 @@ import javax.swing.table.DefaultTableModel;
 
 import sucursal.exceptions.CajaNoInicializadaException;
 import sucursal.exceptions.CompraNoInicializadaException;
+import sucursal.modelo.Caja;
+import sucursal.modelo.LineProducto;
+import sucursal.modelo.Producto;
 
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
