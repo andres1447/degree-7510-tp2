@@ -3,8 +3,8 @@ package sucursal.ui;
 import sucursal.exceptions.CajaNoInicializadaException;
 import sucursal.exceptions.CajaYaAbiertaException;
 import sucursal.modelo.Caja;
-import sucursal.modelo.EventoObservable.Observador;
 import sucursal.modelo.Sucursal;
+import sucursal.modelo.eventos.Observador;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -15,9 +15,9 @@ public class MainController {
 	private final MainView view;
 	private final SimpleDialog simpleDialog;
 
-	private final Observador<MainView, Boolean> onAbrirCaja = new Observador<MainView, Boolean>() {
+	private final Observador<MainView> onAbrirCaja = new Observador<MainView>() {
 		@Override
-		public void notificar(MainView observable, Boolean data) {
+		public void notificar(MainView observable) {
 			try {
 				caja.abrirCaja();
 			} catch (CajaYaAbiertaException e) {
@@ -26,9 +26,9 @@ public class MainController {
 		}
 	};
 
-	private Observador<MainView, Boolean> onCerrarCaja = new Observador<MainView, Boolean>() {
+	private Observador<MainView> onCerrarCaja = new Observador<MainView>() {
 		@Override
-		public void notificar(MainView observable, Boolean data) {
+		public void notificar(MainView observable) {
 			try {
 				caja.cerrarCaja();
 			} catch (CajaNoInicializadaException e) {

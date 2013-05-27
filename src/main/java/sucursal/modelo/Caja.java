@@ -7,22 +7,25 @@ import sucursal.exceptions.CajaNoInicializadaException;
 import sucursal.exceptions.CajaYaAbiertaException;
 import sucursal.exceptions.CompraEnProcesoException;
 import sucursal.exceptions.CompraNoInicializadaException;
+import sucursal.modelo.eventos.Evento;
 
 public class Caja {
 	/**
 	 * Evento observable que se dispara cuando el estado pasa a abierta
 	 */
-	private final EventoObservable<Caja, Boolean> onCajaAbierta = new EventoObservable<>(
-			this);
+	private final Evento<Caja> onCajaAbierta = new Evento<>(this);
 
 	/**
 	 * Evento observable que se dispara cuando el estado pasa a cerrada
 	 */
-	private final EventoObservable<Caja, Boolean> onCajaCerrada = new EventoObservable<>(
-			this);
+	private final Evento<Caja> onCajaCerrada = new Evento<>(this);
 
+	// TODO: Eliminar compras, mover listado de compras realizadas a clase historial
 	private List<Compra> compras;
+	
+	// TODO: Cambiar estado de caja a jerarquía para eliminar los chequeos
 	private EstadoCaja estado;
+	
 	private Compra compraActual;
 
 	public Caja() {
@@ -31,24 +34,23 @@ public class Caja {
 		compraActual = null;
 	}
 
-	public void abrirCaja() throws CajaYaAbiertaException {
+	public void abrirCaja() {
 		estado.abrirCaja();
 
-		onCajaAbierta.notificar(true);
+		onCajaAbierta.notificar();
 	}
 
-	public void cerrarCaja() throws CajaNoInicializadaException {
+	public void cerrarCaja() {
 		estado.cerrarCaja();
 
-		onCajaCerrada.notificar(true);
+		onCajaCerrada.notificar();
 	}
 
 	public boolean estaAbierta() {
 		return estado.estaAbierta();
 	}
 
-	public void iniciarCompra() throws CompraEnProcesoException,
-			CajaNoInicializadaException {
+	public void iniciarCompra() {
 		if (!estaAbierta())
 			throw new CajaNoInicializadaException();
 		if (compraActual != null) {
@@ -56,9 +58,13 @@ public class Caja {
 		}
 		compraActual = new Compra();
 	}
+	
+	public boolean estaCompraIniciada() {
+		return compraActual != null;
+	}
 
-	public void agregarProductos(LineProducto nuevoProducto)
-			throws CompraNoInicializadaException, CajaNoInicializadaException {
+	// TODO: Mover estos métodos a la compra
+	public void agregarProductos(LineProducto nuevoProducto) {
 		if (!estaAbierta())
 			throw new CajaNoInicializadaException();
 		if (compraActual == null) {
@@ -67,8 +73,8 @@ public class Caja {
 		compraActual.agregarProducto(nuevoProducto);
 	}
 
-	public void eliminarUltimaEntradaDeCompra()
-			throws CompraNoInicializadaException, CajaNoInicializadaException {
+	// TODO: Mover estos métodos a la compra
+	public void eliminarUltimaEntradaDeCompra() {
 		if (!estaAbierta())
 			throw new CajaNoInicializadaException();
 		if (compraActual == null) {
@@ -88,7 +94,8 @@ public class Caja {
 	public void indicarMedioDePago(Pago pago) {
 	}
 
-	public void confirmarCompra() throws CompraNoInicializadaException {
+	// TODO: Mover estos métodos a la compra
+	public void confirmarCompra() {
 		if (compraActual == null)
 			throw new CompraNoInicializadaException();
 		aplicarDescuentosItems();
@@ -99,19 +106,20 @@ public class Caja {
 	private void aplicarDescuentosItems() {
 
 	}
-
-	public void cancelarCompra() throws CompraNoInicializadaException {
+	
+	// TODO: Mover estos métodos a la compra
+	public void cancelarCompra() {
 		if (compraActual == null)
 			throw new CompraNoInicializadaException();
 		compraActual = null;
 
 	}
 
-	public EventoObservable<Caja, Boolean> getOnCajaAbierta() {
+	public Evento<Caja> getOnCajaAbierta() {
 		return onCajaAbierta;
 	}
 
-	public EventoObservable<Caja, Boolean> getOnCajaCerrada() {
+	public Evento<Caja> getOnCajaCerrada() {
 		return onCajaCerrada;
 	}
 

@@ -1,6 +1,6 @@
 package sucursal.exceptions;
 
-public class CompraNoInicializadaException extends Exception {
+public class CompraNoInicializadaException extends RuntimeException {
 
 	/**
 	 * 

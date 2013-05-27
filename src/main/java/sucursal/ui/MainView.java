@@ -1,7 +1,7 @@
 package sucursal.ui;
 
 import sucursal.modelo.Caja;
-import sucursal.modelo.EventoObservable;
+import sucursal.modelo.eventos.Evento;
 
 /**
  * Interface representing the main UI
@@ -14,7 +14,7 @@ public interface MainView {
 
 	public void observar(Caja caja);
 
-	public EventoObservable<MainView, Boolean> getOnAbrirCaja();
+	public Evento<MainView> getOnAbrirCaja();
 
-	public EventoObservable<MainView, Boolean> getOnCerrarCaja();
+	public Evento<MainView> getOnCerrarCaja();
 }

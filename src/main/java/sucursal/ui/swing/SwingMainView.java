@@ -16,8 +16,8 @@ import sucursal.exceptions.CompraEnProcesoException;
 import sucursal.exceptions.CompraNoInicializadaException;
 import sucursal.exceptions.MaximoDeCajasYaHabilidatasException;
 import sucursal.modelo.Caja;
-import sucursal.modelo.EventoObservable;
-import sucursal.modelo.EventoObservable.Observador;
+import sucursal.modelo.eventos.Evento;
+import sucursal.modelo.eventos.Observador;
 import sucursal.ui.MainView;
 
 import com.google.inject.Inject;
@@ -35,11 +35,9 @@ public class SwingMainView extends JFrame implements MainView {
 	private final static String CAJA_ABIERTA_PANEL = "CAJA_ABIERTA_PANEL";
 	private final static String COMPRA_PANEL = "COMPRA_PANEL";
 
-	private final EventoObservable<MainView, Boolean> onAbrirCaja = new EventoObservable<MainView, Boolean>(
-			this);
-	
-	private final EventoObservable<MainView, Boolean> onCerrarCaja = new EventoObservable<MainView, Boolean>(
-			this);
+	private final Evento<MainView> onAbrirCaja = new Evento<MainView>(this);
+
+	private final Evento<MainView> onCerrarCaja = new Evento<MainView>(this);
 
 	private JPanel pnlCajaCerrada;
 	private JButton btnAbrirCaja;
@@ -54,16 +52,16 @@ public class SwingMainView extends JFrame implements MainView {
 
 	private Caja caja;
 
-	private Observador<Caja, Boolean> onCajaAbierta = new Observador<Caja, Boolean>() {
+	private Observador<Caja> onCajaAbierta = new Observador<Caja>() {
 		@Override
-		public void notificar(Caja observable, Boolean data) {
+		public void notificar(Caja observable) {
 			showCajaAbierta();
 		}
 	};
 
-	private Observador<Caja, Boolean> onCajaCerrada = new Observador<Caja, Boolean>() {
+	private Observador<Caja> onCajaCerrada = new Observador<Caja>() {
 		@Override
-		public void notificar(Caja observable, Boolean data) {
+		public void notificar(Caja observable) {
 			showCajaCerrada();
 		}
 	};
@@ -128,7 +126,7 @@ public class SwingMainView extends JFrame implements MainView {
 			btnAbrirCaja = new JButton("Abrir Caja");
 			btnAbrirCaja.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					onAbrirCaja.notificar(true);
+					onAbrirCaja.notificar();
 				}
 			});
 		}
@@ -179,7 +177,7 @@ public class SwingMainView extends JFrame implements MainView {
 			btnCerrarCaja = new JButton("Cerrar Caja");
 			btnCerrarCaja.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					onCerrarCaja.notificar(true);
+					onCerrarCaja.notificar();
 				}
 			});
 		}
@@ -269,12 +267,12 @@ public class SwingMainView extends JFrame implements MainView {
 	}
 
 	@Override
-	public EventoObservable<MainView, Boolean> getOnAbrirCaja() {
+	public Evento<MainView> getOnAbrirCaja() {
 		return onAbrirCaja;
 	}
 
 	@Override
-	public EventoObservable<MainView, Boolean> getOnCerrarCaja() {
+	public Evento<MainView> getOnCerrarCaja() {
 		return onCerrarCaja;
 	}
 }

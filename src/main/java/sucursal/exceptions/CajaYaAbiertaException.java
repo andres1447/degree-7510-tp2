@@ -1,6 +1,6 @@
 package sucursal.exceptions;
 
-public class CajaYaAbiertaException extends Exception {
+public class CajaYaAbiertaException extends RuntimeException {
 
 	/**
 	 * 

@@ -1,6 +1,6 @@
 package sucursal.exceptions;
 
-public class CajaNoInicializadaException extends Exception {
+public class CajaNoInicializadaException extends RuntimeException {
 
 	/**
 	 * 

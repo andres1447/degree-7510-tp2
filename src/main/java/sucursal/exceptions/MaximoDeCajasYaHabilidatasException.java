@@ -1,6 +1,6 @@
 package sucursal.exceptions;
 
-public class MaximoDeCajasYaHabilidatasException extends Exception {
+public class MaximoDeCajasYaHabilidatasException extends RuntimeException {
 
 	/**
 	 * 

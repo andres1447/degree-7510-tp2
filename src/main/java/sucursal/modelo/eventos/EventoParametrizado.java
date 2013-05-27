@@ -1,40 +1,23 @@
-package sucursal.modelo;
+package sucursal.modelo.eventos;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Basic utility class to manage event propagation. Represents an event which
- * can be observed
+ * can be observed. The event is parametrized, meaning that when it is raised,
+ * additional data will be attached to the event.
  * 
  * @param <T>
  *            The type of the class owning the observable event
  * @param <D>
  *            The type of the data associated to the event
  */
-public class EventoObservable<T, D> {
-	/**
-	 * Represents an observer which can observe an observable event, being
-	 * notified when the event is raised
-	 * 
-	 * @see EventoObservable
-	 */
-	public static interface Observador<T, D> {
-		/**
-		 * Notifies this observer that the event has been raised
-		 * 
-		 * @param observable
-		 *            the observable which raised the event
-		 * @param data
-		 *            specific event data associated to the observable event
-		 */
-		void notificar(final T observable, final D data);
-	}
-
+public class EventoParametrizado<T, D> {
 	/**
 	 * The list of registered observers
 	 */
-	private final List<Observador<T, D>> observadores = new ArrayList<>();
+	private final List<ObservadorParametrizado<T, D>> observadores = new ArrayList<>();
 
 	/**
 	 * The instance owning the observable event
@@ -42,26 +25,26 @@ public class EventoObservable<T, D> {
 	private final T observable;
 
 	/**
-	 * Creates a new {@link EventoObservable} instance
+	 * Creates a new {@link EventoParametrizado} instance
 	 * 
 	 * @param observable
 	 *            the instance owning the observable event
 	 */
-	public EventoObservable(final T observable) {
+	public EventoParametrizado(final T observable) {
 		this.observable = observable;
 	}
 
 	/**
 	 * Registers an observer to be notified when the event is raised
 	 */
-	public void registrar(final Observador<T, D> observer) {
+	public void registrar(final ObservadorParametrizado<T, D> observer) {
 		this.observadores.add(observer);
 	}
 
 	/**
 	 * Unregisters an observer to no longer be notified when the event is raised
 	 */
-	public void desregistrar(final Observador<T, D> observer) {
+	public void desregistrar(final ObservadorParametrizado<T, D> observer) {
 		this.observadores.remove(observer);
 	}
 
@@ -80,7 +63,7 @@ public class EventoObservable<T, D> {
 	 *            the event data to send to all observers
 	 */
 	public void notificar(final D data) {
-		for (Observador<T, D> observer : observadores) {
+		for (ObservadorParametrizado<T, D> observer : observadores) {
 			observer.notificar(observable, data);
 		}
 	}
