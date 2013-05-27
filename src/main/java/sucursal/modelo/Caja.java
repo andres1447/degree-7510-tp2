@@ -5,15 +5,9 @@ import sucursal.exceptions.CompraNoIniciadaException;
 import sucursal.utilities.Evento;
 
 public class Caja {
-	/**
-	 * Evento observable que se dispara cuando el estado pasa a abierta
-	 */
 	private final Evento<Caja> onCajaAbierta = new Evento<>(this);
-
-	/**
-	 * Evento observable que se dispara cuando el estado pasa a cerrada
-	 */
 	private final Evento<Caja> onCajaCerrada = new Evento<>(this);
+	private final Evento<Caja> onCompraIniciada = new Evento<>(this);
 
 	private EstadoCaja estado = new EstadoCajaCerrada();
 	private Compra compraActual = null;
@@ -40,7 +34,9 @@ public class Caja {
 	public Compra iniciarCompra() {
 		estado.checkPuedeIniciarCompra();
 		estado = new EstadoCajaComprando();
-		return compraActual = new Compra();
+		compraActual = new Compra();
+		onCompraIniciada.notificar();
+		return compraActual;
 	}
 
 	public void terminarCompra() {
@@ -79,7 +75,7 @@ public class Caja {
 			throw new CompraNoIniciadaException();
 		terminarCompra();
 	}
-	
+
 	// TODO: Mover estos métodos a la compra
 	public void cancelarCompra() {
 		terminarCompra();
@@ -93,4 +89,7 @@ public class Caja {
 		return onCajaCerrada;
 	}
 
+	public Evento<Caja> getOnCompraIniciada() {
+		return onCompraIniciada;
+	}
 }

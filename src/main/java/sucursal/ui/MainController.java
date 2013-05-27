@@ -2,6 +2,7 @@ package sucursal.ui;
 
 import sucursal.exceptions.CajaNoAbiertaException;
 import sucursal.exceptions.CajaYaAbiertaException;
+import sucursal.exceptions.CompraEnProcesoException;
 import sucursal.modelo.Caja;
 import sucursal.modelo.Sucursal;
 import sucursal.utilities.Observador;
@@ -37,6 +38,19 @@ public class MainController {
 		}
 	};
 
+	private Observador<MainView> onIniciarCompra = new Observador<MainView>() {
+		@Override
+		public void notificar(MainView observable) {
+			try {
+				caja.iniciarCompra();
+			} catch (CompraEnProcesoException e) {
+				simpleDialog.showError("Compra en proceso");
+			} catch (CajaNoAbiertaException e) {
+				simpleDialog.showError("La caja se encuentra cerrada");
+			}
+		}
+	};
+
 	@Inject
 	public MainController(final Sucursal sucursal, final MainView view,
 			final SimpleDialog simpleDialog) {
@@ -45,6 +59,7 @@ public class MainController {
 		this.view = view;
 		this.view.getOnAbrirCaja().registrar(onAbrirCaja);
 		this.view.getOnCerrarCaja().registrar(onCerrarCaja);
+		this.view.getOnIniciarCompra().registrar(onIniciarCompra);
 	}
 
 	public void launch() {

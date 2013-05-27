@@ -152,4 +152,13 @@ public class CajaTest {
 
 		Mockito.verify(mockObservador).notificar(subject);
 	}
+	
+	@Test
+	public void iniciarCompraDeberiaNotificarEventoDeCompraIniciada() {
+		subject.getOnCompraIniciada().registrar(mockObservador);
+		subject.abrir();
+		subject.iniciarCompra();
+		
+		Mockito.verify(mockObservador).notificar(subject);
+	}
 }

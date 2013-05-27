@@ -10,11 +10,13 @@ public interface MainView {
 	/**
 	 * Launches this UI
 	 */
-	public void display();
+	void display();
 
-	public void observar(Caja caja);
+	void observar(Caja caja);
 
-	public Evento<MainView> getOnAbrirCaja();
+	Evento<MainView> getOnAbrirCaja();
 
-	public Evento<MainView> getOnCerrarCaja();
+	Evento<MainView> getOnCerrarCaja();
+
+	Evento<MainView> getOnIniciarCompra();
 }

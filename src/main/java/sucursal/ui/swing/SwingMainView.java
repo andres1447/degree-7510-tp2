@@ -11,8 +11,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import sucursal.exceptions.CajaNoAbiertaException;
-import sucursal.exceptions.CompraEnProcesoException;
 import sucursal.exceptions.CompraNoIniciadaException;
 import sucursal.modelo.Caja;
 import sucursal.ui.MainView;
@@ -35,8 +33,8 @@ public class SwingMainView extends JFrame implements MainView {
 	private final static String COMPRA_PANEL = "COMPRA_PANEL";
 
 	private final Evento<MainView> onAbrirCaja = new Evento<MainView>(this);
-
 	private final Evento<MainView> onCerrarCaja = new Evento<MainView>(this);
+	private final Evento<MainView> onIniciarCompra = new Evento<MainView>(this);
 
 	private JPanel pnlCajaCerrada;
 	private JButton btnAbrirCaja;
@@ -51,33 +49,32 @@ public class SwingMainView extends JFrame implements MainView {
 
 	private Caja caja;
 
-	private Observador<Caja> onCajaAbierta = new Observador<Caja>() {
+	private final Observador<Caja> onCajaAbierta = new Observador<Caja>() {
 		@Override
 		public void notificar(Caja observable) {
 			showCajaAbierta();
 		}
 	};
 
-	private Observador<Caja> onCajaCerrada = new Observador<Caja>() {
+	private final Observador<Caja> onCajaCerrada = new Observador<Caja>() {
 		@Override
 		public void notificar(Caja observable) {
 			showCajaCerrada();
 		}
 	};
 
-	/**
-	 * Create the application.
-	 * 
-	 * @throws MaximoDeCajasYaHabilidatasException
-	 */
+	private final Observador<Caja> onCompraIniciada = new Observador<Caja>() {
+		@Override
+		public void notificar(Caja observable) {
+			showCompra();
+		}
+	};
+
 	@Inject
 	public SwingMainView() {
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
 		setTitle("Caja");
 		setResizable(false);
@@ -153,18 +150,7 @@ public class SwingMainView extends JFrame implements MainView {
 			btnIniciarCompra = new JButton("Iniciar Compra");
 			btnIniciarCompra.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					try {
-						caja.iniciarCompra();
-						showCompra();
-					} catch (CompraEnProcesoException e) {
-						JOptionPane.showMessageDialog(null,
-								"Compra en proceso.", "Error",
-								JOptionPane.WARNING_MESSAGE);
-					} catch (CajaNoAbiertaException e) {
-						JOptionPane.showMessageDialog(null,
-								"La caja se encuentra cerrada", "Error",
-								JOptionPane.WARNING_MESSAGE);
-					}
+					onIniciarCompra.notificar();
 				}
 			});
 		}
@@ -259,10 +245,12 @@ public class SwingMainView extends JFrame implements MainView {
 		if (this.caja != null) {
 			this.caja.getOnCajaAbierta().desregistrar(onCajaAbierta);
 			this.caja.getOnCajaCerrada().desregistrar(onCajaCerrada);
+			this.caja.getOnCompraIniciada().desregistrar(onCompraIniciada);
 		}
 		this.caja = caja;
 		this.caja.getOnCajaAbierta().registrar(onCajaAbierta);
 		this.caja.getOnCajaCerrada().registrar(onCajaCerrada);
+		this.caja.getOnCompraIniciada().registrar(onCompraIniciada);
 	}
 
 	@Override
@@ -273,5 +261,10 @@ public class SwingMainView extends JFrame implements MainView {
 	@Override
 	public Evento<MainView> getOnCerrarCaja() {
 		return onCerrarCaja;
+	}
+
+	@Override
+	public Evento<MainView> getOnIniciarCompra() {
+		return onIniciarCompra;
 	}
 }
