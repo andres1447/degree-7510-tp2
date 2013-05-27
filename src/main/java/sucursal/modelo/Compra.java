@@ -23,6 +23,10 @@ public class Compra {
 		items.push(nuevoProducto);
 		onItemsCambiados.notificar();
 	}
+	
+	public LineProducto getUltimoItemAgregado() {
+		return items.peek();
+	}
 
 	public void quitarUltimoItemAgregado() {
 		items.pop();

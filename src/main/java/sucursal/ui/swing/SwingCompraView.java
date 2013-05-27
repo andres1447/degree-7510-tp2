@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -13,6 +14,8 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.AbstractTableModel;
 
 import sucursal.modelo.Compra;
+import sucursal.modelo.LineProducto;
+import sucursal.modelo.Producto;
 import sucursal.ui.CompraView;
 import sucursal.utilities.Evento;
 import sucursal.utilities.Observador;
@@ -54,12 +57,40 @@ public class SwingCompraView extends JDialog implements CompraView {
 					.getModel();
 			model.fireTableDataChanged();
 			btnDeshacer.setEnabled(compra.tieneItems());
+			if (compra.tieneItems()) {
+				mostrarInfoProducto(compra.getUltimoItemAgregado());
+			} else {
+				mostrarInfoProducto(null);
+			}
 		}
 	};
+	private JLabel lblNombre;
+	private JLabel lblNombreProducto;
+	private JLabel lblDescripcionProducto;
+	private JLabel lblDescripcion;
+	private JLabel lblRubro;
+	private JLabel lblRubroProducto;
+	private JLabel lblMarca;
+	private JLabel lblMarcaProducto;
 
 	public SwingCompraView() {
 		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		initComponents();
+	}
+
+	private void mostrarInfoProducto(final LineProducto ultimoItemAgregado) {
+		if (ultimoItemAgregado != null) {
+			Producto producto = ultimoItemAgregado.getProducto();
+			lblNombreProducto.setText(producto.getNombre());
+			lblDescripcionProducto.setText(producto.getDescripcion());
+			lblRubroProducto.setText(producto.getRubro().toString());
+			lblMarcaProducto.setText(producto.getMarca().toString());
+		} else {
+			lblNombreProducto.setText("");
+			lblDescripcionProducto.setText("");
+			lblRubroProducto.setText("");
+			lblMarcaProducto.setText("");
+		}
 	}
 
 	private void initComponents() {
@@ -69,7 +100,7 @@ public class SwingCompraView extends JDialog implements CompraView {
 		setModal(true);
 		getContentPane().setLayout(
 				new FormLayout(new ColumnSpec[] {
-						ColumnSpec.decode("max(230dlu;default)"),
+						ColumnSpec.decode("max(215dlu;default)"),
 						ColumnSpec.decode("5dlu"),
 						ColumnSpec.decode("right:default:grow"), },
 						new RowSpec[] { RowSpec.decode("default:grow"), }));
@@ -147,6 +178,15 @@ public class SwingCompraView extends JDialog implements CompraView {
 			pnlInfoProducto = new JPanel();
 			pnlInfoProducto.setBorder(new TitledBorder(null, "Producto",
 					TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			pnlInfoProducto.setLayout(new GridLayout(4, 2, 2, 0));
+			pnlInfoProducto.add(getLblNombre());
+			pnlInfoProducto.add(getLblNombreProducto());
+			pnlInfoProducto.add(getLblDescripcion());
+			pnlInfoProducto.add(getLblDescripcionProducto());
+			pnlInfoProducto.add(getLblRubro());
+			pnlInfoProducto.add(getLblRubroProducto());
+			pnlInfoProducto.add(getLblMarca());
+			pnlInfoProducto.add(getLblMarcaProducto());
 		}
 		return pnlInfoProducto;
 	}
@@ -173,6 +213,62 @@ public class SwingCompraView extends JDialog implements CompraView {
 			});
 		}
 		return btnDeshacer;
+	}
+
+	private JLabel getLblNombre() {
+		if (lblNombre == null) {
+			lblNombre = new JLabel("Nombre:");
+		}
+		return lblNombre;
+	}
+
+	private JLabel getLblNombreProducto() {
+		if (lblNombreProducto == null) {
+			lblNombreProducto = new JLabel("");
+		}
+		return lblNombreProducto;
+	}
+
+	private JLabel getLblDescripcionProducto() {
+		if (lblDescripcionProducto == null) {
+			lblDescripcionProducto = new JLabel("");
+		}
+		return lblDescripcionProducto;
+	}
+
+	private JLabel getLblDescripcion() {
+		if (lblDescripcion == null) {
+			lblDescripcion = new JLabel("Descripcion:");
+		}
+		return lblDescripcion;
+	}
+
+	private JLabel getLblRubro() {
+		if (lblRubro == null) {
+			lblRubro = new JLabel("Rubro:");
+		}
+		return lblRubro;
+	}
+
+	private JLabel getLblRubroProducto() {
+		if (lblRubroProducto == null) {
+			lblRubroProducto = new JLabel("");
+		}
+		return lblRubroProducto;
+	}
+
+	private JLabel getLblMarca() {
+		if (lblMarca == null) {
+			lblMarca = new JLabel("Marca:");
+		}
+		return lblMarca;
+	}
+
+	private JLabel getLblMarcaProducto() {
+		if (lblMarcaProducto == null) {
+			lblMarcaProducto = new JLabel("");
+		}
+		return lblMarcaProducto;
 	}
 
 	@Override
