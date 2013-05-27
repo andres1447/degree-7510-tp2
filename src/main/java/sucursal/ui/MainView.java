@@ -1,7 +1,7 @@
 package sucursal.ui;
 
 import sucursal.modelo.Caja;
-import sucursal.modelo.eventos.Evento;
+import sucursal.utilities.Evento;
 
 /**
  * Interface representing the main UI

@@ -16,9 +16,9 @@ import sucursal.exceptions.CompraEnProcesoException;
 import sucursal.exceptions.CompraNoInicializadaException;
 import sucursal.exceptions.MaximoDeCajasYaHabilidatasException;
 import sucursal.modelo.Caja;
-import sucursal.modelo.eventos.Evento;
-import sucursal.modelo.eventos.Observador;
 import sucursal.ui.MainView;
+import sucursal.utilities.Evento;
+import sucursal.utilities.Observador;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;

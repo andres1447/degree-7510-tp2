@@ -14,7 +14,7 @@ import sucursal.exceptions.CajaNoInicializadaException;
 import sucursal.exceptions.CajaYaAbiertaException;
 import sucursal.exceptions.CompraEnProcesoException;
 import sucursal.exceptions.CompraNoInicializadaException;
-import sucursal.modelo.eventos.Observador;
+import sucursal.utilities.Observador;
 
 /**
  * Unit tests for the {@link Caja} class

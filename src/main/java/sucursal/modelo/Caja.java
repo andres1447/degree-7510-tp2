@@ -2,7 +2,7 @@ package sucursal.modelo;
 
 import sucursal.exceptions.CajaNoInicializadaException;
 import sucursal.exceptions.CompraNoInicializadaException;
-import sucursal.modelo.eventos.Evento;
+import sucursal.utilities.Evento;
 
 public class Caja {
 	/**

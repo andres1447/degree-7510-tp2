@@ -4,7 +4,7 @@ import sucursal.exceptions.CajaNoInicializadaException;
 import sucursal.exceptions.CajaYaAbiertaException;
 import sucursal.modelo.Caja;
 import sucursal.modelo.Sucursal;
-import sucursal.modelo.eventos.Observador;
+import sucursal.utilities.Observador;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;

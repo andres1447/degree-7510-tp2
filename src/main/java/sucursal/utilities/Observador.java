@@ -1,4 +1,4 @@
-package sucursal.modelo.eventos;
+package sucursal.utilities;
 
 /**
  * Represents an observer which can observe an observable event, being notified

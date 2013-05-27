@@ -1,5 +1,6 @@
 package sucursal.exceptions;
 
+//TODO: Convertir a unico constructor, el resto no se esta usando
 public class CompraNoInicializadaException extends RuntimeException {
 
 	/**
