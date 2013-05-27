@@ -19,8 +19,8 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
-import sucursal.exceptions.CajaNoInicializadaException;
-import sucursal.exceptions.CompraNoInicializadaException;
+import sucursal.exceptions.CajaNoAbiertaException;
+import sucursal.exceptions.CompraNoIniciadaException;
 import sucursal.modelo.Caja;
 import sucursal.modelo.LineProducto;
 import sucursal.modelo.Producto;
@@ -102,7 +102,7 @@ public class CompraUI extends JPanel implements ITicket {
 			table.setRowSelectionInterval(table.getRowCount() - 1,
 					table.getRowCount() - 1);
 
-		} catch (CompraNoInicializadaException | CajaNoInicializadaException e) {
+		} catch (CompraNoIniciadaException | CajaNoAbiertaException e) {
 		}
 	}
 
@@ -134,8 +134,8 @@ public class CompraUI extends JPanel implements ITicket {
 									table.getRowCount() - 1,
 									table.getRowCount() - 1);
 						}
-					} catch (CompraNoInicializadaException
-							| CajaNoInicializadaException e1) {
+					} catch (CompraNoIniciadaException
+							| CajaNoAbiertaException e1) {
 					}
 				}
 			});

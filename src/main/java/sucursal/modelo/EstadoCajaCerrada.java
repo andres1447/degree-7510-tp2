@@ -1,7 +1,7 @@
 package sucursal.modelo;
 
-import sucursal.exceptions.CajaNoInicializadaException;
-import sucursal.exceptions.CompraNoInicializadaException;
+import sucursal.exceptions.CajaNoAbiertaException;
+import sucursal.exceptions.CompraNoIniciadaException;
 
 public class EstadoCajaCerrada implements EstadoCaja {
 	@Override
@@ -26,17 +26,17 @@ public class EstadoCajaCerrada implements EstadoCaja {
 
 	@Override
 	public void checkPuedeCerrar() {
-		throw new CajaNoInicializadaException();
+		throw new CajaNoAbiertaException();
 	}
 
 	@Override
 	public void checkPuedeIniciarCompra() {
-		throw new CajaNoInicializadaException();
+		throw new CajaNoAbiertaException();
 	}
 
 	@Override
 	public void checkPuedeTerminarCompra() {
-		throw new CompraNoInicializadaException();
+		throw new CompraNoIniciadaException();
 	}
 
 }

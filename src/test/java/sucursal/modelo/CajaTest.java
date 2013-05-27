@@ -10,10 +10,10 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import sucursal.exceptions.CajaNoInicializadaException;
+import sucursal.exceptions.CajaNoAbiertaException;
 import sucursal.exceptions.CajaYaAbiertaException;
 import sucursal.exceptions.CompraEnProcesoException;
-import sucursal.exceptions.CompraNoInicializadaException;
+import sucursal.exceptions.CompraNoIniciadaException;
 import sucursal.utilities.Observador;
 
 /**
@@ -91,7 +91,7 @@ public class CajaTest {
 		assertThat(compraIniciada.estaCancelada(), is(true));
 	}
 
-	@Test(expected = CajaNoInicializadaException.class)
+	@Test(expected = CajaNoAbiertaException.class)
 	public void cerrarCajaCerradaDeberiaFallar() {
 		subject.cerrar();
 	}
@@ -104,7 +104,7 @@ public class CajaTest {
 		assertThat(subject.estaComprando(), is(true));
 	}
 
-	@Test(expected = CajaNoInicializadaException.class)
+	@Test(expected = CajaNoAbiertaException.class)
 	public void iniciarCompraEnCajaCerradaDeberiaFallar() {
 		subject.iniciarCompra();
 	}
@@ -125,13 +125,13 @@ public class CajaTest {
 		assertThat(subject.estaComprando(), is(false));
 	}
 	
-	@Test(expected = CompraNoInicializadaException.class)
+	@Test(expected = CompraNoIniciadaException.class)
 	public void terminarCompraConCajaAbiertaDeberiaFallar() {
 		subject.abrir();
 		subject.terminarCompra();
 	}
 	
-	@Test(expected = CompraNoInicializadaException.class)
+	@Test(expected = CompraNoIniciadaException.class)
 	public void terminarCompraConCajaCerradaDeberiaFallar() {
 		subject.terminarCompra();
 	}

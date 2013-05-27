@@ -1,6 +1,6 @@
 package sucursal.ui;
 
-import sucursal.exceptions.CajaNoInicializadaException;
+import sucursal.exceptions.CajaNoAbiertaException;
 import sucursal.exceptions.CajaYaAbiertaException;
 import sucursal.modelo.Caja;
 import sucursal.modelo.Sucursal;
@@ -31,7 +31,7 @@ public class MainController {
 		public void notificar(MainView observable) {
 			try {
 				caja.cerrar();
-			} catch (CajaNoInicializadaException e) {
+			} catch (CajaNoAbiertaException e) {
 				simpleDialog.showError("La caja ya se encuentra cerrada.");
 			}
 		}

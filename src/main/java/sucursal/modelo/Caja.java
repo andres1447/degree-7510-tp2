@@ -1,7 +1,7 @@
 package sucursal.modelo;
 
-import sucursal.exceptions.CajaNoInicializadaException;
-import sucursal.exceptions.CompraNoInicializadaException;
+import sucursal.exceptions.CajaNoAbiertaException;
+import sucursal.exceptions.CompraNoIniciadaException;
 import sucursal.utilities.Evento;
 
 public class Caja {
@@ -56,9 +56,9 @@ public class Caja {
 	// TODO: Mover estos métodos a la compra
 	public void agregarProductos(LineProducto nuevoProducto) {
 		if (!estaAbierta())
-			throw new CajaNoInicializadaException();
+			throw new CajaNoAbiertaException();
 		if (compraActual == null) {
-			throw new CompraNoInicializadaException();
+			throw new CompraNoIniciadaException();
 		}
 		compraActual.agregarProducto(nuevoProducto);
 	}
@@ -66,9 +66,9 @@ public class Caja {
 	// TODO: Mover estos métodos a la compra
 	public void eliminarUltimaEntradaDeCompra() {
 		if (!estaAbierta())
-			throw new CajaNoInicializadaException();
+			throw new CajaNoAbiertaException();
 		if (compraActual == null) {
-			throw new CompraNoInicializadaException();
+			throw new CompraNoIniciadaException();
 		}
 		compraActual.eliminarUltimoProducto();
 	}
@@ -76,7 +76,7 @@ public class Caja {
 	// TODO: Mover estos métodos a la compra
 	public void confirmarCompra() {
 		if (compraActual == null)
-			throw new CompraNoInicializadaException();
+			throw new CompraNoIniciadaException();
 		terminarCompra();
 	}
 	

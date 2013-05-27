@@ -11,10 +11,9 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import sucursal.exceptions.CajaNoInicializadaException;
+import sucursal.exceptions.CajaNoAbiertaException;
 import sucursal.exceptions.CompraEnProcesoException;
-import sucursal.exceptions.CompraNoInicializadaException;
-import sucursal.exceptions.MaximoDeCajasYaHabilidatasException;
+import sucursal.exceptions.CompraNoIniciadaException;
 import sucursal.modelo.Caja;
 import sucursal.ui.MainView;
 import sucursal.utilities.Evento;
@@ -161,7 +160,7 @@ public class SwingMainView extends JFrame implements MainView {
 						JOptionPane.showMessageDialog(null,
 								"Compra en proceso.", "Error",
 								JOptionPane.WARNING_MESSAGE);
-					} catch (CajaNoInicializadaException e) {
+					} catch (CajaNoAbiertaException e) {
 						JOptionPane.showMessageDialog(null,
 								"La caja se encuentra cerrada", "Error",
 								JOptionPane.WARNING_MESSAGE);
@@ -216,7 +215,7 @@ public class SwingMainView extends JFrame implements MainView {
 					try {
 						caja.confirmarCompra();
 						pnlCompra = null;
-					} catch (CompraNoInicializadaException e1) {
+					} catch (CompraNoIniciadaException e1) {
 					}
 					showCajaAbierta();
 				}
@@ -238,7 +237,7 @@ public class SwingMainView extends JFrame implements MainView {
 					try {
 						caja.cancelarCompra();
 						pnlCompra = null;
-					} catch (CompraNoInicializadaException e1) {
+					} catch (CompraNoIniciadaException e1) {
 						JOptionPane.showMessageDialog(null,
 								"No hay compra para cancelar.", "Error",
 								JOptionPane.WARNING_MESSAGE);
