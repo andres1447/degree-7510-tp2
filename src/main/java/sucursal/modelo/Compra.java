@@ -3,7 +3,7 @@ package sucursal.modelo;
 import java.util.Stack;
 
 public class Compra {
-
+	public boolean cancelada;
 	Stack<LineProducto> items;
 
 	public Compra() {
@@ -16,6 +16,14 @@ public class Compra {
 
 	public void eliminarUltimoProducto() {
 		items.pop();
+	}
+
+	public void cancelar() {
+		cancelada = true;
+	}
+
+	public boolean estaCancelada() {
+		return cancelada;
 	}
 
 }

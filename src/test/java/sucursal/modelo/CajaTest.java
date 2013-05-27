@@ -13,6 +13,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import sucursal.exceptions.CajaNoInicializadaException;
 import sucursal.exceptions.CajaYaAbiertaException;
 import sucursal.exceptions.CompraEnProcesoException;
+import sucursal.exceptions.CompraNoInicializadaException;
 import sucursal.modelo.eventos.Observador;
 
 /**
@@ -37,36 +38,70 @@ public class CajaTest {
 
 	@Test
 	public void abrirCajaCerradaDeberiaAbrirCaja() {
-		subject.abrirCaja();
+		subject.abrir();
 
 		assertThat(subject.estaAbierta(), is(true));
 	}
 
 	@Test(expected = CajaYaAbiertaException.class)
 	public void abrirCajaYaAbiertaDeberiaFallar() {
-		subject.abrirCaja();
-		subject.abrirCaja();
+		subject.abrir();
+		subject.abrir();
+	}
+	
+	@Test(expected = CajaYaAbiertaException.class)
+	public void abrirCajaComprandoDeberiaFallar() {
+		subject.abrir();
+		subject.iniciarCompra();
+		subject.abrir();
 	}
 
 	@Test
 	public void cerrarCajaAbiertaDeberiaCerrarCaja() {
-		subject.abrirCaja();
-		subject.cerrarCaja();
+		subject.abrir();
+		subject.cerrar();
 
 		assertThat(subject.estaAbierta(), is(false));
+	}
+	
+	@Test
+	public void cerrarCajaComprandoDeberiaCerrarCaja() {
+		subject.abrir();
+		subject.iniciarCompra();
+		subject.cerrar();
+		
+		assertThat(subject.estaAbierta(), is(false));
+	}
+	
+	@Test
+	public void cerrarCajaComprandoDeberiaTerminarCompra() {
+		subject.abrir();
+		subject.iniciarCompra();
+		subject.cerrar();
+		
+		assertThat(subject.estaComprando(), is(false));
+	}
+	
+	@Test
+	public void cerrarCajaComprandoDeberiaCancelarCompra() {
+		subject.abrir();
+		Compra compraIniciada = subject.iniciarCompra();
+		subject.cerrar();
+		
+		assertThat(compraIniciada.estaCancelada(), is(true));
 	}
 
 	@Test(expected = CajaNoInicializadaException.class)
 	public void cerrarCajaCerradaDeberiaFallar() {
-		subject.cerrarCaja();
+		subject.cerrar();
 	}
 
 	@Test
 	public void iniciarCompraEnCajaAbiertaDeberiaIniciarCompra() {
-		subject.abrirCaja();
+		subject.abrir();
 		subject.iniciarCompra();
 
-		assertThat(subject.estaCompraIniciada(), is(true));
+		assertThat(subject.estaComprando(), is(true));
 	}
 
 	@Test(expected = CajaNoInicializadaException.class)
@@ -76,15 +111,35 @@ public class CajaTest {
 
 	@Test(expected = CompraEnProcesoException.class)
 	public void iniciarCompraConCompraIniciadaDeberiaFallar() {
-		subject.abrirCaja();
+		subject.abrir();
 		subject.iniciarCompra();
 		subject.iniciarCompra();
+	}
+	
+	@Test
+	public void terminarCompraDeberiaTerminarCompra() {
+		subject.abrir();
+		subject.iniciarCompra();
+		subject.terminarCompra();
+		
+		assertThat(subject.estaComprando(), is(false));
+	}
+	
+	@Test(expected = CompraNoInicializadaException.class)
+	public void terminarCompraConCajaAbiertaDeberiaFallar() {
+		subject.abrir();
+		subject.terminarCompra();
+	}
+	
+	@Test(expected = CompraNoInicializadaException.class)
+	public void terminarCompraConCajaCerradaDeberiaFallar() {
+		subject.terminarCompra();
 	}
 
 	@Test
 	public void abrirCajaDeberiaNotificarEventoDeCajaAbierta() {
 		subject.getOnCajaAbierta().registrar(mockObservador);
-		subject.abrirCaja();
+		subject.abrir();
 
 		Mockito.verify(mockObservador).notificar(subject);
 	}
@@ -92,8 +147,8 @@ public class CajaTest {
 	@Test
 	public void cerrarCajaDeberiaNotificarEventDeCajaCerrada() {
 		subject.getOnCajaCerrada().registrar(mockObservador);
-		subject.abrirCaja();
-		subject.cerrarCaja();
+		subject.abrir();
+		subject.cerrar();
 
 		Mockito.verify(mockObservador).notificar(subject);
 	}

@@ -19,7 +19,7 @@ public class MainController {
 		@Override
 		public void notificar(MainView observable) {
 			try {
-				caja.abrirCaja();
+				caja.abrir();
 			} catch (CajaYaAbiertaException e) {
 				simpleDialog.showError("La caja ya se encuentra abierta.");
 			}
@@ -30,7 +30,7 @@ public class MainController {
 		@Override
 		public void notificar(MainView observable) {
 			try {
-				caja.cerrarCaja();
+				caja.cerrar();
 			} catch (CajaNoInicializadaException e) {
 				simpleDialog.showError("La caja ya se encuentra cerrada.");
 			}

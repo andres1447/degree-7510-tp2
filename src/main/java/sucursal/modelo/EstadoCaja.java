@@ -1,36 +1,17 @@
 package sucursal.modelo;
 
-import sucursal.exceptions.CajaNoInicializadaException;
-import sucursal.exceptions.CajaYaAbiertaException;
+public interface EstadoCaja {
+	boolean estaAbierta();
 
-enum EstCaja {
-	CERRADA(), ABIERTA();
+	boolean estaCerrada();
 
-}
+	boolean estaComprando();
 
-public class EstadoCaja {
+	void checkPuedeAbrir();
 
-	private EstCaja estado;
-	
-	public EstadoCaja(){
-		this.estado = EstCaja.CERRADA;
-	}
-	
-	public boolean estaAbierta() {
-		return this.estado == EstCaja.ABIERTA;
-	}
-	
-	public void abrirCaja() throws CajaYaAbiertaException {
-		if (estaAbierta()) {
-			throw new CajaYaAbiertaException();
-		}
-		this.estado = EstCaja.ABIERTA;
-	}
-	
-	public void cerrarCaja() throws CajaNoInicializadaException {
-		if (!estaAbierta()) {
-			throw new CajaNoInicializadaException();
-		}
-		this.estado = EstCaja.CERRADA;
-	}
+	void checkPuedeCerrar();
+
+	void checkPuedeIniciarCompra();
+
+	void checkPuedeTerminarCompra();
 }

@@ -1,11 +1,6 @@
 package sucursal.modelo;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import sucursal.exceptions.CajaNoInicializadaException;
-import sucursal.exceptions.CajaYaAbiertaException;
-import sucursal.exceptions.CompraEnProcesoException;
 import sucursal.exceptions.CompraNoInicializadaException;
 import sucursal.modelo.eventos.Evento;
 
@@ -20,29 +15,21 @@ public class Caja {
 	 */
 	private final Evento<Caja> onCajaCerrada = new Evento<>(this);
 
-	// TODO: Eliminar compras, mover listado de compras realizadas a clase historial
-	private List<Compra> compras;
-	
-	// TODO: Cambiar estado de caja a jerarquía para eliminar los chequeos
-	private EstadoCaja estado;
-	
-	private Compra compraActual;
+	private EstadoCaja estado = new EstadoCajaCerrada();
+	private Compra compraActual = null;
 
-	public Caja() {
-		compras = new ArrayList<Compra>();
-		estado = new EstadoCaja();
-		compraActual = null;
-	}
-
-	public void abrirCaja() {
-		estado.abrirCaja();
-
+	public void abrir() {
+		estado.checkPuedeAbrir();
+		estado = new EstadoCajaAbierta();
 		onCajaAbierta.notificar();
 	}
 
-	public void cerrarCaja() {
-		estado.cerrarCaja();
-
+	public void cerrar() {
+		estado.checkPuedeCerrar();
+		if (compraActual != null) {
+			compraActual.cancelar();
+		}
+		estado = new EstadoCajaCerrada();
 		onCajaCerrada.notificar();
 	}
 
@@ -50,17 +37,20 @@ public class Caja {
 		return estado.estaAbierta();
 	}
 
-	public void iniciarCompra() {
-		if (!estaAbierta())
-			throw new CajaNoInicializadaException();
-		if (compraActual != null) {
-			throw new CompraEnProcesoException();
-		}
-		compraActual = new Compra();
+	public Compra iniciarCompra() {
+		estado.checkPuedeIniciarCompra();
+		estado = new EstadoCajaComprando();
+		return compraActual = new Compra();
 	}
-	
-	public boolean estaCompraIniciada() {
-		return compraActual != null;
+
+	public void terminarCompra() {
+		estado.checkPuedeTerminarCompra();
+		estado = new EstadoCajaAbierta();
+		compraActual = null;
+	}
+
+	public boolean estaComprando() {
+		return estado.estaComprando();
 	}
 
 	// TODO: Mover estos métodos a la compra
@@ -83,36 +73,16 @@ public class Caja {
 		compraActual.eliminarUltimoProducto();
 	}
 
-	public void visualizarTotal() {
-
-	}
-
-	public void visualizarDescuentosAplicados() {
-
-	}
-
-	public void indicarMedioDePago(Pago pago) {
-	}
-
 	// TODO: Mover estos métodos a la compra
 	public void confirmarCompra() {
 		if (compraActual == null)
 			throw new CompraNoInicializadaException();
-		aplicarDescuentosItems();
-		compras.add(compraActual);
-		compraActual = null;
-	}
-
-	private void aplicarDescuentosItems() {
-
+		terminarCompra();
 	}
 	
 	// TODO: Mover estos métodos a la compra
 	public void cancelarCompra() {
-		if (compraActual == null)
-			throw new CompraNoInicializadaException();
-		compraActual = null;
-
+		terminarCompra();
 	}
 
 	public Evento<Caja> getOnCajaAbierta() {
