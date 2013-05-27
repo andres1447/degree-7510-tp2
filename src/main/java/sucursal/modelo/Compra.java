@@ -4,7 +4,8 @@ import java.util.Stack;
 
 public class Compra {
 	public boolean cancelada;
-	Stack<LineProducto> items;
+	private Stack<LineProducto> items;
+	private Stack<Descuento> descuentos;
 
 	public Compra() {
 		items = new Stack<LineProducto>();
@@ -24,6 +25,10 @@ public class Compra {
 
 	public boolean estaCancelada() {
 		return cancelada;
+	}
+
+	public void agregarDescuento(final String descripcion, float valor) {
+		descuentos.push(new Descuento(descripcion, valor));
 	}
 
 }
