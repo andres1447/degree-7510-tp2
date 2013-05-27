@@ -1,7 +1,5 @@
 package sucursal.modelo;
 
-import sucursal.exceptions.CajaNoAbiertaException;
-import sucursal.exceptions.CompraNoIniciadaException;
 import sucursal.utilities.Evento;
 
 public class Caja {
@@ -9,8 +7,17 @@ public class Caja {
 	private final Evento<Caja> onCajaCerrada = new Evento<>(this);
 	private final Evento<Caja> onCompraIniciada = new Evento<>(this);
 
+	private final ProveedorOfertas proveedorOfertas;
+	private final ProveedorProductos proveedorProductos;
+
 	private EstadoCaja estado = new EstadoCajaCerrada();
 	private Compra compraActual = null;
+
+	public Caja(final ProveedorOfertas proveedorOfertas,
+			final ProveedorProductos proveedorProductos) {
+		this.proveedorOfertas = proveedorOfertas;
+		this.proveedorProductos = proveedorProductos;
+	}
 
 	public void abrir() {
 		estado.checkPuedeAbrir();
@@ -34,7 +41,7 @@ public class Caja {
 	public Compra iniciarCompra() {
 		estado.checkPuedeIniciarCompra();
 		estado = new EstadoCajaComprando();
-		compraActual = new Compra();
+		compraActual = new Compra(this, proveedorOfertas, proveedorProductos);
 		onCompraIniciada.notificar();
 		return compraActual;
 	}
@@ -47,38 +54,6 @@ public class Caja {
 
 	public boolean estaComprando() {
 		return estado.estaComprando();
-	}
-
-	// TODO: Mover estos métodos a la compra
-	public void agregarProductos(LineProducto nuevoProducto) {
-		if (!estaAbierta())
-			throw new CajaNoAbiertaException();
-		if (compraActual == null) {
-			throw new CompraNoIniciadaException();
-		}
-		compraActual.agregarProducto(nuevoProducto);
-	}
-
-	// TODO: Mover estos métodos a la compra
-	public void eliminarUltimaEntradaDeCompra() {
-		if (!estaAbierta())
-			throw new CajaNoAbiertaException();
-		if (compraActual == null) {
-			throw new CompraNoIniciadaException();
-		}
-		compraActual.eliminarUltimoProducto();
-	}
-
-	// TODO: Mover estos métodos a la compra
-	public void confirmarCompra() {
-		if (compraActual == null)
-			throw new CompraNoIniciadaException();
-		terminarCompra();
-	}
-
-	// TODO: Mover estos métodos a la compra
-	public void cancelarCompra() {
-		terminarCompra();
 	}
 
 	public Evento<Caja> getOnCajaAbierta() {

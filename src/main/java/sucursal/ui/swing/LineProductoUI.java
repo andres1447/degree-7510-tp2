@@ -138,9 +138,9 @@ public class LineProductoUI extends JDialog {
 						}
 
 						setVisible(false);
-						ticket.agregarLineProducto(new LineProducto(Producto
-								.getProductoPorCodigo(txtCodigo.getText()),
-								Integer.parseInt(txtCant.getText())));
+						ticket.agregarLineProducto(new LineProducto(
+								new Producto(), Integer.parseInt(txtCant
+										.getText())));
 					}
 				});
 				okButton.setActionCommand("OK");

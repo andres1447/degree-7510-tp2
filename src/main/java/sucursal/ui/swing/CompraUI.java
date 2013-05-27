@@ -237,7 +237,6 @@ public class CompraUI extends JPanel implements ITicket {
 
 		public void agregarLineProducto(LineProducto prod) {
 			this.productos.push(prod);
-			this.addRow(prod.getTuplaDeDatos());
 			showProducto(productos.peek().getProducto());
 			getBtnBorrarUltimoProducto().setEnabled(true);
 

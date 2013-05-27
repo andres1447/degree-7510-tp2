@@ -38,7 +38,7 @@ public class Application {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		Injector injector = InjectorConfiguration.bootstrapInjector();
+		Injector injector = Configuration.bootstrapInjector();
 		Application application = injector.getInstance(Application.class);
 		application.run();
 	}

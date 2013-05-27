@@ -10,7 +10,7 @@ public interface MainView {
 	/**
 	 * Launches this UI
 	 */
-	void display();
+	void displayView();
 
 	void observar(Caja caja);
 

@@ -26,9 +26,15 @@ public class CajaTest {
 	@Mock
 	private Observador<Caja> mockObservador;
 
+	@Mock
+	private ProveedorOfertas mockProveedorOfertas;
+
+	@Mock
+	private ProveedorProductos mockProveedorProductos;
+
 	@Before
 	public void setup() {
-		subject = new Caja();
+		subject = new Caja(mockProveedorOfertas, mockProveedorProductos);
 	}
 
 	@Test
@@ -48,7 +54,7 @@ public class CajaTest {
 		subject.abrir();
 		subject.abrir();
 	}
-	
+
 	@Test(expected = CajaYaAbiertaException.class)
 	public void abrirCajaComprandoDeberiaFallar() {
 		subject.abrir();
@@ -63,32 +69,32 @@ public class CajaTest {
 
 		assertThat(subject.estaAbierta(), is(false));
 	}
-	
+
 	@Test
 	public void cerrarCajaComprandoDeberiaCerrarCaja() {
 		subject.abrir();
 		subject.iniciarCompra();
 		subject.cerrar();
-		
+
 		assertThat(subject.estaAbierta(), is(false));
 	}
-	
+
 	@Test
 	public void cerrarCajaComprandoDeberiaTerminarCompra() {
 		subject.abrir();
 		subject.iniciarCompra();
 		subject.cerrar();
-		
+
 		assertThat(subject.estaComprando(), is(false));
 	}
-	
+
 	@Test
 	public void cerrarCajaComprandoDeberiaCancelarCompra() {
 		subject.abrir();
 		Compra compraIniciada = subject.iniciarCompra();
 		subject.cerrar();
-		
-		assertThat(compraIniciada.estaCancelada(), is(true));
+
+		assertThat(compraIniciada.fueCancelada(), is(true));
 	}
 
 	@Test(expected = CajaNoAbiertaException.class)
@@ -115,22 +121,22 @@ public class CajaTest {
 		subject.iniciarCompra();
 		subject.iniciarCompra();
 	}
-	
+
 	@Test
 	public void terminarCompraDeberiaTerminarCompra() {
 		subject.abrir();
 		subject.iniciarCompra();
 		subject.terminarCompra();
-		
+
 		assertThat(subject.estaComprando(), is(false));
 	}
-	
+
 	@Test(expected = CompraNoIniciadaException.class)
 	public void terminarCompraConCajaAbiertaDeberiaFallar() {
 		subject.abrir();
 		subject.terminarCompra();
 	}
-	
+
 	@Test(expected = CompraNoIniciadaException.class)
 	public void terminarCompraConCajaCerradaDeberiaFallar() {
 		subject.terminarCompra();
@@ -152,13 +158,13 @@ public class CajaTest {
 
 		Mockito.verify(mockObservador).notificar(subject);
 	}
-	
+
 	@Test
 	public void iniciarCompraDeberiaNotificarEventoDeCompraIniciada() {
 		subject.getOnCompraIniciada().registrar(mockObservador);
 		subject.abrir();
 		subject.iniciarCompra();
-		
+
 		Mockito.verify(mockObservador).notificar(subject);
 	}
 }

@@ -17,18 +17,17 @@ public class Producto {
 		this.precio = precio;
 	}
 
+	// TODO: Producto de ejemplo
+	public Producto() {
+		this(new Rubro("rubro"), new Marca("marca"), "producto", "COD", 2.f);
+	}
+
 	public String getNombre() {
 		return nombre;
 	}
 
 	public float calcularPrecioTotal(int cantidad) {
 		return precio * cantidad;
-	}
-
-	public static Producto getProductoPorCodigo(String text) {
-		// TODO Auto-generated method stub
-		return new Producto(new Rubro("rubro"), new Marca("marca"), "producto",
-				text, 2.f);
 	}
 
 	public Rubro getRubro() {
@@ -41,6 +40,10 @@ public class Producto {
 
 	public Object getMarca() {
 		return marca;
+	}
+
+	public float getPrecioUnitario() {
+		return precio;
 	}
 
 }

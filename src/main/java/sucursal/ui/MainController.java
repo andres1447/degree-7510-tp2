@@ -4,6 +4,7 @@ import sucursal.exceptions.CajaNoAbiertaException;
 import sucursal.exceptions.CajaYaAbiertaException;
 import sucursal.exceptions.CompraEnProcesoException;
 import sucursal.modelo.Caja;
+import sucursal.modelo.Compra;
 import sucursal.modelo.Sucursal;
 import sucursal.utilities.Observador;
 
@@ -13,6 +14,7 @@ import com.google.inject.Singleton;
 @Singleton
 public class MainController {
 	private final Caja caja;
+	private final CompraController compraController;
 	private final MainView view;
 	private final SimpleDialog simpleDialog;
 
@@ -42,7 +44,8 @@ public class MainController {
 		@Override
 		public void notificar(MainView observable) {
 			try {
-				caja.iniciarCompra();
+				Compra compra = caja.iniciarCompra();
+				compraController.launch(compra);
 			} catch (CompraEnProcesoException e) {
 				simpleDialog.showError("Compra en proceso");
 			} catch (CajaNoAbiertaException e) {
@@ -52,9 +55,11 @@ public class MainController {
 	};
 
 	@Inject
-	public MainController(final Sucursal sucursal, final MainView view,
+	public MainController(final Sucursal sucursal,
+			final CompraController compraController, final MainView view,
 			final SimpleDialog simpleDialog) {
 		this.caja = sucursal.habilitarCaja();
+		this.compraController = compraController;
 		this.simpleDialog = simpleDialog;
 		this.view = view;
 		this.view.getOnAbrirCaja().registrar(onAbrirCaja);
@@ -64,7 +69,7 @@ public class MainController {
 
 	public void launch() {
 		view.observar(this.caja);
-		view.display();
+		view.displayView();
 	}
 
 }
