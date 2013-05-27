@@ -12,37 +12,34 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.Document;
-import javax.swing.text.DocumentFilter;
 import javax.swing.text.MaskFormatter;
 import javax.swing.text.PlainDocument;
 
-import sucursal.modelo.LineProducto;
-import sucursal.modelo.Producto;
+import sucursal.ui.NuevoProductoView;
+import sucursal.utilities.Evento;
+import sucursal.utilities.EventoParametrizado;
 
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 
-public class LineProductoUI extends JDialog {
-
-	private static final long serialVersionUID = 1L;
+public class SwingNuevoProductoView extends JDialog implements
+		NuevoProductoView {
+	private static final long serialVersionUID = 6561584784105243L;
 
 	private JTextField txtCant;
 	private JFormattedTextField txtCodigo;
-	private ITicket ticket;
 
-	/**
-	 * Create the dialog.
-	 */
-	public LineProductoUI(ITicket ticket) {
-		this.ticket = ticket;
+	private final EventoParametrizado<NuevoProductoView, NuevoProductoParams> onAceptar = new EventoParametrizado<NuevoProductoView, SwingNuevoProductoView.NuevoProductoParams>(
+			this);
+
+	private final Evento<NuevoProductoView> onCancelar = new Evento<NuevoProductoView>(
+			this);
+
+	public SwingNuevoProductoView() {
 		initComponents();
 		setModal(true);
 	}
@@ -105,7 +102,7 @@ public class LineProductoUI extends JDialog {
 			{
 				txtCant = new JTextField();
 				PlainDocument doc = (PlainDocument) txtCant.getDocument();
-				doc.setDocumentFilter(new MyIntFilter());
+				doc.setDocumentFilter(new OnlyIntsFilter());
 
 				GridBagConstraints gbc_txtCant = new GridBagConstraints();
 				gbc_txtCant.anchor = GridBagConstraints.WEST;
@@ -124,23 +121,11 @@ public class LineProductoUI extends JDialog {
 				JButton okButton = new JButton("OK");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						if (txtCodigo.getText().equals("  -   -    ")) {
-							JOptionPane.showMessageDialog(null,
-									"Codigo de producto erroneo", "Error",
-									JOptionPane.WARNING_MESSAGE);
-							return;
-						} else if (txtCant.getText().isEmpty()
-								|| txtCant.getText().equals("0")) {
-							JOptionPane.showMessageDialog(null,
-									"Cantidad de producto erronea", "Error",
-									JOptionPane.WARNING_MESSAGE);
-							return;
-						}
-
-						setVisible(false);
-						ticket.agregarLineProducto(new LineProducto(
-								new Producto(), Integer.parseInt(txtCant
-										.getText())));
+						String codigo = txtCodigo.getText();
+						String cantidad = txtCant.getText();
+						NuevoProductoParams params = new NuevoProductoParams(
+								codigo, cantidad);
+						onAceptar.notificar(params);
 					}
 				});
 				okButton.setActionCommand("OK");
@@ -151,7 +136,7 @@ public class LineProductoUI extends JDialog {
 				JButton cancelButton = new JButton("Cancel");
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						setVisible(false);
+						onCancelar.notificar();
 					}
 				});
 				cancelButton.setActionCommand("Cancel");
@@ -159,66 +144,26 @@ public class LineProductoUI extends JDialog {
 			}
 		}
 	}
-}
 
-class MyIntFilter extends DocumentFilter {
 	@Override
-	public void insertString(FilterBypass fb, int offset, String string,
-			AttributeSet attr) throws BadLocationException {
-
-		Document doc = fb.getDocument();
-		StringBuilder sb = new StringBuilder();
-		sb.append(doc.getText(0, doc.getLength()));
-		sb.insert(offset, string);
-
-		if (test(sb.toString())) {
-			super.insertString(fb, offset, string, attr);
-		} else {
-			// warn the user and don't allow the insert
-		}
+	public void displayView() {
+		txtCant.setText("");
+		txtCodigo.setText("");
+		setVisible(true);
 	}
-
-	private boolean test(String text) {
-		if (text.isEmpty())
-			return true;
-		try {
-			Integer.parseInt(text);
-			return true;
-		} catch (NumberFormatException e) {
-			return false;
-		}
+	
+	@Override
+	public void hideView() {
+		setVisible(false);
 	}
 
 	@Override
-	public void replace(FilterBypass fb, int offset, int length, String text,
-			AttributeSet attrs) throws BadLocationException {
-
-		Document doc = fb.getDocument();
-		StringBuilder sb = new StringBuilder();
-		sb.append(doc.getText(0, doc.getLength()));
-		sb.replace(offset, offset + length, text);
-
-		if (test(sb.toString())) {
-			super.replace(fb, offset, length, text, attrs);
-		} else {
-			// warn the user and don't allow the insert
-		}
-
+	public EventoParametrizado<NuevoProductoView, NuevoProductoParams> getOnAceptar() {
+		return onAceptar;
 	}
 
 	@Override
-	public void remove(FilterBypass fb, int offset, int length)
-			throws BadLocationException {
-		Document doc = fb.getDocument();
-		StringBuilder sb = new StringBuilder();
-		sb.append(doc.getText(0, doc.getLength()));
-		sb.delete(offset, offset + length);
-
-		if (test(sb.toString())) {
-			super.remove(fb, offset, length);
-		} else {
-			// warn the user and don't allow the insert
-		}
-
+	public Evento<NuevoProductoView> getOnCancelar() {
+		return onCancelar;
 	}
 }

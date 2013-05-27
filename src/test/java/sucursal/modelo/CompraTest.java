@@ -1,8 +1,9 @@
 package sucursal.modelo;
 
-import org.junit.Before;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
+
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -22,6 +23,9 @@ public class CompraTest {
 	private Caja mockCaja;
 
 	@Mock
+	private LineProducto mockLineProducto;
+
+	@Mock
 	private ProveedorOfertas mockProveedorOfertas;
 
 	@Mock
@@ -37,29 +41,29 @@ public class CompraTest {
 	public void agregarItemDeberiaNotificarItemsCambiados() {
 		subject.getOnItemsCambiados().registrar(mockObservador);
 
-		subject.agregarItem(new LineProducto(new Producto(), 2));
+		subject.agregarItem(mockLineProducto);
 
 		Mockito.verify(mockObservador).notificar(subject);
 
 	}
-	
+
 	@Test
 	public void deshacerUltimoItemAgregadoDeberiaNotificarItemsCambiados() {
-		subject.agregarItem(new LineProducto(new Producto(), 2));
+		subject.agregarItem(mockLineProducto);
 		subject.getOnItemsCambiados().registrar(mockObservador);
-		
+
 		subject.quitarUltimoItemAgregado();
-		
+
 		Mockito.verify(mockObservador).notificar(subject);
 	}
-	
+
 	@Test
 	public void tieneItemsDevuelveTrueCuandoHayItems() {
-		subject.agregarItem(new LineProducto(new Producto(), 1));
-		
+		subject.agregarItem(mockLineProducto);
+
 		assertThat(subject.tieneItems(), is(true));
 	}
-	
+
 	@Test
 	public void tieneItemsDevuelveFalsoCuandoNoHayItems() {
 		assertThat(subject.tieneItems(), is(false));

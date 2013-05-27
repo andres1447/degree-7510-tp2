@@ -1,5 +1,5 @@
 package sucursal.modelo;
 
-public class ListadoProductos {
-
+public interface ListadoProductos {
+	Producto buscarPorCodigo(final String codigo);
 }

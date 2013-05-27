@@ -1,5 +1,6 @@
 package sucursal.ui.swing;
 
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,6 +20,7 @@ import sucursal.modelo.Producto;
 import sucursal.ui.CompraView;
 import sucursal.utilities.Evento;
 import sucursal.utilities.Observador;
+import sucursal.utilities.Presentacion;
 
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
@@ -81,10 +83,14 @@ public class SwingCompraView extends JDialog implements CompraView {
 	private void mostrarInfoProducto(final LineProducto ultimoItemAgregado) {
 		if (ultimoItemAgregado != null) {
 			Producto producto = ultimoItemAgregado.getProducto();
-			lblNombreProducto.setText(producto.getNombre());
-			lblDescripcionProducto.setText(producto.getDescripcion());
-			lblRubroProducto.setText(producto.getRubro().toString());
-			lblMarcaProducto.setText(producto.getMarca().toString());
+			lblNombreProducto.setText(Presentacion.truncar(
+					producto.getNombre(), 27));
+			lblDescripcionProducto.setText(Presentacion.truncar(
+					producto.getDescripcion(), 27));
+			lblRubroProducto.setText(Presentacion.truncar(producto.getRubro()
+					.toString(), 27));
+			lblMarcaProducto.setText(Presentacion.truncar(producto.getMarca()
+					.toString(), 27));
 		} else {
 			lblNombreProducto.setText("");
 			lblDescripcionProducto.setText("");
@@ -96,7 +102,7 @@ public class SwingCompraView extends JDialog implements CompraView {
 	private void initComponents() {
 		setTitle("Nueva Compra");
 		setResizable(false);
-		setBounds(100, 100, 700, 400);
+		setBounds(100, 100, 800, 400);
 		setModal(true);
 		getContentPane().setLayout(
 				new FormLayout(new ColumnSpec[] {
@@ -218,6 +224,7 @@ public class SwingCompraView extends JDialog implements CompraView {
 	private JLabel getLblNombre() {
 		if (lblNombre == null) {
 			lblNombre = new JLabel("Nombre:");
+			lblNombre.setFont(new Font("Dialog", Font.BOLD, 10));
 		}
 		return lblNombre;
 	}
@@ -225,6 +232,7 @@ public class SwingCompraView extends JDialog implements CompraView {
 	private JLabel getLblNombreProducto() {
 		if (lblNombreProducto == null) {
 			lblNombreProducto = new JLabel("");
+			lblNombreProducto.setFont(new Font("Dialog", Font.BOLD, 8));
 		}
 		return lblNombreProducto;
 	}
@@ -232,6 +240,7 @@ public class SwingCompraView extends JDialog implements CompraView {
 	private JLabel getLblDescripcionProducto() {
 		if (lblDescripcionProducto == null) {
 			lblDescripcionProducto = new JLabel("");
+			lblDescripcionProducto.setFont(new Font("Dialog", Font.BOLD, 8));
 		}
 		return lblDescripcionProducto;
 	}
@@ -239,6 +248,7 @@ public class SwingCompraView extends JDialog implements CompraView {
 	private JLabel getLblDescripcion() {
 		if (lblDescripcion == null) {
 			lblDescripcion = new JLabel("Descripcion:");
+			lblDescripcion.setFont(new Font("Dialog", Font.BOLD, 10));
 		}
 		return lblDescripcion;
 	}
@@ -246,6 +256,7 @@ public class SwingCompraView extends JDialog implements CompraView {
 	private JLabel getLblRubro() {
 		if (lblRubro == null) {
 			lblRubro = new JLabel("Rubro:");
+			lblRubro.setFont(new Font("Dialog", Font.BOLD, 10));
 		}
 		return lblRubro;
 	}
@@ -253,6 +264,7 @@ public class SwingCompraView extends JDialog implements CompraView {
 	private JLabel getLblRubroProducto() {
 		if (lblRubroProducto == null) {
 			lblRubroProducto = new JLabel("");
+			lblRubroProducto.setFont(new Font("Dialog", Font.BOLD, 8));
 		}
 		return lblRubroProducto;
 	}
@@ -260,6 +272,7 @@ public class SwingCompraView extends JDialog implements CompraView {
 	private JLabel getLblMarca() {
 		if (lblMarca == null) {
 			lblMarca = new JLabel("Marca:");
+			lblMarca.setFont(new Font("Dialog", Font.BOLD, 10));
 		}
 		return lblMarca;
 	}
@@ -267,6 +280,7 @@ public class SwingCompraView extends JDialog implements CompraView {
 	private JLabel getLblMarcaProducto() {
 		if (lblMarcaProducto == null) {
 			lblMarcaProducto = new JLabel("");
+			lblMarcaProducto.setFont(new Font("Dialog", Font.BOLD, 8));
 		}
 		return lblMarcaProducto;
 	}

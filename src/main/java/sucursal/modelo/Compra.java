@@ -11,12 +11,14 @@ public class Compra {
 	private final Caja caja;
 	private final Stack<LineProducto> items = new Stack<>();
 	private final Stack<Descuento> descuentos = new Stack<>();
+	private final ListadoProductos productos;
 
 	private Evento<Compra> onItemsCambiados = new Evento<Compra>(this);
 
 	public Compra(final Caja caja, final ProveedorOfertas proveedorOfertas,
 			final ProveedorProductos proveedorProductos) {
 		this.caja = caja;
+		this.productos = proveedorProductos.proveer();
 	}
 
 	public void agregarItem(LineProducto nuevoProducto) {
@@ -64,5 +66,9 @@ public class Compra {
 
 	public Evento<Compra> getOnItemsCambiados() {
 		return onItemsCambiados;
+	}
+
+	public ListadoProductos getListadoProductos() {
+		return productos; 
 	}
 }

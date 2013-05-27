@@ -8,18 +8,13 @@ public class Producto {
 	private Marca marca;
 	private String descripcion;
 
-	private Producto(Rubro rubro, Marca marca, String nombre,
+	public Producto(Rubro rubro, Marca marca, String nombre,
 			String descripcion, float precio) {
 		this.rubro = rubro;
 		this.marca = marca;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.precio = precio;
-	}
-
-	// TODO: Producto de ejemplo
-	public Producto() {
-		this(new Rubro("rubro"), new Marca("marca"), "producto", "COD", 2.f);
 	}
 
 	public String getNombre() {
@@ -45,5 +40,4 @@ public class Producto {
 	public float getPrecioUnitario() {
 		return precio;
 	}
-
 }
