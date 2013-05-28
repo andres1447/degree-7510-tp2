@@ -3,7 +3,7 @@ package sucursal.ui.swing;
 import java.awt.EventQueue;
 
 import sucursal.ui.Loader;
-import sucursal.ui.MainController;
+import sucursal.ui.controllers.MainController;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -13,26 +13,13 @@ import com.google.inject.Singleton;
  */
 @Singleton
 public class SwingLoader implements Loader {
-	/**
-	 * The main application UI to load
-	 */
 	private final MainController mainController;
 
-	/**
-	 * Creates a new {@link SwingLoader} instance
-	 * 
-	 * @param mainUI
-	 *            the main application UI to load
-	 */
 	@Inject
 	public SwingLoader(final MainController mainController) {
 		this.mainController = mainController;
 	}
 
-	/**
-	 * The runnable task to invoke on application startup which loads the
-	 * application UI
-	 */
 	private final Runnable loadApplicationUI = new Runnable() {
 		public void run() {
 			try {

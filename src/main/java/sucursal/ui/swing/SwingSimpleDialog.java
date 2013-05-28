@@ -2,10 +2,14 @@ package sucursal.ui.swing;
 
 import javax.swing.JOptionPane;
 
-import sucursal.ui.SimpleDialog;
+import sucursal.ui.views.SimpleDialog;
 
 import com.google.inject.Singleton;
 
+/**
+ * {@link SimpleDialog} implementation using Swing. This code uses the SWING
+ * built-in {@link JOptionPane} to provide the dialogs.
+ */
 @Singleton
 public class SwingSimpleDialog implements SimpleDialog {
 	@Override

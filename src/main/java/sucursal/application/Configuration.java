@@ -8,10 +8,7 @@ import com.google.inject.Injector;
  * the application.
  */
 class Configuration {
-	/**
-	 * Configures a new {@link Injector} instance to use through the application
-	 */
 	public static Injector bootstrapInjector() {
-		return Guice.createInjector(new UIModule(), new PersistanceModule());
+		return Guice.createInjector(new UIModule(), new PersistenceModule());
 	}
 }

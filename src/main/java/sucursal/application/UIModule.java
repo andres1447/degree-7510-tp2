@@ -1,15 +1,15 @@
 package sucursal.application;
 
-import sucursal.ui.CompraView;
 import sucursal.ui.Loader;
-import sucursal.ui.MainView;
-import sucursal.ui.NuevoProductoView;
-import sucursal.ui.SimpleDialog;
 import sucursal.ui.swing.SwingCompraView;
 import sucursal.ui.swing.SwingLoader;
 import sucursal.ui.swing.SwingMainView;
 import sucursal.ui.swing.SwingNuevoProductoView;
 import sucursal.ui.swing.SwingSimpleDialog;
+import sucursal.ui.views.CompraView;
+import sucursal.ui.views.MainView;
+import sucursal.ui.views.NuevoProductoView;
+import sucursal.ui.views.SimpleDialog;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Injector;

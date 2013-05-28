@@ -10,6 +10,11 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import sucursal.modelo.caja.Caja;
+import sucursal.modelo.compras.Compra;
+import sucursal.modelo.compras.ItemProducto;
+import sucursal.modelo.ofertas.ProveedorOfertas;
+import sucursal.modelo.productos.ProveedorProductos;
 import sucursal.utilities.Observador;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -23,7 +28,7 @@ public class CompraTest {
 	private Caja mockCaja;
 
 	@Mock
-	private LineProducto mockLineProducto;
+	private ItemProducto mockLineProducto;
 
 	@Mock
 	private ProveedorOfertas mockProveedorOfertas;

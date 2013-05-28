@@ -11,22 +11,9 @@ import java.util.List;
  *            The type of the class owning the observable event
  */
 public class Evento<T> {
-	/**
-	 * The list of registered observers
-	 */
 	private final List<Observador<T>> observadores = new ArrayList<>();
-
-	/**
-	 * The instance owning the observable event
-	 */
 	private final T observable;
 
-	/**
-	 * Creates a new {@link Evento} instance
-	 * 
-	 * @param observable
-	 *            the instance owning the observable event
-	 */
 	public Evento(final T observable) {
 		this.observable = observable;
 	}
@@ -55,9 +42,6 @@ public class Evento<T> {
 
 	/**
 	 * Raises the event, notifying all registered observers
-	 * 
-	 * @param data
-	 *            the event data to send to all observers
 	 */
 	public void notificar() {
 		for (Observador<T> observer : observadores) {

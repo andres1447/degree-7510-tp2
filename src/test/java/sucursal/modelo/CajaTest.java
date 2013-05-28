@@ -10,10 +10,14 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import sucursal.exceptions.CajaNoAbiertaException;
-import sucursal.exceptions.CajaYaAbiertaException;
-import sucursal.exceptions.CompraEnProcesoException;
-import sucursal.exceptions.CompraNoIniciadaException;
+import sucursal.modelo.caja.Caja;
+import sucursal.modelo.compras.Compra;
+import sucursal.modelo.exceptions.CajaNoAbiertaException;
+import sucursal.modelo.exceptions.CajaYaAbiertaException;
+import sucursal.modelo.exceptions.CompraEnProcesoException;
+import sucursal.modelo.exceptions.CompraNoIniciadaException;
+import sucursal.modelo.ofertas.ProveedorOfertas;
+import sucursal.modelo.productos.ProveedorProductos;
 import sucursal.utilities.Observador;
 
 /**

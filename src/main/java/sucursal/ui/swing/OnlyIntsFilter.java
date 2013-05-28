@@ -5,6 +5,9 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.DocumentFilter;
 
+/**
+ * {@link DocumentFilter} implementation which allows integer values only.
+ */
 public class OnlyIntsFilter extends DocumentFilter {
 	@Override
 	public void insertString(FilterBypass fb, int offset, String string,

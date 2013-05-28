@@ -6,6 +6,11 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import sucursal.modelo.compras.Compra;
+import sucursal.modelo.ofertas.Oferta;
+import sucursal.modelo.ofertas.OfertaCondicion;
+import sucursal.modelo.ofertas.OfertaDescuento;
+
 @RunWith(MockitoJUnitRunner.class)
 public class OfertaTest {
 	@Mock

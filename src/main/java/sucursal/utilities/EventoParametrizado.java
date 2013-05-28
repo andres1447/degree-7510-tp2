@@ -14,22 +14,9 @@ import java.util.List;
  *            The type of the data associated to the event
  */
 public class EventoParametrizado<T, D> {
-	/**
-	 * The list of registered observers
-	 */
 	private final List<ObservadorParametrizado<T, D>> observadores = new ArrayList<>();
-
-	/**
-	 * The instance owning the observable event
-	 */
 	private final T observable;
 
-	/**
-	 * Creates a new {@link EventoParametrizado} instance
-	 * 
-	 * @param observable
-	 *            the instance owning the observable event
-	 */
 	public EventoParametrizado(final T observable) {
 		this.observable = observable;
 	}
@@ -57,10 +44,8 @@ public class EventoParametrizado<T, D> {
 	}
 
 	/**
-	 * Raises the event, notifying all registered observers
-	 * 
-	 * @param data
-	 *            the event data to send to all observers
+	 * Raises the event, notifying all registered observers, and including the
+	 * given data in the notification.
 	 */
 	public void notificar(final D data) {
 		for (ObservadorParametrizado<T, D> observer : observadores) {
