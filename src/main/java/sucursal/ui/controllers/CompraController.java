@@ -1,6 +1,8 @@
 package sucursal.ui.controllers;
 
 import sucursal.modelo.compras.Compra;
+import sucursal.modelo.compras.ItemDescuento;
+import sucursal.modelo.compras.ItemProducto;
 import sucursal.ui.views.CompraView;
 import sucursal.ui.views.SimpleDialog;
 import sucursal.utilities.Observador;
@@ -22,9 +24,25 @@ public class CompraController {
 	private Observador<CompraView> onConfirmarCompra = new Observador<CompraView>() {
 		@Override
 		public void notificar(CompraView observable) {
-			// TODO: Implementar confirmacion de compra
-			simpleDialog.showInfo("Compra confirmada");
 			compra.confirmar();
+
+			StringBuffer informe = new StringBuffer();
+			informe.append("Confirmando compra de los siguientes itemts:\n");
+			for (ItemProducto item : compra.getItems()) {
+				informe.append("    ").append("$").append(item.getTotal())
+						.append("    ").append(item.getCantidad()).append(" ")
+						.append(item.getProducto().getNombre()).append(" ($")
+						.append(item.getProducto().getPrecioUnitario())
+						.append(" por unidad)\n");
+			}
+			informe.append("Se han aplicado los siguientes descuentos:\n");
+			for (ItemDescuento descuento : compra.getDescuentos()) {
+				informe.append("    ").append("-$")
+						.append(descuento.getValor()).append("    ")
+						.append(descuento.getDescripcion());
+			}
+			informe.append("\n\nEl total es ").append(compra.getTotal());
+			simpleDialog.showInfo(informe.toString());
 			view.hideView();
 		}
 	};
