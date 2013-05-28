@@ -18,10 +18,13 @@ public class ProveedorOfertasMemoria implements ProveedorOfertas {
 
 	@Inject
 	public ProveedorOfertasMemoria(final ProveedorProductos productos) {
-		ofertas.add(new OfertaGlobal(
-				"$10 llevando más de 5 unidades",
+		ofertas.add(new OfertaGlobal("$10 llevando más de 5 unidades",
 				new CondicionGlobalNumeroItems(5), 
 				new DescuentoGlobalFijo(10.0f)));
+
+		ofertas.add(new OfertaGlobal("15% llevando más de 10 unidades",
+				new CondicionGlobalNumeroItems(10),
+				new DescuentoGlobalPorcentual(15.0f)));
 	}
 
 	@Override

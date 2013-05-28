@@ -146,12 +146,17 @@ public class Compra {
 	}
 
 	public float getTotal() {
+		float resultado = getTotalBruto();
+		for (ItemDescuento item : getDescuentos()) {
+			resultado -= item.getValor();
+		}
+		return resultado;
+	}
+
+	public float getTotalBruto() {
 		float resultado = 0.0f;
 		for (ItemProducto item : getItems()) {
 			resultado += item.getTotal();
-		}
-		for (ItemDescuento item : getDescuentos()) {
-			resultado -= item.getValor();
 		}
 		return resultado;
 	}

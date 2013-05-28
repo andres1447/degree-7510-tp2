@@ -35,11 +35,11 @@ public class CompraController {
 						.append(item.getProducto().getPrecioUnitario())
 						.append(" por unidad)\n");
 			}
-			informe.append("Se han aplicado los siguientes descuentos:\n");
+			informe.append("\nSe han aplicado los siguientes descuentos:\n");
 			for (ItemDescuento descuento : compra.getDescuentos()) {
 				informe.append("    ").append("-$")
 						.append(descuento.getValor()).append("    ")
-						.append(descuento.getDescripcion());
+						.append(descuento.getDescripcion()).append("\n");
 			}
 			informe.append("\n\nEl total es ").append(compra.getTotal());
 			simpleDialog.showInfo(informe.toString());
