@@ -1,8 +1,10 @@
 package sucursal.modelo.ofertas;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
+import sucursal.modelo.compras.MedioPago;
 import sucursal.modelo.productos.ProveedorProductos;
 
 import com.google.inject.Inject;
@@ -19,12 +21,22 @@ public class ProveedorOfertasMemoria implements ProveedorOfertas {
 	@Inject
 	public ProveedorOfertasMemoria(final ProveedorProductos productos) {
 		ofertas.add(new OfertaGlobal("$10 llevando más de 5 unidades",
-				new CondicionGlobalNumeroItemsMaximo(5), 
+				new CondicionGlobalNumeroItemsMinimo(5), 
 				new DescuentoGlobalFijo(10.0f)));
 
 		ofertas.add(new OfertaGlobal("15% llevando más de 10 unidades",
-				new CondicionGlobalNumeroItemsMaximo(10),
+				new CondicionGlobalNumeroItemsMinimo(10),
 				new DescuentoGlobalPorcentual(15.0f)));
+		
+		ofertas.add(new OfertaGlobal("10% descuento pago en efectivo",
+				new CondicionGlobalMedioPago(MedioPago.EFECTIVO),
+				new DescuentoGlobalPorcentual(10.0f)));
+		
+		ofertas.add(new OfertaGlobal("5% descuento pago debito miercoles", 
+				new CondicionGlobalConjuntiva(
+					new CondicionGlobalMedioPago(MedioPago.TARJETA_DEBITO),
+					new CondicionGlobalFechaCreacion(new MatcherFechaDiaSemana(Calendar.WEDNESDAY))), 
+				new DescuentoGlobalPorcentual(5.0f)));
 	}
 
 	@Override
