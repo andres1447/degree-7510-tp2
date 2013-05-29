@@ -13,5 +13,4 @@ public class CondicionGlobalFechaCreacion implements CondicionGlobal {
 	public boolean aplicaEn(final Compra compra) {
 		return matcherFecha.matcheaCon(compra.getFechaCreacion());
 	}
-
 }
