@@ -20,11 +20,35 @@ public class ProveedorProductosMemoria implements ProveedorProductos {
 	public ProveedorProductosMemoria() {
 		Rubro comidas = new Rubro("Comida");
 		Marca cocaCola = new Marca("Coca Cola");
+		Marca villaDelSur = new Marca("Villa Del Sur");
+		
+		Rubro electronica = new Rubro("Electronica");
+		Marca sony = new Marca("Sony");
+		
+		Rubro limpieza = new Rubro("Limpieza");
+		Marca elite = new Marca("Elite");
+		Marca skip = new Marca("Skip");
+
 
 		productos.put("11-111-1111", new Producto(comidas, cocaCola,
 				"Coca-Cola", "Bebida gasificada sabor Cola", 15.5f));
 		productos.put("11-111-1112", new Producto(comidas, cocaCola, "SevenUp",
 				"Bebida gasificada sabor Limon", 12.5f));
+		productos.put("12-111-1111", new Producto(comidas, villaDelSur, "Agua",
+				"Agua mineral sin gas", 10.0f));
+		productos.put("12-111-1112", new Producto(comidas, villaDelSur, "Levite Anana",
+				"Agua mineral sin gas saborizada sabor a Anana", 11.0f));
+		
+		productos.put("21-131-1121", new Producto(electronica, sony, "Parlantes 100W",
+				"2 parlantes Stereo con potencia 100 Watt", 50.5f));
+		productos.put("21-131-1131", new Producto(electronica, sony, "Reproductor de DVD",
+				"Reproductor de DVD Sony con entrada USB y formato de salida RSA", 108.0f));
+		
+		productos.put("11-211-1122", new Producto(limpieza, elite, "Pañuelos descartables x3",
+				"3 packs de 5 pañuelos descartables", 8.5f));
+		productos.put("15-211-1432", new Producto(limpieza, skip, "Jabon en polvo",
+				"Botella de jabon en polvo para ropa, 1Kg.", 22.5f));
+		
 	}
 
 	@Override
