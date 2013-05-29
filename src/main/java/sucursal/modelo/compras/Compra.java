@@ -1,6 +1,7 @@
 package sucursal.modelo.compras;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Stack;
 
@@ -22,7 +23,8 @@ public class Compra {
 	private Evento<Compra> onItemsCambiados = new Evento<Compra>(this);
 	private Evento<Compra> onCompraConfirmada = new Evento<Compra>(this);
 
-	public boolean cancelada;
+	private boolean cancelada;
+	private final Date fechaCreacion;
 	private final Caja caja;
 	private final Stack<ItemProducto> items = new Stack<>();
 	private final Stack<ItemDescuento> descuentos = new Stack<>();
@@ -34,6 +36,7 @@ public class Compra {
 		this.caja = caja;
 		this.ofertas = proveedorOfertas.proveer();
 		this.productos = proveedorProductos.proveer();
+		this.fechaCreacion = new Date();
 	}
 
 	/**
@@ -159,5 +162,9 @@ public class Compra {
 			resultado += item.getTotal();
 		}
 		return resultado;
+	}
+
+	public Date getFechaCreacion() {
+		return fechaCreacion;
 	}
 }
