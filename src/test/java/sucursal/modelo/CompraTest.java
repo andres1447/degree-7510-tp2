@@ -13,8 +13,12 @@ import org.mockito.runners.MockitoJUnitRunner;
 import sucursal.modelo.caja.Caja;
 import sucursal.modelo.compras.Compra;
 import sucursal.modelo.compras.ItemProducto;
+import sucursal.modelo.exceptions.ListaCompraVaciaException;
 import sucursal.modelo.ofertas.ProveedorOfertas;
+import sucursal.modelo.productos.Marca;
+import sucursal.modelo.productos.Producto;
 import sucursal.modelo.productos.ProveedorProductos;
+import sucursal.modelo.productos.Rubro;
 import sucursal.utilities.Observador;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -73,4 +77,43 @@ public class CompraTest {
 	public void tieneItemsDevuelveFalsoCuandoNoHayItems() {
 		assertThat(subject.tieneItems(), is(false));
 	}
+	
+	@Test
+	public void tieneItemsDevuelveTrueCuandoNoDeshagoTodosItems() {
+		subject.agregarItem(mockLineProducto);
+		subject.agregarItem(mockLineProducto);
+
+		subject.quitarUltimoItemAgregado();
+
+		assertThat(subject.tieneItems(), is(true));
+	}
+	
+	@Test
+	public void tieneItemsDevuelveFalsoCuandoLimpioLineItems() {
+		subject.agregarItem(mockLineProducto);
+		subject.agregarItem(mockLineProducto);
+		subject.agregarItem(mockLineProducto);
+
+		subject.quitarUltimoItemAgregado();
+		subject.quitarUltimoItemAgregado();
+		subject.quitarUltimoItemAgregado();
+
+		assertThat(subject.tieneItems(), is(false));
+	}
+	
+	@Test(expected = ListaCompraVaciaException.class)
+	public void deshacerItemInexistenteDeberiaLevantarErrorDeLineItemVacio() {		
+		subject.quitarUltimoItemAgregado();
+	}
+	
+	@Test
+	public void getUltimoItemDeberiaDevolverUltimoItemAgregado() {
+		ItemProducto segundoMockLineProducto = new ItemProducto(new Producto(new Rubro("rubro"), new Marca("marca"), "producto", "description", 10), 2);
+		
+		subject.agregarItem(mockLineProducto);
+		subject.agregarItem(segundoMockLineProducto);
+
+		assertThat(subject.getUltimoItemAgregado().getProducto().getNombre(), is(segundoMockLineProducto.getProducto().getNombre()) );
+	}
+	
 }

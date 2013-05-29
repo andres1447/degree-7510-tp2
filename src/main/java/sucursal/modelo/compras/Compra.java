@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Stack;
 
 import sucursal.modelo.caja.Caja;
+import sucursal.modelo.exceptions.ListaCompraVaciaException;
 import sucursal.modelo.ofertas.Oferta;
 import sucursal.modelo.ofertas.ProveedorOfertas;
 import sucursal.modelo.productos.ListadoProductos;
@@ -52,6 +53,10 @@ public class Compra {
 	 * Removes the last {@link ItemProducto} instance from the buying session.
 	 */
 	public void quitarUltimoItemAgregado() {
+		if (items.isEmpty())
+		{
+			throw new ListaCompraVaciaException();
+		}
 		items.pop();
 		onItemsCambiados.notificar();
 	}
