@@ -38,6 +38,7 @@ public class Compra {
 		this.ofertas = proveedorOfertas.proveer();
 		this.productos = proveedorProductos.proveer();
 		this.fechaCreacion = new Date();
+		this.medioPago = MedioPago.EFECTIVO;
 	}
 
 	/**
