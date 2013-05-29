@@ -24,6 +24,7 @@ public class Compra {
 	private Evento<Compra> onCompraConfirmada = new Evento<Compra>(this);
 
 	private boolean cancelada;
+	private MedioPago medioPago;
 	private final Date fechaCreacion;
 	private final Caja caja;
 	private final Stack<ItemProducto> items = new Stack<>();
@@ -162,6 +163,14 @@ public class Compra {
 			resultado += item.getTotal();
 		}
 		return resultado;
+	}
+
+	public MedioPago getMedioPago() {
+		return medioPago;
+	}
+
+	public void setMedioPago(MedioPago medioPago) {
+		this.medioPago = medioPago;
 	}
 
 	public Date getFechaCreacion() {

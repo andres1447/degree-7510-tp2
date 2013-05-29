@@ -3,9 +3,11 @@ package sucursal.ui.controllers;
 import sucursal.modelo.compras.Compra;
 import sucursal.modelo.compras.ItemDescuento;
 import sucursal.modelo.compras.ItemProducto;
+import sucursal.modelo.compras.MedioPago;
 import sucursal.ui.views.CompraView;
 import sucursal.ui.views.SimpleDialog;
 import sucursal.utilities.Observador;
+import sucursal.utilities.ObservadorParametrizado;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -27,10 +29,10 @@ public class CompraController {
 			compra.confirmar();
 
 			StringBuffer informe = new StringBuffer();
-			informe.append("Confirmando compra de los siguientes itemts:\n");
+			informe.append("Confirmando compra de los siguientes items:\n");
 			for (ItemProducto item : compra.getItems()) {
 				informe.append("    ").append("$").append(item.getTotal())
-						.append("    ").append(item.getCantidad()).append(" ")
+						.append(" ").append(item.getCantidad()).append(" ")
 						.append(item.getProducto().getNombre()).append(" ($")
 						.append(item.getProducto().getPrecioUnitario())
 						.append(" por unidad)\n");
@@ -38,7 +40,7 @@ public class CompraController {
 			informe.append("\nSe han aplicado los siguientes descuentos:\n");
 			for (ItemDescuento descuento : compra.getDescuentos()) {
 				informe.append("    ").append("-$")
-						.append(descuento.getValor()).append("    ")
+						.append(descuento.getValor()).append(" ")
 						.append(descuento.getDescripcion()).append("\n");
 			}
 			informe.append("\n\nEl total es ").append(compra.getTotal());
@@ -70,6 +72,13 @@ public class CompraController {
 		}
 	};
 
+	private ObservadorParametrizado<CompraView, MedioPago> onSeleccionarMedioPago = new ObservadorParametrizado<CompraView, MedioPago>() {
+		@Override
+		public void notificar(CompraView observable, MedioPago data) {
+			compra.setMedioPago(data);
+		}
+	};
+
 	@Inject
 	public CompraController(final CompraView view,
 			final NuevoProductoController nuevoProductoController,
@@ -81,6 +90,7 @@ public class CompraController {
 		this.view.getOnCancelarCompra().registrar(onCancelarCompra);
 		this.view.getOnAgregarProducto().registrar(onAgregarProducto);
 		this.view.getOnDeshacer().registrar(onDeshacer);
+		this.view.getOnSeleccionarMedioPago().registrar(onSeleccionarMedioPago);
 	}
 
 	/**
