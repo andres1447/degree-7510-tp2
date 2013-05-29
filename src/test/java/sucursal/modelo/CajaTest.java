@@ -20,9 +20,6 @@ import sucursal.modelo.ofertas.ProveedorOfertas;
 import sucursal.modelo.productos.ProveedorProductos;
 import sucursal.utilities.Observador;
 
-/**
- * Unit tests for the {@link Caja} class
- */
 @RunWith(MockitoJUnitRunner.class)
 public class CajaTest {
 	private Caja subject;

@@ -2,7 +2,9 @@ package sucursal.ui.views;
 
 import sucursal.modelo.compras.Compra;
 import sucursal.modelo.compras.ItemProducto;
+import sucursal.modelo.compras.MedioPago;
 import sucursal.utilities.Evento;
+import sucursal.utilities.EventoParametrizado;
 
 /**
  * Represents a view which allows the user to set up a new {@link Compra}.
@@ -49,4 +51,10 @@ public interface CompraView {
 	 * {@link Compra}.
 	 */
 	Evento<CompraView> getOnDeshacer();
+
+	/**
+	 * Event which can be watched to be notified when the user selects a payment
+	 * method on the view.
+	 */
+	EventoParametrizado<CompraView, MedioPago> getOnSeleccionarMedioPago();
 }

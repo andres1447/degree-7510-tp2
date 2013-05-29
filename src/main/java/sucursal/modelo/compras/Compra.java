@@ -1,6 +1,7 @@
 package sucursal.modelo.compras;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Stack;
 
@@ -21,17 +22,24 @@ import sucursal.utilities.Evento;
  */
 public class Compra {
 	private Evento<Compra> onItemsCambiados = new Evento<Compra>(this);
+	private Evento<Compra> onCompraConfirmada = new Evento<Compra>(this);
 
-	public boolean cancelada;
+	private boolean cancelada;
+	private MedioPago medioPago;
+	private final Date fechaCreacion;
 	private final Caja caja;
 	private final Stack<ItemProducto> items = new Stack<>();
 	private final Stack<ItemDescuento> descuentos = new Stack<>();
 	private final ListadoProductos productos;
+	private final List<Oferta> ofertas;
 
 	public Compra(final Caja caja, final ProveedorOfertas proveedorOfertas,
 			final ProveedorProductos proveedorProductos) {
 		this.caja = caja;
+		this.ofertas = proveedorOfertas.proveer();
 		this.productos = proveedorProductos.proveer();
+		this.fechaCreacion = new Date();
+		this.medioPago = MedioPago.EFECTIVO;
 	}
 
 	/**
@@ -83,6 +91,10 @@ public class Compra {
 	 * parent {@link Caja} to switch back to "open" state.
 	 */
 	public void confirmar() {
+		for (Oferta oferta : ofertas) {
+			oferta.aplicarSiCorresponde(this);
+		}
+		onCompraConfirmada.notificar();
 		caja.terminarCompra();
 	}
 
@@ -129,9 +141,45 @@ public class Compra {
 	}
 
 	/**
+	 * Event which can be watched to get notified when the buying session has
+	 * been confirmed and offers have been applied.
+	 */
+	public Evento<Compra> getOnCompraConfirmada() {
+		return onCompraConfirmada;
+	}
+
+	/**
 	 * Obtains the {@link ListadoProductos} applicable to this buying session.
 	 */
 	public ListadoProductos getListadoProductos() {
 		return productos;
+	}
+
+	public float getTotal() {
+		float resultado = getTotalBruto();
+		for (ItemDescuento item : getDescuentos()) {
+			resultado -= item.getValor();
+		}
+		return resultado;
+	}
+
+	public float getTotalBruto() {
+		float resultado = 0.0f;
+		for (ItemProducto item : getItems()) {
+			resultado += item.getTotal();
+		}
+		return resultado;
+	}
+
+	public MedioPago getMedioPago() {
+		return medioPago;
+	}
+
+	public void setMedioPago(MedioPago medioPago) {
+		this.medioPago = medioPago;
+	}
+
+	public Date getFechaCreacion() {
+		return fechaCreacion;
 	}
 }
