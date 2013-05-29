@@ -6,7 +6,6 @@ public class DescuentoGlobalPorcentual implements DescuentoGlobal {
 	private final float porcentaje;
 
 	public DescuentoGlobalPorcentual(float porcentaje) {
-		super();
 		this.porcentaje = porcentaje;
 	}
 

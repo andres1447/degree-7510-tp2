@@ -3,10 +3,10 @@ package sucursal.modelo.ofertas;
 import sucursal.modelo.compras.Compra;
 import sucursal.modelo.compras.ItemProducto;
 
-public class CondicionGlobalNumeroItems implements CondicionGlobal {
+public class CondicionGlobalNumeroItemsMinimo implements CondicionGlobal {
 	private final int numeroItems;
 
-	public CondicionGlobalNumeroItems(int numeroItems) {
+	public CondicionGlobalNumeroItemsMinimo(int numeroItems) {
 		this.numeroItems = numeroItems;
 	}
 
