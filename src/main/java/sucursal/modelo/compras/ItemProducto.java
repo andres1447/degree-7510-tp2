@@ -68,4 +68,12 @@ public class ItemProducto {
 	public boolean tieneRemanenteSinDescuentoExclusivo(int i) {
 		return getRemanenteSinDescuentoExclusivo() >= i;
 	}
+
+	/**
+	 * Increments the amount of product quantity purchased in this
+	 * {@link ItemProducto}.
+	 */
+	public void incrementarCantidad(int i) {
+		this.cantidad += i;
+	}
 }

@@ -78,7 +78,7 @@ public class Producto {
 			return false;
 
 		Producto actual = (Producto) obj;
-		return actual.getCodigo() == getCodigo();
+		return actual.getCodigo().equals(getCodigo());
 	}
 
 	@Override

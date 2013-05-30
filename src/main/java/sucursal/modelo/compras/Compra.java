@@ -45,8 +45,18 @@ public class Compra {
 	 * Adds a new {@link ItemProducto} to the buying session.
 	 */
 	public void agregarItem(final Producto producto, final int cantidad) {
-		
-		items.push(new ItemProducto(producto, cantidad));
+		ItemProducto existente = null;
+		for (ItemProducto item : items) {
+			if (item.getProducto().equals(producto)) {
+				existente = item;
+				break;
+			}
+		}
+		if (existente == null) {
+			items.add(new ItemProducto(producto, cantidad));
+		} else {
+			existente.incrementarCantidad(cantidad);
+		}
 		onItemsCambiados.notificar();
 	}
 
