@@ -109,6 +109,9 @@
 En esta sección se detallan algunas de las decisiones de diseño tomadas. Las 
 mismas tienen en cuenta la forma de proveer los Productos y Ofertas disponibles, 
 asi como también la implementación de las Ofertas Globales y Exclusivas.
+Para su implementación se tuvieron en cuenta las buenas prácticas de programación, 
+usando TDD, criterios de buen diseño y evitando bad-smells. Además, se utilizaron 
+algunos patrones vistos en clase, detallados abajo.
 
 A continuación se muestran los diagramas creados explicando el modelo de la aplicación.
 
@@ -121,7 +124,16 @@ A continuación se muestran los diagramas creados explicando el modelo de la apl
 \end{figure}
 
 \subsection{Carga de Productos y Ofertas}
+En relación al suministro de Productos disponibles a comprar y Ofertas vigentes proveidas por
+la Sucursal, se utilizó una interfaz para las Cajas a modo de obtener un listado de ambos objetos, 
+sin importar el modo y formato de persistencia de ambos catalogos.
+En esta primera version del proyecto, se crearon 2 clases de tipo Proveedores de Productos y Ofertas 
+en Memoria, los cuales implementan una interfaz para proveer el listado a la sucursal, y esta 
+asignarla a la caja.
+A modo de demostración para su ejecución, armamos un listado estatico de ambos elementos, con una 
+variedad basica de productos entre Marcas y Rubros, y ofertas Globales y Exclusivas.
 
+\subsection{Patrones usados}
 
 
 \subsection{Condición de Ofertas Exclusivas}
