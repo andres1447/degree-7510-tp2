@@ -7,6 +7,7 @@ import java.util.List;
 import sucursal.modelo.compras.Compra;
 import sucursal.modelo.compras.MedioPago;
 import sucursal.modelo.ofertas.descuentos.DescuentoFijo;
+import sucursal.modelo.ofertas.descuentos.DescuentoLlevaXPagaY;
 import sucursal.modelo.ofertas.descuentos.DescuentoPorcentual;
 import sucursal.modelo.ofertas.extractores.ExtraerFechaCreacion;
 import sucursal.modelo.ofertas.extractores.ExtraerMedioPago;
@@ -35,6 +36,7 @@ public class ProveedorOfertasMemoria implements ProveedorOfertas {
 		ofertas.add(buildOfertaEjemplo1());
 		ofertas.add(buildOfertaEjemplo2());
 		ofertas.add(buildOfertaEjemplo3());
+		ofertas.add(buildOfertaEjemplo4());
 	}
 
 	private Oferta buildOfertaEjemplo1() {
@@ -60,7 +62,7 @@ public class ProveedorOfertasMemoria implements ProveedorOfertas {
 		Function<Compra, Float> descuento = Functions.compose(
 				DescuentoPorcentual.instance(10.0f), 
 				ExtraerTotalBrutoProductos.instance(PredicadoRubro.instance("11")));
-		return new Oferta("10% descuento comida los miercoles", condicion,
+		return new Oferta("10% descuento comida los jueves", condicion,
 				descuento);
 	}
 	
@@ -72,7 +74,14 @@ public class ProveedorOfertasMemoria implements ProveedorOfertas {
 		Function<Compra, Float> descuento = DescuentoFijo.instance(10.0f);
 		return new Oferta("10$ descuento sabados", condicion,
 				descuento);
-		
+	}
+	
+	private Oferta buildOfertaEjemplo4() {
+		// Llevas 3 cocas pagas 2
+		Predicate<Compra> condicion = Predicates.alwaysTrue();
+		Function<Compra, Float> descuento = DescuentoLlevaXPagaY.instance("11-111-1111", 3, 2);
+		return new Oferta("Lleva 3 paga 2 en Coca-Cola", condicion,
+				descuento);
 	}
 
 	@Override
