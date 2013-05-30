@@ -31,23 +31,23 @@ public class ProveedorProductosMemoria implements ProveedorProductos {
 
 
 		productos.put("11-111-1111", new Producto(comidas, cocaCola,
-				"Coca-Cola", "Bebida gasificada sabor Cola", 15.5f));
+				"Coca-Cola", "Bebida gasificada sabor Cola", 15.5f,"11-111-1111"));
 		productos.put("11-111-1112", new Producto(comidas, cocaCola, "SevenUp",
-				"Bebida gasificada sabor Limon", 12.5f));
+				"Bebida gasificada sabor Limon", 12.5f, "11-111-1112"));
 		productos.put("12-111-1111", new Producto(comidas, villaDelSur, "Agua",
-				"Agua mineral sin gas", 10.0f));
+				"Agua mineral sin gas", 10.0f, "12-111-1111"));
 		productos.put("12-111-1112", new Producto(comidas, villaDelSur, "Levite Anana",
-				"Agua mineral sin gas saborizada sabor a Anana", 11.0f));
+				"Agua mineral sin gas saborizada sabor a Anana", 11.0f, "12-111-1112"));
 		
 		productos.put("21-131-1121", new Producto(electronica, sony, "Parlantes 100W",
-				"2 parlantes Stereo con potencia 100 Watt", 50.5f));
+				"2 parlantes Stereo con potencia 100 Watt", 50.5f, "21-131-1121"));
 		productos.put("21-131-1131", new Producto(electronica, sony, "Reproductor de DVD",
-				"Reproductor de DVD Sony con entrada USB y formato de salida RSA", 108.0f));
+				"Reproductor de DVD Sony con entrada USB y formato de salida RSA", 108.0f, "21-131-1131"));
 		
-		productos.put("11-211-1122", new Producto(limpieza, elite, "Pañuelos descartables x3",
-				"3 packs de 5 pañuelos descartables", 8.5f));
+		productos.put("11-211-1122", new Producto(limpieza, elite, "Paï¿½uelos descartables x3",
+				"3 packs de 5 paï¿½uelos descartables", 8.5f, "11-211-1122"));
 		productos.put("15-211-1432", new Producto(limpieza, skip, "Jabon en polvo",
-				"Botella de jabon en polvo para ropa, 1Kg.", 22.5f));
+				"Botella de jabon en polvo para ropa, 1Kg.", 22.5f, "15-211-1432"));
 		
 	}
 

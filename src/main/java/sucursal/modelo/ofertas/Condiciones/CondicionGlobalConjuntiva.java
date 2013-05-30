@@ -1,4 +1,4 @@
-package sucursal.modelo.ofertas;
+package sucursal.modelo.ofertas.Condiciones;
 
 import java.util.ArrayList;
 import java.util.List;

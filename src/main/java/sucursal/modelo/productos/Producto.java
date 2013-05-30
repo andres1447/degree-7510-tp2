@@ -9,14 +9,16 @@ public class Producto {
 	private Rubro rubro;
 	private Marca marca;
 	private String descripcion;
+	private String codigo;
 
 	public Producto(Rubro rubro, Marca marca, String nombre,
-			String descripcion, float precio) {
+			String descripcion, float precio, String codigo) {
 		this.rubro = rubro;
 		this.marca = marca;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.precio = precio;
+		this.codigo = codigo;
 	}
 
 	/**
@@ -59,5 +61,9 @@ public class Producto {
 	 */
 	public float getPrecioUnitario() {
 		return precio;
+	}
+
+	public String getCodigo() {
+		return codigo;
 	}
 }

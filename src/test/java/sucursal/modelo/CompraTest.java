@@ -108,7 +108,7 @@ public class CompraTest {
 	
 	@Test
 	public void getUltimoItemDeberiaDevolverUltimoItemAgregado() {
-		ItemProducto segundoMockLineProducto = new ItemProducto(new Producto(new Rubro("rubro"), new Marca("marca"), "producto", "description", 10), 2);
+		ItemProducto segundoMockLineProducto = new ItemProducto(new Producto(new Rubro("rubro"), new Marca("marca"), "producto", "description", 10, "11-111-1111"), 2);
 		
 		subject.agregarItem(mockLineProducto);
 		subject.agregarItem(segundoMockLineProducto);

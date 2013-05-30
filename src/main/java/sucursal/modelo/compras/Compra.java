@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Stack;
 
 import sucursal.modelo.caja.Caja;
+import sucursal.modelo.exceptions.ContenedorItemsVacioException;
 import sucursal.modelo.exceptions.ListaCompraVaciaException;
 import sucursal.modelo.ofertas.Oferta;
 import sucursal.modelo.ofertas.ProveedorOfertas;
@@ -28,7 +29,7 @@ public class Compra {
 	private MedioPago medioPago;
 	private final Date fechaCreacion;
 	private final Caja caja;
-	private final Stack<ItemProducto> items = new Stack<>();
+	private ContenedorItems productosComprados;
 	private final Stack<ItemDescuento> descuentos = new Stack<>();
 	private final ListadoProductos productos;
 	private final List<Oferta> ofertas;
@@ -40,33 +41,40 @@ public class Compra {
 		this.productos = proveedorProductos.proveer();
 		this.fechaCreacion = new Date();
 		this.medioPago = MedioPago.EFECTIVO;
+		this.productosComprados = new ContenedorItems();
 	}
 
 	/**
 	 * Adds a new {@link ItemProducto} to the buying session.
 	 */
 	public void agregarItem(ItemProducto nuevoProducto) {
-		items.push(nuevoProducto);
+		//items.push(nuevoProducto);
+		productosComprados.insertarProducto(nuevoProducto);
 		onItemsCambiados.notificar();
 	}
 
 	/**
 	 * Obtains the last added {@link ItemProducto} in the buying session.
 	 */
-	public ItemProducto getUltimoItemAgregado() {
-		return items.peek();
+	public ItemProducto getUltimoItemAgregado() {		
+		try {
+			return productosComprados.getUltimoAgregado();
+		} catch(ContenedorItemsVacioException e) {
+			throw new ListaCompraVaciaException();
+		}
 	}
 
 	/**
 	 * Removes the last {@link ItemProducto} instance from the buying session.
 	 */
 	public void quitarUltimoItemAgregado() {
-		if (items.isEmpty())
-		{
+		try{
+			productosComprados.sacarUltimoAgregado();
+		} catch(ContenedorItemsVacioException e) {
 			throw new ListaCompraVaciaException();
+		} finally {
+			onItemsCambiados.notificar();
 		}
-		items.pop();
-		onItemsCambiados.notificar();
 	}
 
 	/**
@@ -74,7 +82,7 @@ public class Compra {
 	 * session, returning true if there is.
 	 */
 	public boolean tieneItems() {
-		return !items.isEmpty();
+		return !productosComprados.tieneItems();
 	}
 
 	/**
@@ -119,7 +127,7 @@ public class Compra {
 	 * session.
 	 */
 	public List<ItemProducto> getItems() {
-		return Collections.unmodifiableList(items);
+		return Collections.unmodifiableList(productosComprados.getItems());
 	}
 
 	/**

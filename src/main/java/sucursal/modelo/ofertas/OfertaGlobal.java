@@ -1,6 +1,7 @@
 package sucursal.modelo.ofertas;
 
 import sucursal.modelo.compras.Compra;
+import sucursal.modelo.ofertas.Condiciones.CondicionGlobal;
 
 public class OfertaGlobal extends Oferta {
 	private final CondicionGlobal condicion;

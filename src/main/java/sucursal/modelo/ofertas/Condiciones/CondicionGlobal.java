@@ -1,4 +1,4 @@
-package sucursal.modelo.ofertas;
+package sucursal.modelo.ofertas.Condiciones;
 
 import sucursal.modelo.compras.Compra;
 

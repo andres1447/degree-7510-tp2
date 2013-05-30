@@ -16,4 +16,8 @@ public class Rubro {
 	public String getNombre() {
 		return this.nombre;
 	}
+	
+	public boolean equals(Rubro rubro) {
+		return this.nombre == rubro.nombre;
+	}
 }

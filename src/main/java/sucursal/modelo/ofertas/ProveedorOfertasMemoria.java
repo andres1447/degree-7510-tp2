@@ -5,6 +5,10 @@ import java.util.Calendar;
 import java.util.List;
 
 import sucursal.modelo.compras.MedioPago;
+import sucursal.modelo.ofertas.Condiciones.CondicionGlobalConjuntiva;
+import sucursal.modelo.ofertas.Condiciones.CondicionGlobalFechaCreacion;
+import sucursal.modelo.ofertas.Condiciones.CondicionGlobalMedioPago;
+import sucursal.modelo.ofertas.Condiciones.CondicionGlobalNumeroItemsMinimo;
 import sucursal.modelo.productos.ProveedorProductos;
 
 import com.google.inject.Inject;

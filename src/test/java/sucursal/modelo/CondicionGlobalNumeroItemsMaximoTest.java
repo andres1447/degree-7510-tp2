@@ -14,7 +14,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import sucursal.modelo.compras.Compra;
 import sucursal.modelo.compras.ItemProducto;
-import sucursal.modelo.ofertas.CondicionGlobalNumeroItemsMinimo;
+import sucursal.modelo.ofertas.Condiciones.CondicionGlobalNumeroItemsMinimo;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CondicionGlobalNumeroItemsMaximoTest {

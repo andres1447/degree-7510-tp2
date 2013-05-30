@@ -1,6 +1,7 @@
-package sucursal.modelo.ofertas;
+package sucursal.modelo.ofertas.Condiciones;
 
 import sucursal.modelo.compras.Compra;
+import sucursal.modelo.ofertas.MatcherFecha;
 
 public class CondicionGlobalFechaCreacion implements CondicionGlobal {
 	private final MatcherFecha matcherFecha;

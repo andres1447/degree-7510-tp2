@@ -10,8 +10,8 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import sucursal.modelo.compras.Compra;
-import sucursal.modelo.ofertas.CondicionGlobal;
-import sucursal.modelo.ofertas.CondicionGlobalConjuntiva;
+import sucursal.modelo.ofertas.Condiciones.CondicionGlobal;
+import sucursal.modelo.ofertas.Condiciones.CondicionGlobalConjuntiva;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CondicionGlobalConjuntivaTest {
