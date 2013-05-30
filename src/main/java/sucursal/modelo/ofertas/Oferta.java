@@ -28,7 +28,7 @@ public class Oferta {
 	public void aplicarSiCorresponde(final Compra compra) {
 		if (condicion.apply(compra)) {
 			Float valorDescuento = descuento.apply(compra);
-			if (descuento != null) {
+			if (valorDescuento != null) {
 				compra.agregarDescuento(descripcion, valorDescuento);
 			}
 		}
