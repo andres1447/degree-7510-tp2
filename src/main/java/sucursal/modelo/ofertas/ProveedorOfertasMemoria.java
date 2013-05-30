@@ -23,6 +23,10 @@ public class ProveedorOfertasMemoria implements ProveedorOfertas {
 		ofertas.add(ofertaCredito);
 		OfertaUnicaLlevaXPagaY oferta3x2 = new OfertaUnicaLlevaXPagaY("3 productos al precio de 2", 3, 2, "Coca-Cola"); // Descuento Producto gratis porcentual al total
 		ofertas.add(oferta3x2);
+		
+		OfertaUnicaDebitoPorcentual oferta15Debito = new OfertaUnicaDebitoPorcentual("15% de descuento para todos los productos," +
+				" todos los dias", 15);
+		ofertas.add(oferta15Debito);
 	}
 	
 	
