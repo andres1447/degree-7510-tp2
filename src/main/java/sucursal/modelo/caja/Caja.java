@@ -81,6 +81,7 @@ public class Caja {
 	 * {@link Compra}, but changes the {@link Caja} back to "open" state.
 	 */
 	public void terminarCompra() {
+		compraActual.limpiarProductosConDescuento();
 		estado.checkPuedeTerminarCompra();
 		estado = new EstadoCajaAbierta();
 		compraActual = null;

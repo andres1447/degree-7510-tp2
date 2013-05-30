@@ -9,6 +9,7 @@ public class Producto {
 	private Rubro rubro;
 	private Marca marca;
 	private String descripcion;
+	private boolean descuentoAplicado;
 
 	public Producto(Rubro rubro, Marca marca, String nombre,
 			String descripcion, float precio) {
@@ -17,6 +18,7 @@ public class Producto {
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.precio = precio;
+		this.descuentoAplicado = false;
 	}
 
 	/**
@@ -59,5 +61,17 @@ public class Producto {
 	 */
 	public float getPrecioUnitario() {
 		return precio;
+	}
+
+	public void confirmarDescuento() {
+		this.descuentoAplicado = true;
+	}
+
+	public boolean hasDescuento() {
+		return this.descuentoAplicado;
+	}
+
+	public void limpiarDescuento() {
+		this.descuentoAplicado = false;
 	}
 }

@@ -182,4 +182,12 @@ public class Compra {
 	public Date getFechaCreacion() {
 		return fechaCreacion;
 	}
+
+	public void limpiarProductosConDescuento() {
+		ItemProducto itemProducto;
+		while(!this.items.isEmpty()){
+			itemProducto = this.items.pop();
+			itemProducto.getProducto().limpiarDescuento();
+		}
+	}
 }
