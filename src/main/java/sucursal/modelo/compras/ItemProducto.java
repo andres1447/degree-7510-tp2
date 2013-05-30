@@ -35,4 +35,9 @@ public class ItemProducto {
 	public float getTotal() {
 		return producto.calcularPrecioTotal(cantidad);
 	}
+	
+	public boolean equals(ItemProducto oth) {
+		return this.producto.getCodigo() == oth.producto.getCodigo();
+	}
+	
 }

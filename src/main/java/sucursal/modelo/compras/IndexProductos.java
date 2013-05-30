@@ -3,6 +3,7 @@ package sucursal.modelo.compras;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -54,7 +55,10 @@ public class IndexProductos {
 	}
 
 	public void remove(ItemProducto item) {
-		productos.remove(select.obtenerClave(item));
+		List<ItemProducto> lip = productos.get(select.obtenerClave(item));
+		lip.remove(item);
+		if (lip.isEmpty())
+			productos.remove(select.obtenerClave(item));
 	}
 
 	public List<ItemProducto> getItems() {

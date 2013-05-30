@@ -82,7 +82,7 @@ public class Compra {
 	 * session, returning true if there is.
 	 */
 	public boolean tieneItems() {
-		return !productosComprados.tieneItems();
+		return productosComprados.tieneItems();
 	}
 
 	/**

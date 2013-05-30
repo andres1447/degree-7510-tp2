@@ -49,8 +49,9 @@ public class CompraTest {
 	@Test
 	public void agregarItemDeberiaNotificarItemsCambiados() {
 		subject.getOnItemsCambiados().registrar(mockObservador);
-
-		subject.agregarItem(mockLineProducto);
+		ItemProducto myMockLineProducto = new ItemProducto(new Producto(new Rubro("rubro"), new Marca("marca"), "producto", "description", 10, "11-111-1111"), 2);
+				
+		subject.agregarItem(myMockLineProducto);
 
 		Mockito.verify(mockObservador).notificar(subject);
 
@@ -58,7 +59,9 @@ public class CompraTest {
 
 	@Test
 	public void deshacerUltimoItemAgregadoDeberiaNotificarItemsCambiados() {
-		subject.agregarItem(mockLineProducto);
+		ItemProducto myMockLineProducto = new ItemProducto(new Producto(new Rubro("rubro"), new Marca("marca"), "producto", "description", 10, "11-111-1111"), 2);
+		
+		subject.agregarItem(myMockLineProducto);
 		subject.getOnItemsCambiados().registrar(mockObservador);
 
 		subject.quitarUltimoItemAgregado();
@@ -68,7 +71,9 @@ public class CompraTest {
 
 	@Test
 	public void tieneItemsDevuelveTrueCuandoHayItems() {
-		subject.agregarItem(mockLineProducto);
+		ItemProducto myMockLineProducto = new ItemProducto(new Producto(new Rubro("rubro"), new Marca("marca"), "producto", "description", 10, "11-111-1111"), 2);
+		
+		subject.agregarItem(myMockLineProducto);
 
 		assertThat(subject.tieneItems(), is(true));
 	}
@@ -80,8 +85,11 @@ public class CompraTest {
 	
 	@Test
 	public void tieneItemsDevuelveTrueCuandoNoDeshagoTodosItems() {
-		subject.agregarItem(mockLineProducto);
-		subject.agregarItem(mockLineProducto);
+		ItemProducto myMockLineProducto = new ItemProducto(new Producto(new Rubro("rubro"), new Marca("marca"), "producto", "description", 10, "11-111-1111"), 2);
+		ItemProducto myMockLineProducto2 = new ItemProducto(new Producto(new Rubro("rubro"), new Marca("marca2"), "producto", "description", 10, "12-111-1111"), 2);
+		
+		subject.agregarItem(myMockLineProducto);
+		subject.agregarItem(myMockLineProducto2);
 
 		subject.quitarUltimoItemAgregado();
 
@@ -90,9 +98,13 @@ public class CompraTest {
 	
 	@Test
 	public void tieneItemsDevuelveFalsoCuandoLimpioLineItems() {
-		subject.agregarItem(mockLineProducto);
-		subject.agregarItem(mockLineProducto);
-		subject.agregarItem(mockLineProducto);
+		ItemProducto myMockLineProducto = new ItemProducto(new Producto(new Rubro("rubro"), new Marca("marca"), "producto", "description", 10, "11-111-1111"), 2);
+		ItemProducto myMockLineProducto2 = new ItemProducto(new Producto(new Rubro("rubro"), new Marca("marca2"), "producto", "description", 10, "12-111-1111"), 2);
+		ItemProducto myMockLineProducto3= new ItemProducto(new Producto(new Rubro("rubro"), new Marca("marca3"), "producto", "description", 10, "13-111-1111"), 2);
+		
+		subject.agregarItem(myMockLineProducto);
+		subject.agregarItem(myMockLineProducto2);
+		subject.agregarItem(myMockLineProducto3);
 
 		subject.quitarUltimoItemAgregado();
 		subject.quitarUltimoItemAgregado();
@@ -108,9 +120,11 @@ public class CompraTest {
 	
 	@Test
 	public void getUltimoItemDeberiaDevolverUltimoItemAgregado() {
+		ItemProducto primerMockLineProducto = new ItemProducto(new Producto(new Rubro("rubro"), new Marca("marca1"), "producto", "description", 10, "12-111-1111"), 2);
+		
 		ItemProducto segundoMockLineProducto = new ItemProducto(new Producto(new Rubro("rubro"), new Marca("marca"), "producto", "description", 10, "11-111-1111"), 2);
 		
-		subject.agregarItem(mockLineProducto);
+		subject.agregarItem(primerMockLineProducto);
 		subject.agregarItem(segundoMockLineProducto);
 
 		assertThat(subject.getUltimoItemAgregado().getProducto().getNombre(), is(segundoMockLineProducto.getProducto().getNombre()) );
