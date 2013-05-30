@@ -58,6 +58,10 @@ public class ContenedorItems {
 		return !productosIngresados.isEmpty();
 	}
 	
+	public ItemProducto obtenerProducto(String key) {
+		return productosIngresados.get(key);
+	}
+	
 	public List<ItemProducto> obtenerProductosPor(TipoConsultaProducto tp, String key) {
 		return indexes.get(tp).get(key);
 	}
