@@ -158,7 +158,7 @@ public class Compra {
 		for (ItemDescuento item : getDescuentos()) {
 			resultado -= item.getValor();
 		}
-		return resultado;
+		return resultado < 0 ? 0.0f : resultado;
 	}
 
 	public float getTotalBruto() {
