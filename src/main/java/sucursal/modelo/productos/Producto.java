@@ -4,21 +4,28 @@ package sucursal.modelo.productos;
  * Represents a sellable item in store which can be bought by a customer.
  */
 public class Producto {
-	private String nombre;
+	private final String nombre;
 	private float precio;
-	private Rubro rubro;
-	private Marca marca;
-	private String descripcion;
-	private boolean descuentoAplicado;
+	private final Rubro rubro;
+	private final Marca marca;
+	private final String descripcion;
+	private final String codigo;
 
-	public Producto(Rubro rubro, Marca marca, String nombre,
-			String descripcion, float precio) {
+	public Producto(final Rubro rubro, final Marca marca, final String codigo,
+			final String nombre, final String descripcion, final float precio) {
 		this.rubro = rubro;
 		this.marca = marca;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.precio = precio;
-		this.descuentoAplicado = false;
+		this.codigo = codigo;
+	}
+
+	/**
+	 * Obtains a short code identifying the product
+	 */
+	public String getCodigo() {
+		return rubro.getCodigo() + "-" + marca.getCodigo() + "-" + codigo;
 	}
 
 	/**
@@ -63,15 +70,20 @@ public class Producto {
 		return precio;
 	}
 
-	public void confirmarDescuento() {
-		this.descuentoAplicado = true;
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null)
+			return false;
+		if (!(obj instanceof Producto))
+			return false;
+
+		Producto actual = (Producto) obj;
+		return actual.getCodigo() == getCodigo();
 	}
 
-	public boolean hasDescuento() {
-		return this.descuentoAplicado;
+	@Override
+	public int hashCode() {
+		return getCodigo().hashCode();
 	}
 
-	public void limpiarDescuento() {
-		this.descuentoAplicado = false;
-	}
 }

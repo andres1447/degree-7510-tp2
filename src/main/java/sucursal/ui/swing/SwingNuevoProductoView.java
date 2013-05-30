@@ -155,6 +155,7 @@ public class SwingNuevoProductoView extends JDialog implements
 	public void displayView() {
 		txtCant.setText("");
 		txtCodigo.setText("");
+		txtCodigo.requestFocusInWindow();
 		setVisible(true);
 	}
 

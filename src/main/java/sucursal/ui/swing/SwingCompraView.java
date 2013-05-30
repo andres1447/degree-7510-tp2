@@ -48,8 +48,6 @@ public class SwingCompraView extends JDialog implements CompraView {
 	private final EventoParametrizado<CompraView, MedioPago> onSeleccionarMedioPago = new EventoParametrizado<CompraView, MedioPago>(
 			this);
 
-	protected Evento<CompraView> onDeshacer = new Evento<CompraView>(this);
-
 	private JTable tblProductos;
 	private JScrollPane pnlProductos;
 	private JPanel pnlAcciones;
@@ -58,7 +56,6 @@ public class SwingCompraView extends JDialog implements CompraView {
 	private JPanel pnlInformacion;
 	private JPanel pnlInfoProducto;
 	private JButton btnAgregarProducto;
-	private JButton btnDeshacer;
 
 	private Compra compra;
 
@@ -68,7 +65,6 @@ public class SwingCompraView extends JDialog implements CompraView {
 			AbstractTableModel model = (AbstractTableModel) tblProductos
 					.getModel();
 			model.fireTableDataChanged();
-			btnDeshacer.setEnabled(compra.tieneItems());
 			if (compra.tieneItems()) {
 				mostrarInfoProducto(compra.getUltimoItemAgregado());
 			} else {
@@ -84,7 +80,8 @@ public class SwingCompraView extends JDialog implements CompraView {
 	private JLabel lblRubroProducto;
 	private JLabel lblMarca;
 	private JLabel lblMarcaProducto;
-	private JComboBox<MedioPago> cboMedioPago;
+	@SuppressWarnings("rawtypes")
+	private JComboBox cboMedioPago;
 
 	public SwingCompraView() {
 		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
@@ -150,7 +147,6 @@ public class SwingCompraView extends JDialog implements CompraView {
 			pnlAcciones.setLayout(new GridLayout(0, 1, 5, 5));
 			pnlAcciones.add(getCboMedioPago());
 			pnlAcciones.add(getBtnAgregarProducto());
-			pnlAcciones.add(getBtnDeshacer());
 			pnlAcciones.add(getBtnCancelarCompra());
 			pnlAcciones.add(getBtnConfirmarCompra());
 		}
@@ -221,18 +217,6 @@ public class SwingCompraView extends JDialog implements CompraView {
 		return btnAgregarProducto;
 	}
 
-	private JButton getBtnDeshacer() {
-		if (btnDeshacer == null) {
-			btnDeshacer = new JButton("Deshacer");
-			btnDeshacer.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					onDeshacer.notificar();
-				}
-			});
-		}
-		return btnDeshacer;
-	}
-
 	private JLabel getLblNombre() {
 		if (lblNombre == null) {
 			lblNombre = new JLabel("Nombre:");
@@ -297,9 +281,10 @@ public class SwingCompraView extends JDialog implements CompraView {
 		return lblMarcaProducto;
 	}
 
-	private JComboBox<MedioPago> getCboMedioPago() {
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private JComboBox getCboMedioPago() {
 		if (cboMedioPago == null) {
-			cboMedioPago = new JComboBox<MedioPago>(MedioPago.values());
+			cboMedioPago = new JComboBox(MedioPago.values());
 			cboMedioPago.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					MedioPago medioPago = (MedioPago) cboMedioPago
@@ -318,7 +303,6 @@ public class SwingCompraView extends JDialog implements CompraView {
 		}
 		this.compra = compra;
 		getTblProductos().setModel(new ProductosTableModel(compra));
-		btnDeshacer.setEnabled(compra.tieneItems());
 		cboMedioPago.setSelectedItem(compra.getMedioPago());
 		compra.getOnItemsCambiados().registrar(onItemsCambiados);
 	}
@@ -336,11 +320,6 @@ public class SwingCompraView extends JDialog implements CompraView {
 	@Override
 	public Evento<CompraView> getOnAgregarProducto() {
 		return onAgregarProducto;
-	}
-
-	@Override
-	public Evento<CompraView> getOnDeshacer() {
-		return onDeshacer;
 	}
 
 	@Override

@@ -12,13 +12,9 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import sucursal.modelo.caja.Caja;
 import sucursal.modelo.compras.Compra;
-import sucursal.modelo.compras.ItemProducto;
-import sucursal.modelo.exceptions.ListaCompraVaciaException;
 import sucursal.modelo.ofertas.ProveedorOfertas;
-import sucursal.modelo.productos.Marca;
 import sucursal.modelo.productos.Producto;
 import sucursal.modelo.productos.ProveedorProductos;
-import sucursal.modelo.productos.Rubro;
 import sucursal.utilities.Observador;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -32,7 +28,7 @@ public class CompraTest {
 	private Caja mockCaja;
 
 	@Mock
-	private ItemProducto mockLineProducto;
+	private Producto mockProducto;
 
 	@Mock
 	private ProveedorOfertas mockProveedorOfertas;
@@ -50,25 +46,15 @@ public class CompraTest {
 	public void agregarItemDeberiaNotificarItemsCambiados() {
 		subject.getOnItemsCambiados().registrar(mockObservador);
 
-		subject.agregarItem(mockLineProducto);
+		subject.agregarItem(mockProducto, 1);
 
 		Mockito.verify(mockObservador).notificar(subject);
 
-	}
-
-	@Test
-	public void deshacerUltimoItemAgregadoDeberiaNotificarItemsCambiados() {
-		subject.agregarItem(mockLineProducto);
-		subject.getOnItemsCambiados().registrar(mockObservador);
-
-		subject.quitarUltimoItemAgregado();
-
-		Mockito.verify(mockObservador).notificar(subject);
 	}
 
 	@Test
 	public void tieneItemsDevuelveTrueCuandoHayItems() {
-		subject.agregarItem(mockLineProducto);
+		subject.agregarItem(mockProducto, 1);
 
 		assertThat(subject.tieneItems(), is(true));
 	}
@@ -77,43 +63,4 @@ public class CompraTest {
 	public void tieneItemsDevuelveFalsoCuandoNoHayItems() {
 		assertThat(subject.tieneItems(), is(false));
 	}
-	
-	@Test
-	public void tieneItemsDevuelveTrueCuandoNoDeshagoTodosItems() {
-		subject.agregarItem(mockLineProducto);
-		subject.agregarItem(mockLineProducto);
-
-		subject.quitarUltimoItemAgregado();
-
-		assertThat(subject.tieneItems(), is(true));
-	}
-	
-	@Test
-	public void tieneItemsDevuelveFalsoCuandoLimpioLineItems() {
-		subject.agregarItem(mockLineProducto);
-		subject.agregarItem(mockLineProducto);
-		subject.agregarItem(mockLineProducto);
-
-		subject.quitarUltimoItemAgregado();
-		subject.quitarUltimoItemAgregado();
-		subject.quitarUltimoItemAgregado();
-
-		assertThat(subject.tieneItems(), is(false));
-	}
-	
-	@Test(expected = ListaCompraVaciaException.class)
-	public void deshacerItemInexistenteDeberiaLevantarErrorDeLineItemVacio() {		
-		subject.quitarUltimoItemAgregado();
-	}
-	
-	@Test
-	public void getUltimoItemDeberiaDevolverUltimoItemAgregado() {
-		ItemProducto segundoMockLineProducto = new ItemProducto(new Producto(new Rubro("rubro"), new Marca("marca"), "producto", "description", 10), 2);
-		
-		subject.agregarItem(mockLineProducto);
-		subject.agregarItem(segundoMockLineProducto);
-
-		assertThat(subject.getUltimoItemAgregado().getProducto().getNombre(), is(segundoMockLineProducto.getProducto().getNombre()) );
-	}
-	
 }

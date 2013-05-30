@@ -46,13 +46,6 @@ public interface CompraView {
 	Evento<CompraView> getOnAgregarProducto();
 
 	/**
-	 * Event which can be watched to be notified when the user asks the view to
-	 * undo the last addition of an {@link ItemProducto} to the associated
-	 * {@link Compra}.
-	 */
-	Evento<CompraView> getOnDeshacer();
-
-	/**
 	 * Event which can be watched to be notified when the user selects a payment
 	 * method on the view.
 	 */

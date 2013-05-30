@@ -1,6 +1,8 @@
 package sucursal.modelo.productos;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import sucursal.modelo.exceptions.ProductoInexistenteException;
@@ -18,37 +20,43 @@ public class ProveedorProductosMemoria implements ProveedorProductos {
 
 	@Inject
 	public ProveedorProductosMemoria() {
-		Rubro comidas = new Rubro("Comida");
-		Marca cocaCola = new Marca("Coca Cola");
-		Marca villaDelSur = new Marca("Villa Del Sur");
+		final List<Producto> rawProductos = new ArrayList<Producto>();
 		
-		Rubro electronica = new Rubro("Electronica");
-		Marca sony = new Marca("Sony");
+		Rubro comidas = new Rubro("Comida", "11");
+		Marca cocaCola = new Marca("Coca Cola", "111");
+		Marca villaDelSur = new Marca("Villa Del Sur", "112");
 		
-		Rubro limpieza = new Rubro("Limpieza");
-		Marca elite = new Marca("Elite");
-		Marca skip = new Marca("Skip");
-
-
-		productos.put("11-111-1111", new Producto(comidas, cocaCola,
+		Rubro electronica = new Rubro("Electronica", "22");
+		Marca sony = new Marca("Sony", "221");
+		
+		Rubro limpieza = new Rubro("Limpieza", "33");
+		Marca elite = new Marca("Elite", "331");
+		Marca skip = new Marca("Skip", "332");
+		
+		rawProductos.add(new Producto(comidas, cocaCola, "1111",
 				"Coca-Cola", "Bebida gasificada sabor Cola", 15.5f));
-		productos.put("11-111-1112", new Producto(comidas, cocaCola, "SevenUp",
+		rawProductos.add(new Producto(comidas, cocaCola, "1112", "SevenUp",
 				"Bebida gasificada sabor Limon", 12.5f));
-		productos.put("12-111-1111", new Producto(comidas, villaDelSur, "Agua",
+		rawProductos.add(new Producto(comidas, villaDelSur, "1111", "Agua",
 				"Agua mineral sin gas", 10.0f));
-		productos.put("12-111-1112", new Producto(comidas, villaDelSur, "Levite Anana",
+		rawProductos.add(new Producto(comidas, villaDelSur, "1112", "Levite Anana",
 				"Agua mineral sin gas saborizada sabor a Anana", 11.0f));
-		
-		productos.put("21-131-1121", new Producto(electronica, sony, "Parlantes 100W",
+		rawProductos.add(new Producto(electronica, sony, "1121", "Parlantes 100W",
 				"2 parlantes Stereo con potencia 100 Watt", 50.5f));
-		productos.put("21-131-1131", new Producto(electronica, sony, "Reproductor de DVD",
+		rawProductos.add(new Producto(electronica, sony, "1131", "Reproductor de DVD",
 				"Reproductor de DVD Sony con entrada USB y formato de salida RSA", 108.0f));
-		
-		productos.put("11-211-1122", new Producto(limpieza, elite, "Pañuelos descartables x3",
-				"3 packs de 5 pañuelos descartables", 8.5f));
-		productos.put("15-211-1432", new Producto(limpieza, skip, "Jabon en polvo",
+		rawProductos.add(new Producto(limpieza, elite, "1122", "Panuelos descartables x3",
+				"3 packs de 5 panuelos descartables", 8.5f));
+		rawProductos.add(new Producto(limpieza, skip, "1432", "Jabon en polvo",
 				"Botella de jabon en polvo para ropa, 1Kg.", 22.5f));
 		
+		procesarProductos(rawProductos);
+	}
+
+	private void procesarProductos(List<Producto> rawProductos) {
+		for (Producto p : rawProductos) {
+			productos.put(p.getCodigo(), p);
+		}
 	}
 
 	@Override

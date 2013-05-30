@@ -31,7 +31,7 @@ public class NuevoProductoController {
 				Producto producto = compra.getListadoProductos()
 						.buscarPorCodigo(data.getCodigo());
 				int cantidad = Integer.parseInt(data.getCantidad());
-				compra.agregarItem(new ItemProducto(producto, cantidad));
+				compra.agregarItem(producto, cantidad);
 				view.hideView();
 			} catch (NumberFormatException e) {
 				simpleDialog

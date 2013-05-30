@@ -65,13 +65,6 @@ public class CompraController {
 		}
 	};
 
-	private Observador<CompraView> onDeshacer = new Observador<CompraView>() {
-		@Override
-		public void notificar(CompraView observable) {
-			compra.quitarUltimoItemAgregado();
-		}
-	};
-
 	private ObservadorParametrizado<CompraView, MedioPago> onSeleccionarMedioPago = new ObservadorParametrizado<CompraView, MedioPago>() {
 		@Override
 		public void notificar(CompraView observable, MedioPago data) {
@@ -89,7 +82,6 @@ public class CompraController {
 		this.view.getOnConfirmarCompra().registrar(onConfirmarCompra);
 		this.view.getOnCancelarCompra().registrar(onCancelarCompra);
 		this.view.getOnAgregarProducto().registrar(onAgregarProducto);
-		this.view.getOnDeshacer().registrar(onDeshacer);
 		this.view.getOnSeleccionarMedioPago().registrar(onSeleccionarMedioPago);
 	}
 

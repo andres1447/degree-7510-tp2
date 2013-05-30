@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Stack;
 
 import sucursal.modelo.caja.Caja;
-import sucursal.modelo.exceptions.ListaCompraVaciaException;
 import sucursal.modelo.ofertas.Oferta;
 import sucursal.modelo.ofertas.ProveedorOfertas;
 import sucursal.modelo.productos.ListadoProductos;
@@ -45,8 +44,9 @@ public class Compra {
 	/**
 	 * Adds a new {@link ItemProducto} to the buying session.
 	 */
-	public void agregarItem(ItemProducto nuevoProducto) {
-		items.push(nuevoProducto);
+	public void agregarItem(final Producto producto, final int cantidad) {
+		
+		items.push(new ItemProducto(producto, cantidad));
 		onItemsCambiados.notificar();
 	}
 
@@ -55,18 +55,6 @@ public class Compra {
 	 */
 	public ItemProducto getUltimoItemAgregado() {
 		return items.peek();
-	}
-
-	/**
-	 * Removes the last {@link ItemProducto} instance from the buying session.
-	 */
-	public void quitarUltimoItemAgregado() {
-		if (items.isEmpty())
-		{
-			throw new ListaCompraVaciaException();
-		}
-		items.pop();
-		onItemsCambiados.notificar();
 	}
 
 	/**
@@ -181,13 +169,5 @@ public class Compra {
 
 	public Date getFechaCreacion() {
 		return fechaCreacion;
-	}
-
-	public void limpiarProductosConDescuento() {
-		ItemProducto itemProducto;
-		while(!this.items.isEmpty()){
-			itemProducto = this.items.pop();
-			itemProducto.getProducto().limpiarDescuento();
-		}
 	}
 }
