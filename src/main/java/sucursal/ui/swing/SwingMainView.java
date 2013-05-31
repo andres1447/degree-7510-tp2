@@ -146,6 +146,7 @@ public class SwingMainView extends JFrame implements MainView {
 			btnCerrarCaja.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					onCerrarCaja.notificar();
+					
 				}
 			});
 		}

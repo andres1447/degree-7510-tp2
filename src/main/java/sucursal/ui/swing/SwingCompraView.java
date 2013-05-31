@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -28,6 +29,12 @@ import sucursal.utilities.Presentacion;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
+import javax.swing.JCheckBox;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
+import javax.swing.JTextField;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 /**
  * {@link CompraView} implementation using Swing. This code was mostly
@@ -82,6 +89,8 @@ public class SwingCompraView extends JDialog implements CompraView {
 	private JLabel lblMarcaProducto;
 	@SuppressWarnings("rawtypes")
 	private JComboBox cboMedioPago;
+	private JCheckBox chkJubilado;
+	private JTextField txtCupon;
 
 	public SwingCompraView() {
 		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
@@ -146,6 +155,8 @@ public class SwingCompraView extends JDialog implements CompraView {
 			pnlAcciones = new JPanel();
 			pnlAcciones.setLayout(new GridLayout(0, 1, 5, 5));
 			pnlAcciones.add(getCboMedioPago());
+			pnlAcciones.add(getChkJubilado());
+			pnlAcciones.add(getTxtCupon());
 			pnlAcciones.add(getBtnAgregarProducto());
 			pnlAcciones.add(getBtnCancelarCompra());
 			pnlAcciones.add(getBtnConfirmarCompra());
@@ -304,6 +315,9 @@ public class SwingCompraView extends JDialog implements CompraView {
 		this.compra = compra;
 		getTblProductos().setModel(new ProductosTableModel(compra));
 		cboMedioPago.setSelectedItem(compra.getMedioPago());
+		chkJubilado.setSelected(compra.esJubilado());
+		txtCupon.setText("");
+		mostrarInfoProducto(null);
 		compra.getOnItemsCambiados().registrar(onItemsCambiados);
 	}
 
@@ -335,5 +349,30 @@ public class SwingCompraView extends JDialog implements CompraView {
 	@Override
 	public void hideView() {
 		setVisible(false);
+	}
+	private JCheckBox getChkJubilado() {
+		if (chkJubilado == null) {
+			chkJubilado = new JCheckBox("Jubilado");
+			chkJubilado.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					compra.setJubilado(chkJubilado.isSelected());
+				}
+			});
+		}
+		return chkJubilado;
+	}
+	private JTextField getTxtCupon() {
+		if (txtCupon == null) {
+			txtCupon = new JTextField();
+			txtCupon.addFocusListener(new FocusAdapter() {
+				@Override
+				public void focusLost(FocusEvent e) {
+					compra.setCodigoCupon(txtCupon.getText());
+				}
+			});
+			txtCupon.setColumns(10);
+		}
+		return txtCupon;
 	}
 }

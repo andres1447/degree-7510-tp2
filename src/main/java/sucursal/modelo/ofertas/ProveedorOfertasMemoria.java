@@ -13,7 +13,9 @@ import sucursal.modelo.ofertas.extractores.ExtraerFechaCreacion;
 import sucursal.modelo.ofertas.extractores.ExtraerMedioPago;
 import sucursal.modelo.ofertas.extractores.ExtraerTotalBruto;
 import sucursal.modelo.ofertas.extractores.ExtraerTotalBrutoProductos;
+import sucursal.modelo.ofertas.predicados.PredicadoCupon;
 import sucursal.modelo.ofertas.predicados.PredicadoDiaSemana;
+import sucursal.modelo.ofertas.predicados.PredicadoJubilado;
 import sucursal.modelo.ofertas.predicados.PredicadoRubro;
 
 import com.google.common.base.Function;
@@ -37,6 +39,8 @@ public class ProveedorOfertasMemoria implements ProveedorOfertas {
 		ofertas.add(buildOfertaEjemplo2());
 		ofertas.add(buildOfertaEjemplo3());
 		ofertas.add(buildOfertaEjemplo4());
+		ofertas.add(buildOfertaEjemplo5());
+		ofertas.add(buildOfertaEjemplo6());
 	}
 
 	private Oferta buildOfertaEjemplo1() {
@@ -82,6 +86,29 @@ public class ProveedorOfertasMemoria implements ProveedorOfertas {
 		Function<Compra, Float> descuento = DescuentoLlevaXPagaY.instance("11-111-1111", 3, 2);
 		return new Oferta("Lleva 3 paga 2 en Coca-Cola", condicion,
 				descuento);
+	}
+	
+	private Oferta buildOfertaEjemplo5() {
+		// 5% de descuento en todos los productos si pagas en
+		// efectivo
+		Predicate<Compra> condicion = new PredicadoJubilado();
+
+		Function<Compra, Float> descuento = Functions.compose(
+				DescuentoPorcentual.instance(10.0f),
+				ExtraerTotalBruto.instance());
+
+		return new Oferta("10% descuento jubilados", condicion, descuento);
+	}
+	
+	private Oferta buildOfertaEjemplo6() {
+		// $10 si tiene el cupon 11111
+		Predicate<Compra> condicion = new PredicadoCupon("11111");
+
+		Function<Compra, Float> descuento = Functions.compose(
+				DescuentoFijo.instance(10.0f),
+				ExtraerTotalBruto.instance());
+
+		return new Oferta("$10 cupon", condicion, descuento);
 	}
 
 	@Override

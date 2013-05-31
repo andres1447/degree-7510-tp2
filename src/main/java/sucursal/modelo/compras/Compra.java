@@ -24,6 +24,7 @@ public class Compra {
 	private Evento<Compra> onCompraConfirmada = new Evento<Compra>(this);
 
 	private boolean cancelada;
+	private boolean esJubilado;
 	private MedioPago medioPago;
 	private final Date fechaCreacion;
 	private final Caja caja;
@@ -31,6 +32,7 @@ public class Compra {
 	private final Stack<ItemDescuento> descuentos = new Stack<>();
 	private final ListadoProductos productos;
 	private final List<Oferta> ofertas;
+	private String codigoCupon;
 
 	public Compra(final Caja caja, final ProveedorOfertas proveedorOfertas,
 			final ProveedorProductos proveedorProductos) {
@@ -39,6 +41,7 @@ public class Compra {
 		this.productos = proveedorProductos.proveer();
 		this.fechaCreacion = new Date();
 		this.medioPago = MedioPago.EFECTIVO;
+		this.esJubilado = false;
 	}
 
 	/**
@@ -102,6 +105,10 @@ public class Compra {
 	 */
 	public boolean fueCancelada() {
 		return cancelada;
+	}
+	
+	public boolean esJubilado() {
+		return esJubilado;
 	}
 
 	/**
@@ -179,5 +186,17 @@ public class Compra {
 
 	public Date getFechaCreacion() {
 		return fechaCreacion;
+	}
+
+	public void setJubilado(boolean jubilado) {
+		this.esJubilado = jubilado;
+	}
+
+	public void setCodigoCupon(String text) {
+		codigoCupon = text;
+	}
+	
+	public String getCodigoCupon() {
+		return codigoCupon;
 	}
 }
