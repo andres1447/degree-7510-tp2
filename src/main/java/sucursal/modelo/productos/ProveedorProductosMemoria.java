@@ -35,7 +35,7 @@ public class ProveedorProductosMemoria implements ProveedorProductos {
 		
 		rawProductos.add(new Producto(comidas, cocaCola, "1111",
 				"Coca-Cola", "Bebida gasificada sabor Cola", 15.5f));
-		rawProductos.add(new Producto(comidas, cocaCola, "1112", "SevenUp",
+		rawProductos.add(new Producto(comidas, cocaCola, "1112", "Sprite",
 				"Bebida gasificada sabor Limon", 12.5f));
 		rawProductos.add(new Producto(comidas, villaDelSur, "1111", "Agua",
 				"Agua mineral sin gas", 10.0f));

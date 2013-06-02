@@ -6,6 +6,7 @@ import java.util.List;
 
 import sucursal.modelo.compras.Compra;
 import sucursal.modelo.compras.MedioPago;
+import sucursal.modelo.ofertas.descuentos.DescuentoEnSegundoProducto;
 import sucursal.modelo.ofertas.descuentos.DescuentoFijo;
 import sucursal.modelo.ofertas.descuentos.DescuentoLlevaXPagaY;
 import sucursal.modelo.ofertas.descuentos.DescuentoPorcentual;
@@ -35,12 +36,14 @@ public class ProveedorOfertasMemoria implements ProveedorOfertas {
 
 	@Inject
 	public ProveedorOfertasMemoria() {
-		ofertas.add(buildOfertaEjemplo1());
-		ofertas.add(buildOfertaEjemplo2());
-		ofertas.add(buildOfertaEjemplo3());
-		ofertas.add(buildOfertaEjemplo4());
-		ofertas.add(buildOfertaEjemplo5());
-		ofertas.add(buildOfertaEjemplo6());
+		//ofertas.add(buildOfertaEjemplo1());
+		//ofertas.add(buildOfertaEjemplo2());
+		//ofertas.add(buildOfertaEjemplo3());
+		//ofertas.add(buildOfertaEjemplo4());
+		//ofertas.add(buildOfertaEjemplo5());
+		//ofertas.add(buildOfertaEjemplo6());
+		ofertas.add(buildOfertaEjemplo7());
+
 	}
 
 	private Oferta buildOfertaEjemplo1() {
@@ -109,6 +112,13 @@ public class ProveedorOfertasMemoria implements ProveedorOfertas {
 				ExtraerTotalBruto.instance());
 
 		return new Oferta("$10 cupon", condicion, descuento);
+	}
+	
+	private Oferta buildOfertaEjemplo7() {
+		// Descuento en el 2do producto distinto al 1ro
+		Predicate<Compra> condicion = Predicates.alwaysTrue();
+		Function<Compra, Float> descuento = DescuentoEnSegundoProducto.instance("11-111-1111", "11-111-1112", 50);
+		return new Oferta("50% en Sprite, comprando 1 Coca", condicion,	descuento);
 	}
 
 	@Override
