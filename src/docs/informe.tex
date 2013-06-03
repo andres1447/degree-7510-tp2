@@ -64,6 +64,7 @@
   Gabriel Ostrowsky(gaby.ostro@gmail.com), \textit{P. 90762}       \\
   Ignacio Garay Ojeda(imgarayojeda@gmail.com), \textit{P. 92265}   \\
   Pablo Angelani(pablo.angelani@gmail.com), \textit{P. 92707}      \\
+  \\
   \normalsize{1er. Cuatrimestre de 2013}                           \\
   \normalsize{75.10 - Técnicas de Diseño}                          \\
   \normalsize{Facultad de Ingeniería, Universidad de Buenos Aires}
@@ -109,15 +110,19 @@
 
 En esta sección se detallan algunas de las decisiones de diseño tomadas. Las
 mismas tienen en cuenta la forma de proveer los Productos y Ofertas
-disponibles, asi como también la implementación de las Ofertas Globales y
+disponibles, así como también la implementación de las Ofertas Globales y
 Exclusivas.  Para su implementación se tuvieron en cuenta las buenas prácticas
 de programación, usando TDD en la medida de lo posible, criterios de buen
 diseño y evitando bad-smells.  Además, se utilizaron algunos patrones vistos en
-clase, detallados abajo.
+clase, detallados en cada sección correspondiente.
 
-A continuación se detallan los diferentes diagramas de clases correspondientes
+A continuación se presentan los diferentes diagramas de clases correspondientes
 a los distintos paquetes de la aplicación, como fue modelada, detallando
-únicamente el modelo de dominio implementado.
+únicamente el modelo de dominio implementado. Nuestra elección de realizar esta
+disección por paquete se basa en que concentramos en cada uno de estos
+conceptos del dominio que consideramos clave, por su importancia en el modelo y
+por su complejidad relativa. Los paquetes que detallaremos son Caja, Compras y
+Ofertas.
 
 \section{Caja}
 
@@ -135,7 +140,7 @@ de nuevas instancias representativas de la compra a realizar por un cliente.
 
 \FloatBarrier
 
-En la figura \ref{fig:caja} se detallan el diseño del paquete correspondiente.
+En la figura \ref{fig:caja} se detalla el diseño del paquete correspondiente.
 Se puede observar la clase principal del paquete, Caja, que contiene la lógica
 de intercambio de estados (abierta, cerrada y comprando). Este concepto de
 estado se modeló utilizando el patrón State, como se puede apreciar en las
@@ -143,15 +148,17 @@ clases de EstadoCaja correspondientes. Cada estado es responsable de definir
 los chequeos propios a las diferentes operaciones de la caja que corresponden a
 los intercambios de estado de la misma.
 
-Caja también recibe en su constructor dos objetos, ProveedorOfertas y
-ProveedorProductos, encargados de proveerle las ofertas y productos del día al
-momento de iniciar una nueva compra.
+Caja también recibe en su constructor objetos proveedores, ProveedorOfertas,
+ProveedorProductos y ProveedorFechaActual, encargados de proveer dependencias a
+la caja utilizadas al momento de instanciar una nueva Compra. En particular,
+proveen el listado de ofertas a aplicar en la compra, los productos disponibles
+para su adquisición y la fecha actual.
 
 \section{Compra}
 
 El paquete de compra contiene las clases relacionadas con la compra que realiza
 el cliente, sirviendo como nodo de comunicación que utiliza las ofertas
-(definidas en otro paquete) y los productos (en su propoi paquete también) para
+(definidas en otro paquete) y los productos (en su propio paquete también) para
 representar la compra y los descuentos asociados a la misma.
 
 \begin{figure}[!htp]
@@ -164,7 +171,7 @@ representar la compra y los descuentos asociados a la misma.
 \FloatBarrier
 
 La clase principal del paquete, Compra, es la que representa el conjunto de
-items comprados por un único cliente así como los descuentos aplicados. Consume
+ítems comprados por un único cliente así como los descuentos aplicados. Consume
 además los servicios del ListadoProducto y ProveedorOfertas para obtener los
 productos en stock y las ofertas del momento en el que se inicia la compra.
 
@@ -173,8 +180,8 @@ funcionalidad expuesta por otros paquetes (particularmente ofertas y
 productos), intentamos mantener las interfaces entre ellos lo más acotadas
 posible. La compra depende únicamente del Producto y de la Oferta propiamente
 dicha, clases troncales de los paquetes correspondientes. El resto de los
-servicios de dichos paquetes están ocultos, accedidos únicamente por las clases
-del mismo paquete.
+servicios de dichos paquetes son accedidos únicamente por las clases propias de
+cada uno de ellos.
 
 \section{Ofertas}
 
@@ -195,21 +202,21 @@ una compra. Para hacerlo, contiene referencias a dos interfaces, Predicate y
 Function.
 
 La interfaz Predicate es una interfaz genérica simple que, dado un objeto,
-evalua una condicion y devuelve verdadero o falso. Oferta utiliza a Predicate
+evalúa una condición y devuelve verdadero o falso. Oferta utiliza a Predicate
 para evaluar si debe o no aplicar los descuentos asociados a la oferta.
 
 La interfaz Function es una interfaz genérica, también simple, que transforma
 una entidad en otro tipo de entidad. Esta interfaz se utiliza para dos
 funciones: por un lado, permite implementar lógica de cálculo de los
-descuentos, vista esta lógica como la conversión de una Oferta en un valor
+descuentos, considerando esta lógica como la conversión de una Compra en un valor
 decimal a descontar de la misma. Por el otro lado, esta interfaz permite
 adaptar diferentes entidades de manera de poder reutilizar otras interfaces.
 
 La eficacia de este diseño radica en la simplicidad de estas dos interfaces, lo
 que posibilita su composición. Para dar un ejemplo, para definir una oferta que
-aplique únicamente cuando el día actual es cierto día de la semana se definien
+aplique únicamente cuando el día actual es cierto día de la semana se definen
 dos implementaciones de estas interfaces. La primera, una implementación de
-Predicate que toma una fecha y evalua si la misma corresponde a un día de la
+Predicate que toma una fecha y evalúa si la misma corresponde a un día de la
 semana dado. La segunda, una implementación de Function que dado una compra
 extrae y devuelve su fecha de creación. Componiendo estas dos interfaces se
 obtiene un nuevo Predicate, que toma una Compra y evalúa si su fecha de
@@ -217,33 +224,34 @@ creación corresponde a un día de la semana dado.
 
 En este aspecto, Predicate y Function funcionan como Composites, permitiendo la
 definición flexible de los más diversos tipos de oferta con la mínima necesidad
-de modificar el código existente.
+de modificar el código existente. Por cada nueva implementación de cada una de
+estas, se habilitan una infinidad de ofertas nuevas producto de la composición
+de estas nuevas implementaciones con todas las anteriores.
 
 \section{Consideraciones adicionales}
 
 \subsection{Carga de Productos y Ofertas}
 
 En relación al suministro de Productos disponibles a comprar y Ofertas vigentes
-proveidas por la Sucursal, se utilizó una interfaz para las Cajas a modo de
+proveídas por la Sucursal, se utilizó una interfaz para las Cajas a modo de
 obtener un listado de ambos objetos, sin importar el modo y formato de
-persistencia de ambos catalogos.  En esta primera version del proyecto, se
+persistencia de ambos catálogos.  En esta primera versión del proyecto, se
 crearon 2 clases de tipo Proveedores de Productos y Ofertas en Memoria, los
 cuales implementan una interfaz para proveer el listado a la sucursal, y esta
 asignarla a la caja.  A modo de demostración para su ejecución, armamos un
-listado estatico de ambos elementos, con una variedad basica de productos entre
+listado estático de ambos elementos, con una variedad básica de productos entre
 Marcas y Rubros, y ofertas Globales y Exclusivas.
-
 
 \subsection{Condición de Ofertas Exclusivas}
 
 Existe un supuesto a la asignación de ofertas exclusivas para los productos.
-Estas ofertas, como es sabido, no pueden tener multiple asignación a un mismo
-producto. Para implementarlo, incluímos un mecanismo que le permite a una
-oferta marcar una cierta cantidad de items de la compra compo alcanzados por
-una oferta exclusiva. Otras ofertas exclusivas pueden consultar esta marca para
-detectar su aplicabilidad.
+Estas ofertas, como es sabido, no pueden tener múltiple asignación a un mismo
+producto. Para implementarlo, incluimos un mecanismo que le permite a una
+oferta marcar una cierta cantidad de ítems de la compra como alcanzados por una
+oferta exclusiva. Otras ofertas exclusivas pueden consultar esta marca para
+detectar su aplicabilidad en las condiciones o descuentos correspondientes.
 
-Implementamos únicamente una oferta exclusiva, del tipo "page X, lleve Y".
+Implementamos únicamente una oferta exclusiva, del tipo "pague X, lleve Y".
 Consideramos que esta bastaba para demostrar el mecanismo de extensión que
 permite definir más ofertas de este tipo sin impactar demasiado en el diseño.
 
