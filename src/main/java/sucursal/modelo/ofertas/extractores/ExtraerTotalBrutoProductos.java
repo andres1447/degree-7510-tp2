@@ -6,14 +6,14 @@ import sucursal.modelo.compras.ItemProducto;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 
+/**
+ * Complex extractor function which, given a {@link Compra}, provides its
+ * {@link Compra#getItems()}, only for those items satisfying a given condition.
+ */
 public class ExtraerTotalBrutoProductos implements Function<Compra, Float> {
-	public static ExtraerTotalBrutoProductos instance(Predicate<ItemProducto> condicion) {
-		return new ExtraerTotalBrutoProductos(condicion);
-	}
-	
 	private final Predicate<ItemProducto> condicion;
 
-	private ExtraerTotalBrutoProductos(Predicate<ItemProducto> condicion) {
+	public ExtraerTotalBrutoProductos(final Predicate<ItemProducto> condicion) {
 		this.condicion = condicion;
 	}
 

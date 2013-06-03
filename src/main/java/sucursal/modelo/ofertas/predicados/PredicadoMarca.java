@@ -4,11 +4,11 @@ import sucursal.modelo.compras.ItemProducto;
 
 import com.google.common.base.Predicate;
 
+/**
+ * Predicate function which returns true if the {@link ItemProducto} has a given
+ * make, and false otherwise.
+ */
 public class PredicadoMarca implements Predicate<ItemProducto> {
-	public static Predicate<ItemProducto> instance(String codigo) {
-		return new PredicadoMarca(codigo);
-	}
-
 	private final String codigo;
 
 	public PredicadoMarca(final String codigo) {

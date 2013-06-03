@@ -51,11 +51,11 @@ public class ProveedorOfertasMemoria implements ProveedorOfertas {
 		// efectivo
 		Predicate<Compra> condicion = Predicates.compose(
 				Predicates.equalTo(MedioPago.EFECTIVO),
-				ExtraerMedioPago.instance());
+				new ExtraerMedioPago());
 
 		Function<Compra, Float> descuento = Functions.compose(
-				DescuentoPorcentual.instance(5.0f),
-				ExtraerTotalBruto.instance());
+				new DescuentoPorcentual(5.0f),
+				new ExtraerTotalBruto());
 
 		return new Oferta("5% descuento pago en efectivo", condicion, descuento);
 	}
@@ -64,11 +64,11 @@ public class ProveedorOfertasMemoria implements ProveedorOfertas {
 		// 10% de descuento en todos los productos del rubro comida si es
 		// miercoles
 		Predicate<Compra> condicion = Predicates.compose(
-				PredicadoDiaSemana.instance(Calendar.THURSDAY),
-				ExtraerFechaCreacion.instance());
+				new PredicadoDiaSemana(Calendar.THURSDAY),
+				new ExtraerFechaCreacion());
 		Function<Compra, Float> descuento = Functions.compose(
-				DescuentoPorcentual.instance(10.0f), 
-				ExtraerTotalBrutoProductos.instance(PredicadoRubro.instance("11")));
+				new DescuentoPorcentual(10.0f), 
+				new ExtraerTotalBrutoProductos(new PredicadoRubro("11")));
 		return new Oferta("10% descuento comida los jueves", condicion,
 				descuento);
 	}
@@ -76,9 +76,9 @@ public class ProveedorOfertasMemoria implements ProveedorOfertas {
 	private Oferta buildOfertaEjemplo3() {
 		// Te devolvemos $10 los sabados si compras con tarjeta de debito
 		Predicate<Compra> condicion = Predicates.compose(
-				PredicadoDiaSemana.instance(Calendar.SATURDAY),
-				ExtraerFechaCreacion.instance());
-		Function<Compra, Float> descuento = DescuentoFijo.instance(10.0f);
+				new PredicadoDiaSemana(Calendar.SATURDAY),
+				new ExtraerFechaCreacion());
+		Function<Compra, Float> descuento = new DescuentoFijo<>(10.0f);
 		return new Oferta("10$ descuento sabados", condicion,
 				descuento);
 	}
@@ -86,7 +86,7 @@ public class ProveedorOfertasMemoria implements ProveedorOfertas {
 	private Oferta buildOfertaEjemplo4() {
 		// Llevas 3 cocas pagas 2
 		Predicate<Compra> condicion = Predicates.alwaysTrue();
-		Function<Compra, Float> descuento = DescuentoLlevaXPagaY.instance("11-111-1111", 3, 2);
+		Function<Compra, Float> descuento = new DescuentoLlevaXPagaY("11-111-1111", 3, 2);
 		return new Oferta("Lleva 3 paga 2 en Coca-Cola", condicion,
 				descuento);
 	}
@@ -97,8 +97,8 @@ public class ProveedorOfertasMemoria implements ProveedorOfertas {
 		Predicate<Compra> condicion = new PredicadoJubilado();
 
 		Function<Compra, Float> descuento = Functions.compose(
-				DescuentoPorcentual.instance(10.0f),
-				ExtraerTotalBruto.instance());
+				new DescuentoPorcentual(10.0f),
+				new ExtraerTotalBruto());
 
 		return new Oferta("10% descuento jubilados", condicion, descuento);
 	}
@@ -108,8 +108,8 @@ public class ProveedorOfertasMemoria implements ProveedorOfertas {
 		Predicate<Compra> condicion = new PredicadoCupon("11111");
 
 		Function<Compra, Float> descuento = Functions.compose(
-				DescuentoFijo.instance(10.0f),
-				ExtraerTotalBruto.instance());
+				new DescuentoFijo<>(10.0f),
+				new ExtraerTotalBruto());
 
 		return new Oferta("$10 cupon", condicion, descuento);
 	}
@@ -117,7 +117,7 @@ public class ProveedorOfertasMemoria implements ProveedorOfertas {
 	private Oferta buildOfertaEjemplo7() {
 		// Descuento en el 2do producto distinto al 1ro
 		Predicate<Compra> condicion = Predicates.alwaysTrue();
-		Function<Compra, Float> descuento = DescuentoEnSegundoProducto.instance("11-111-1111", "11-111-1112", 50);
+		Function<Compra, Float> descuento = new DescuentoEnSegundoProducto("11-111-1111", "11-111-1112", 50);
 		return new Oferta("50% en Sprite, comprando 1 Coca", condicion,	descuento);
 	}
 

@@ -2,11 +2,14 @@ package sucursal.modelo.ofertas.descuentos;
 
 import com.google.common.base.Function;
 
+/**
+ * Discount which applies a fixed value discount on anything.
+ * 
+ * @param <T>
+ *            The type of the input value. This discount ignores its input, as
+ *            it always returns the same discount value.
+ */
 public class DescuentoFijo<T> implements Function<T, Float> {
-	public static <T> DescuentoFijo<T> instance(float valor) {
-		return new DescuentoFijo<>(valor);
-	}
-	
 	private final float valor;
 
 	public DescuentoFijo(float valor) {

@@ -22,6 +22,13 @@ public class Caja {
 	private EstadoCaja estado = new EstadoCajaCerrada();
 	private Compra compraActual = null;
 
+	private void procesarResumenVentas() {
+		if (compraActual.fueCancelada()) {
+			return;
+		}
+		resumenVentas.registrarCompra(compraActual);
+	}
+
 	public Caja(final ProveedorOfertas proveedorOfertas,
 			final ProveedorProductos proveedorProductos) {
 		this.proveedorOfertas = proveedorOfertas;
@@ -89,13 +96,6 @@ public class Caja {
 		compraActual = null;
 	}
 
-	private void procesarResumenVentas() {
-		if (compraActual.fueCancelada()) {
-			return;
-		}
-		resumenVentas.registrarCompra(compraActual);
-	}
-
 	/**
 	 * Checks if the {@link Caja} is in "buying" state. Returns true if the
 	 * {@link Caja} is in "buying" state, false otherwise.
@@ -104,6 +104,9 @@ public class Caja {
 		return estado.estaComprando();
 	}
 
+	/**
+	 * Obtains a sales summary for all sales done through {@link Caja}.
+	 */
 	public ResumenVentas getResumenVentas() {
 		return resumenVentas;
 	}

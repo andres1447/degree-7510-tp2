@@ -37,6 +37,10 @@ public class Sucursal {
 		return caja;
 	}
 
+	/**
+	 * Obtains a summary of the sales made on all {@link Caja} instances created
+	 * by this {@link Sucursal}.
+	 */
 	public List<EntradaResumenVentas> generarResumenVentas() {
 		ResumenVentas resumenGeneral = new ResumenVentas();
 

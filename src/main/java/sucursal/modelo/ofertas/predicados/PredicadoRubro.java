@@ -4,11 +4,11 @@ import sucursal.modelo.compras.ItemProducto;
 
 import com.google.common.base.Predicate;
 
+/**
+ * Predicate function which returns true if the {@link ItemProducto} has a given
+ * category, and false otherwise.
+ */
 public class PredicadoRubro implements Predicate<ItemProducto> {
-	public static Predicate<ItemProducto> instance(String codigo) {
-		return new PredicadoRubro(codigo);
-	}
-
 	private final String codigo;
 
 	public PredicadoRubro(final String codigo) {

@@ -5,11 +5,11 @@ import sucursal.modelo.compras.MedioPago;
 
 import com.google.common.base.Function;
 
+/**
+ * Extractor function which, given a {@link Compra}, provides its
+ * {@link Compra#getMedioPago()}.
+ */
 public class ExtraerMedioPago implements Function<Compra, MedioPago> {
-	public static ExtraerMedioPago instance() {
-		return new ExtraerMedioPago();
-	}
-
 	@Override
 	public MedioPago apply(final Compra input) {
 		return input.getMedioPago();

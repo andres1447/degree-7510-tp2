@@ -5,14 +5,14 @@ import java.util.Date;
 
 import com.google.common.base.Predicate;
 
+/**
+ * Predicate function which returns true if the {@link Date} has a given week
+ * day, and false otherwise.
+ */
 public class PredicadoDiaSemana implements Predicate<Date> {
-	public static PredicadoDiaSemana instance(final int diaObjetivo) {
-		return new PredicadoDiaSemana(diaObjetivo);
-	}
-	
 	private final int diaObjetivo;
 
-	private PredicadoDiaSemana(int diaObjetivo) {
+	public PredicadoDiaSemana(int diaObjetivo) {
 		this.diaObjetivo = diaObjetivo;
 	}
 

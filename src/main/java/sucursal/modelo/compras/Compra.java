@@ -14,7 +14,7 @@ import sucursal.modelo.productos.ProveedorProductos;
 import sucursal.utilities.Evento;
 
 /**
- * Reprents the buying session of a customer in a {@link Caja}. Manages the
+ * Represents the buying session of a customer in a {@link Caja}. Manages the
  * available {@link Producto} and {@link Oferta} instances for the session, the
  * bought {@link ItemProducto} instances and applies the corresponding
  * {@link Oferta} instances.
@@ -106,7 +106,11 @@ public class Compra {
 	public boolean fueCancelada() {
 		return cancelada;
 	}
-	
+
+	/**
+	 * Obtains a flag indicating wether the {@link Compra} was requested for a
+	 * elderly customer.
+	 */
 	public boolean esJubilado() {
 		return esJubilado;
 	}
@@ -160,6 +164,10 @@ public class Compra {
 		return productos;
 	}
 
+	/**
+	 * Obtains the net total amount that the customer should be charged for this
+	 * {@link Compra}.
+	 */
 	public float getTotal() {
 		float resultado = getTotalBruto();
 		for (ItemDescuento item : getDescuentos()) {
@@ -168,6 +176,10 @@ public class Compra {
 		return resultado < 0 ? 0.0f : resultado;
 	}
 
+	/**
+	 * Obtains the total amount, without discounts, that the customer should be
+	 * charged for this {@link Compra}.
+	 */
 	public float getTotalBruto() {
 		float resultado = 0.0f;
 		for (ItemProducto item : getItems()) {
@@ -176,26 +188,45 @@ public class Compra {
 		return resultado;
 	}
 
+	/**
+	 * Obtains the payment method.
+	 */
 	public MedioPago getMedioPago() {
 		return medioPago;
 	}
 
+	/**
+	 * Sets the payment method to a given one.
+	 */
 	public void setMedioPago(MedioPago medioPago) {
 		this.medioPago = medioPago;
 	}
 
+	/**
+	 * Obtains the date on which the {@link Compra} was started.
+	 */
 	public Date getFechaCreacion() {
 		return fechaCreacion;
 	}
 
+	/**
+	 * Sets a flag indicating wether this {@link Compra} is for an elderly
+	 * customer.
+	 */
 	public void setJubilado(boolean jubilado) {
 		this.esJubilado = jubilado;
 	}
 
-	public void setCodigoCupon(String text) {
+	/**
+	 * Sets the coupon code to apply to this {@link Compra}.
+	 */
+	public void setCodigoCupon(final String text) {
 		codigoCupon = text;
 	}
-	
+
+	/**
+	 * Obtains the coupon code applied to this {@link Compra}.
+	 */
 	public String getCodigoCupon() {
 		return codigoCupon;
 	}

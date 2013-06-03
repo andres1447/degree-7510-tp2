@@ -5,16 +5,18 @@ import sucursal.modelo.compras.ItemProducto;
 
 import com.google.common.base.Function;
 
+/**
+ * Complex exclusive discount strategy which calculates the discount to apply to
+ * a {@link Compra} by examining the amount of bought items for a given product
+ * and allowing the customer to take Y items by paying only X of them.
+ */
 public class DescuentoLlevaXPagaY implements Function<Compra, Float> {
-	public static DescuentoLlevaXPagaY instance(String codigoProducto, int x, int y) {
-		return new DescuentoLlevaXPagaY(codigoProducto, x, y);
-	}
-	
 	private final String codigoProducto;
 	private final int x;
 	private final int y;
-	
-	public DescuentoLlevaXPagaY(final String codigoProducto, final int x, final int y) {
+
+	public DescuentoLlevaXPagaY(final String codigoProducto, final int x,
+			final int y) {
 		this.codigoProducto = codigoProducto;
 		this.x = x;
 		this.y = y;
@@ -30,7 +32,7 @@ public class DescuentoLlevaXPagaY implements Function<Compra, Float> {
 				resultado += item.getProducto().getPrecioUnitario() * (x - y);
 			}
 		}
-		
+
 		return resultado > 0 ? resultado : null;
 	}
 
