@@ -36,12 +36,12 @@ public class ProveedorOfertasMemoria implements ProveedorOfertas {
 
 	@Inject
 	public ProveedorOfertasMemoria() {
-		//ofertas.add(buildOfertaEjemplo1());
-		//ofertas.add(buildOfertaEjemplo2());
-		//ofertas.add(buildOfertaEjemplo3());
-		//ofertas.add(buildOfertaEjemplo4());
-		//ofertas.add(buildOfertaEjemplo5());
-		//ofertas.add(buildOfertaEjemplo6());
+		ofertas.add(buildOfertaEjemplo1());
+		ofertas.add(buildOfertaEjemplo2());
+		ofertas.add(buildOfertaEjemplo3());
+		ofertas.add(buildOfertaEjemplo4());
+		ofertas.add(buildOfertaEjemplo5());
+		ofertas.add(buildOfertaEjemplo6());
 		ofertas.add(buildOfertaEjemplo7());
 
 	}
