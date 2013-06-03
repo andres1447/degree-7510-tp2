@@ -1,8 +1,8 @@
 package sucursal.ui.controllers;
 
 import java.util.List;
-import java.util.Map.Entry;
 
+import sucursal.modelo.EntradaResumenVentas;
 import sucursal.modelo.Sucursal;
 import sucursal.modelo.caja.Caja;
 import sucursal.modelo.compras.Compra;
@@ -21,7 +21,7 @@ import com.google.inject.Singleton;
  */
 @Singleton
 public class MainController {
-	private Sucursal sucursal;	
+	private Sucursal sucursal;
 	private final Caja caja;
 	private final CompraController compraController;
 	private final MainView view;
@@ -43,13 +43,15 @@ public class MainController {
 		public void notificar(MainView observable) {
 			try {
 				caja.cerrar();
-				List<Entry<String, Integer>> resumen = sucursal.generarResumenVentas();
+				List<EntradaResumenVentas> resumen = sucursal
+						.generarResumenVentas();
 				StringBuilder mensaje = new StringBuilder();
-				for (Entry<String, Integer> entry : resumen) {
-					mensaje.append("Producto " + entry.getKey() + " vendio " + entry.getValue() + " unidades\n");
+				for (EntradaResumenVentas entry : resumen) {
+					mensaje.append("Producto " + entry.getCodigoProducto()
+							+ " vendio " + entry.getCantidad() + " unidades\n");
 				}
 				simpleDialog.showInfo(mensaje.toString());
-				
+
 			} catch (CajaNoAbiertaException e) {
 				simpleDialog.showError("La caja ya se encuentra cerrada.");
 			}
@@ -69,7 +71,6 @@ public class MainController {
 			}
 		}
 	};
-
 
 	@Inject
 	public MainController(final Sucursal sucursal,

@@ -1,10 +1,7 @@
 package sucursal.modelo.caja;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import sucursal.modelo.ResumenVentas;
 import sucursal.modelo.compras.Compra;
-import sucursal.modelo.compras.ItemProducto;
 import sucursal.modelo.ofertas.ProveedorOfertas;
 import sucursal.modelo.productos.ProveedorProductos;
 import sucursal.utilities.Evento;
@@ -14,7 +11,7 @@ import sucursal.utilities.Evento;
  * and allows clients to create new {@link Compra} instances.
  */
 public class Caja {
-	private final Map<String, Integer> ventasPorProducto = new HashMap<String, Integer>();
+	private final ResumenVentas resumenVentas = new ResumenVentas();
 	private final Evento<Caja> onCajaAbierta = new Evento<>(this);
 	private final Evento<Caja> onCajaCerrada = new Evento<>(this);
 	private final Evento<Caja> onCompraIniciada = new Evento<>(this);
@@ -87,26 +84,16 @@ public class Caja {
 	 */
 	public void terminarCompra() {
 		estado.checkPuedeTerminarCompra();
+		procesarResumenVentas();
 		estado = new EstadoCajaAbierta();
-		procesarVentasCompra();
 		compraActual = null;
 	}
 
-	private void procesarVentasCompra() {
+	private void procesarResumenVentas() {
 		if (compraActual.fueCancelada()) {
 			return;
 		}
-
-		for (ItemProducto item : compraActual.getItems()) {
-			String key = item.getProducto().getCodigo();
-			if (ventasPorProducto.containsKey(key)) {
-				Integer cantidad = ventasPorProducto.get(key);
-				cantidad += item.getCantidad();
-				ventasPorProducto.put(key, cantidad);
-			} else {
-				ventasPorProducto.put(key, item.getCantidad());
-			}
-		}
+		resumenVentas.registrarCompra(compraActual);
 	}
 
 	/**
@@ -115,6 +102,10 @@ public class Caja {
 	 */
 	public boolean estaComprando() {
 		return estado.estaComprando();
+	}
+
+	public ResumenVentas getResumenVentas() {
+		return resumenVentas;
 	}
 
 	/**
@@ -139,9 +130,5 @@ public class Caja {
 	 */
 	public Evento<Caja> getOnCompraIniciada() {
 		return onCompraIniciada;
-	}
-
-	public Map<String, Integer> getResumenVentas() {
-		return ventasPorProducto;
 	}
 }
