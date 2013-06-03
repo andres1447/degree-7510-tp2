@@ -76,4 +76,11 @@ public class ItemProducto {
 	public void incrementarCantidad(int i) {
 		this.cantidad += i;
 	}
+
+	/**
+	 * Obtains the code of the product in this item
+	 */
+	public String getCodigoProducto() {
+		return getProducto().getCodigo();
+	}
 }

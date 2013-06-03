@@ -37,14 +37,14 @@ public class DescuentoEnSegundoProducto implements Function<Compra, Float> {
 	}
 
 	private int sumarCantidadProductoCondicion(ItemProducto item) {
-		if (item.getProducto().getCodigo().equals(this.codigoProductoCondicion)) {
+		if (item.getCodigoProducto().equals(this.codigoProductoCondicion)) {
 			return item.getCantidad();
 		}
 		return 0;
 	}
 
 	private int getCantidadYPrecioProductoDescuento(ItemProducto item) {
-		if (item.getProducto().getCodigo().equals(this.codigoProductoDescuento)) {
+		if (item.getCodigoProducto().equals(this.codigoProductoDescuento)) {
 			this.precioDescuento = item.getProducto().getPrecioUnitario();
 			return item.getCantidad();
 		}

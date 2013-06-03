@@ -1,4 +1,4 @@
-package sucursal.modelo;
+package sucursal.modelo.caja;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -10,7 +10,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import sucursal.modelo.caja.Caja;
 import sucursal.modelo.compras.Compra;
 import sucursal.modelo.exceptions.CajaNoAbiertaException;
 import sucursal.modelo.exceptions.CajaYaAbiertaException;

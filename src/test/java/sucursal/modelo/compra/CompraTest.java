@@ -1,4 +1,4 @@
-package sucursal.modelo;
+package sucursal.modelo.compra;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;

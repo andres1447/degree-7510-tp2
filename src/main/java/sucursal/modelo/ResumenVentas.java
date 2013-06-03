@@ -43,7 +43,7 @@ public class ResumenVentas {
 	 */
 	public void registrarCompra(final Compra compra) {
 		for (ItemProducto item : compra.getItems()) {
-			final String clave = item.getProducto().getCodigo();
+			final String clave = item.getCodigoProducto();
 			final int cantidad = item.getCantidad();
 			registrarCompra(clave, cantidad);
 		}
@@ -54,7 +54,7 @@ public class ResumenVentas {
 	 * recorded in this sales summary.
 	 */
 	public void incorporar(final ResumenVentas resumenVentas) {
-		for (EntradaResumenVentas entrada : resumenVentas.toReporte()) {
+		for (EntradaResumenVentas entrada : resumenVentas.toReporteOrdenado()) {
 			final String clave = entrada.getCodigoProducto();
 			final int cantidad = entrada.getCantidad();
 			registrarCompra(clave, cantidad);

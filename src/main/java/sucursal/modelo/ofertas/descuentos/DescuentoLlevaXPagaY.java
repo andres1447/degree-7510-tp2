@@ -38,7 +38,7 @@ public class DescuentoLlevaXPagaY implements Function<Compra, Float> {
 
 	private ItemProducto buscarItemCorrespondiente(Compra input) {
 		for (ItemProducto item : input.getItems()) {
-			if (item.getProducto().getCodigo().equals(codigoProducto)) {
+			if (item.getCodigoProducto().equals(codigoProducto)) {
 				return item;
 			}
 		}
