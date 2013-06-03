@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sucursal.modelo.caja.Caja;
+import sucursal.modelo.compras.ProveedorFechaActual;
 import sucursal.modelo.ofertas.ProveedorOfertas;
 import sucursal.modelo.productos.ProveedorProductos;
 
@@ -18,13 +19,16 @@ import com.google.inject.Singleton;
 public class Sucursal {
 	private final ProveedorOfertas proveedorOfertas;
 	private final ProveedorProductos proveedorProductos;
+	private final ProveedorFechaActual proveedorFechaActual;
 	private List<Caja> cajas = new ArrayList<>();
 
 	@Inject
 	public Sucursal(final ProveedorOfertas proveedorOfertas,
-			final ProveedorProductos proveedorProductos) {
+			final ProveedorProductos proveedorProductos,
+			final ProveedorFechaActual proveedorFechaActual) {
 		this.proveedorOfertas = proveedorOfertas;
 		this.proveedorProductos = proveedorProductos;
+		this.proveedorFechaActual = proveedorFechaActual;
 	}
 
 	/**
@@ -32,7 +36,8 @@ public class Sucursal {
 	 * {@link Caja} instances created by this {@link Sucursal}.
 	 */
 	public Caja habilitarCaja() {
-		Caja caja = new Caja(proveedorOfertas, proveedorProductos);
+		Caja caja = new Caja(proveedorOfertas, proveedorProductos,
+				proveedorFechaActual);
 		cajas.add(caja);
 		return caja;
 	}

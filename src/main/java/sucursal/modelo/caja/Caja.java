@@ -2,6 +2,7 @@ package sucursal.modelo.caja;
 
 import sucursal.modelo.ResumenVentas;
 import sucursal.modelo.compras.Compra;
+import sucursal.modelo.compras.ProveedorFechaActual;
 import sucursal.modelo.ofertas.ProveedorOfertas;
 import sucursal.modelo.productos.ProveedorProductos;
 import sucursal.utilities.Evento;
@@ -18,6 +19,7 @@ public class Caja {
 
 	private final ProveedorOfertas proveedorOfertas;
 	private final ProveedorProductos proveedorProductos;
+	private final ProveedorFechaActual proveedorFechaActual;
 
 	private EstadoCaja estado = new EstadoCajaCerrada();
 	private Compra compraActual = null;
@@ -30,9 +32,11 @@ public class Caja {
 	}
 
 	public Caja(final ProveedorOfertas proveedorOfertas,
-			final ProveedorProductos proveedorProductos) {
+			final ProveedorProductos proveedorProductos,
+			final ProveedorFechaActual proveedorFechaActual) {
 		this.proveedorOfertas = proveedorOfertas;
 		this.proveedorProductos = proveedorProductos;
+		this.proveedorFechaActual = proveedorFechaActual;
 	}
 
 	/**
@@ -79,7 +83,8 @@ public class Caja {
 	public Compra iniciarCompra() {
 		estado.checkPuedeIniciarCompra();
 		estado = new EstadoCajaComprando();
-		compraActual = new Compra(this, proveedorOfertas, proveedorProductos);
+		compraActual = new Compra(this, proveedorOfertas, proveedorProductos,
+				proveedorFechaActual);
 		onCompraIniciada.notificar();
 		return compraActual;
 	}

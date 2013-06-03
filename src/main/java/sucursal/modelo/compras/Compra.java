@@ -35,11 +35,12 @@ public class Compra {
 	private String codigoCupon;
 
 	public Compra(final Caja caja, final ProveedorOfertas proveedorOfertas,
-			final ProveedorProductos proveedorProductos) {
+			final ProveedorProductos proveedorProductos,
+			final ProveedorFechaActual proveedorFechaActual) {
 		this.caja = caja;
 		this.ofertas = proveedorOfertas.proveer();
 		this.productos = proveedorProductos.proveer();
-		this.fechaCreacion = new Date();
+		this.fechaCreacion = proveedorFechaActual.proveer();
 		this.medioPago = MedioPago.EFECTIVO;
 		this.esJubilado = false;
 	}

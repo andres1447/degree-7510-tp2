@@ -43,7 +43,6 @@ public class ProveedorOfertasMemoria implements ProveedorOfertas {
 		ofertas.add(buildOfertaEjemplo5());
 		ofertas.add(buildOfertaEjemplo6());
 		ofertas.add(buildOfertaEjemplo7());
-
 	}
 
 	private Oferta buildOfertaEjemplo1() {

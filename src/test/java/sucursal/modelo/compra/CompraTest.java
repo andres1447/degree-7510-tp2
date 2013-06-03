@@ -12,6 +12,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import sucursal.modelo.caja.Caja;
 import sucursal.modelo.compras.Compra;
+import sucursal.modelo.compras.ProveedorFechaActual;
 import sucursal.modelo.ofertas.ProveedorOfertas;
 import sucursal.modelo.productos.Producto;
 import sucursal.modelo.productos.ProveedorProductos;
@@ -36,10 +37,13 @@ public class CompraTest {
 	@Mock
 	private ProveedorProductos mockProveedorProductos;
 
+	@Mock
+	private ProveedorFechaActual mockProveedorFechaActual;
+
 	@Before
 	public void setup() {
 		subject = new Compra(mockCaja, mockProveedorOfertas,
-				mockProveedorProductos);
+				mockProveedorProductos, mockProveedorFechaActual);
 	}
 
 	@Test

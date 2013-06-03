@@ -11,6 +11,7 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import sucursal.modelo.compras.Compra;
+import sucursal.modelo.compras.ProveedorFechaActual;
 import sucursal.modelo.exceptions.CajaNoAbiertaException;
 import sucursal.modelo.exceptions.CajaYaAbiertaException;
 import sucursal.modelo.exceptions.CompraEnProcesoException;
@@ -32,9 +33,13 @@ public class CajaTest {
 	@Mock
 	private ProveedorProductos mockProveedorProductos;
 
+	@Mock
+	private ProveedorFechaActual mockProveedorFechaActual;
+
 	@Before
 	public void setup() {
-		subject = new Caja(mockProveedorOfertas, mockProveedorProductos);
+		subject = new Caja(mockProveedorOfertas, mockProveedorProductos,
+				mockProveedorFechaActual);
 	}
 
 	@Test
