@@ -116,15 +116,54 @@ de programación, usando TDD en la medida de lo posible, criterios de buen
 diseño y evitando bad-smells.  Además, se utilizaron algunos patrones vistos en
 clase, detallados en cada sección correspondiente.
 
-A continuación se presentan los diferentes diagramas de clases correspondientes
-a los distintos paquetes de la aplicación, como fue modelada, detallando
-únicamente el modelo de dominio implementado. Nuestra elección de realizar esta
-disección por paquete se basa en que concentramos en cada uno de estos
-conceptos del dominio que consideramos clave, por su importancia en el modelo y
-por su complejidad relativa. Los paquetes que detallaremos son Caja, Compras y
-Ofertas.
+A continuación se presentan las dificultades principales que enfrentamos
+durante el desarrollo del diseño del trabajo práctico. Posteriormente, se
+presentan los diferentes diagramas de clases correspondientes a los distintos
+paquetes de la aplicación, como fue modelada, detallando únicamente el modelo
+de dominio implementado. Nuestra elección de realizar esta disección por
+paquete se basa en que concentramos en cada uno de estos conceptos del dominio
+que consideramos clave, por su importancia en el modelo y por su complejidad
+relativa. Los paquetes que detallaremos son Caja, Compras y Ofertas.
 
-\section{Caja}
+\section{Dificultades principales}
+
+\section{Estados de caja}
+
+Una de las primeras dificultades que enfrentamos fue la necesidad de
+representar los diferentes estados en la caja. Inicialmente, de acuerdo a la
+narrativa de los requisitos de negocio, identificamos 3 estados: Abierta,
+Cerrada y Comprando. Adicionalmente, descubrimos reglas con respecto a las
+transiciones entre estos estados. Necesitábamos implementar un diseño que nos
+permitiera representar la máquina de estados que modelaría la caja y
+particularmente los diferentes chequeos a realizar en las transiciones de dicha
+máquina.
+
+\section{Catálogos}
+
+Otro punto importante a definir fue la falta de información en cuanto a la
+obtención de los catálogos de ofertas y productos a utilizar en las compras.
+Dado que no existía información detallada en cuanto a los requisitos de manejo
+de dichos catálogos, debíamos desarrollar un diseño flexible que nos permitiese
+cambiar el origen desde donde se obtenían las entidades pertenecientes a estos
+listados, inicialmente un catálogo estático definido en memoria por cuestiones
+de simplicidad.
+
+\section{Sistema flexible de ofertas}
+
+Uno de los puntos más importantes del diseño del trabajo práctico radicaba en
+la capacidad de tener flexibilidad en el desarrollo de nuevas ofertas. En
+particular, queríamos un diseño que nos permitiera de alguna forma componer
+bloques de lógica simples, como condiciones de fechas, medios de pago o
+productos adquiridos, de manera de generar ofertas complejas a través de la
+composición de estos bloques de trabajo acotados. Queríamos además independizar
+el proceso de detección de la aplicabilidad de una oferta del proceso de
+aplicación y cálculo de descuentos propiamente dicho. El objetivo era poder
+desarrollar un conjunto pequeño de componentes simples que permitan la
+generación combinatoria de diversas ofertas complejas.
+
+\section{Detalles de diseño por paquete}
+
+\subsection{Caja}
 
 El paquete de caja contiene todas las clases relacionadas con el manejo de la
 caja propiamente dicha. En particular, algunas de las responsabilidades de las
@@ -154,7 +193,7 @@ la caja utilizadas al momento de instanciar una nueva Compra. En particular,
 proveen el listado de ofertas a aplicar en la compra, los productos disponibles
 para su adquisición y la fecha actual.
 
-\section{Compra}
+\subsection{Compra}
 
 El paquete de compra contiene las clases relacionadas con la compra que realiza
 el cliente, sirviendo como nodo de comunicación que utiliza las ofertas
@@ -183,7 +222,7 @@ dicha, clases troncales de los paquetes correspondientes. El resto de los
 servicios de dichos paquetes son accedidos únicamente por las clases propias de
 cada uno de ellos.
 
-\section{Ofertas}
+\subsection{Ofertas}
 
 El paquete de ofertas contiene las clases relacionadas con el cálculo de los
 descuentos apropiados a cada compra.
