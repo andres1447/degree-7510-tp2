@@ -16,6 +16,7 @@ import sucursal.modelo.compras.ProveedorFechaActual;
 import sucursal.modelo.ofertas.ProveedorOfertas;
 import sucursal.modelo.productos.Producto;
 import sucursal.modelo.productos.ProveedorProductos;
+import sucursal.modelo.puntos.ProveedorPuntos;
 import sucursal.utilities.Observador;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -40,10 +41,14 @@ public class CompraTest {
 	@Mock
 	private ProveedorFechaActual mockProveedorFechaActual;
 
+	@Mock
+	private ProveedorPuntos mockProveedorPuntos;
+	
 	@Before
 	public void setup() {
 		subject = new Compra(mockCaja, mockProveedorOfertas,
-				mockProveedorProductos, mockProveedorFechaActual);
+				mockProveedorProductos, mockProveedorFechaActual,
+				mockProveedorPuntos);
 	}
 
 	@Test

@@ -6,23 +6,27 @@ import java.util.List;
 import java.util.Stack;
 
 import sucursal.modelo.caja.Caja;
-import sucursal.modelo.ofertas.Oferta;
+import sucursal.modelo.cliente.Cliente;
+import sucursal.modelo.ofertas.IOferta;
 import sucursal.modelo.ofertas.ProveedorOfertas;
 import sucursal.modelo.productos.ListadoProductos;
 import sucursal.modelo.productos.Producto;
 import sucursal.modelo.productos.ProveedorProductos;
+import sucursal.modelo.puntos.ListaPuntos;
+import sucursal.modelo.puntos.ProveedorPuntos;
 import sucursal.utilities.Evento;
 
 /**
  * Represents the buying session of a customer in a {@link Caja}. Manages the
- * available {@link Producto} and {@link Oferta} instances for the session, the
+ * available {@link Producto} and {@link OfertaDinero} instances for the session, the
  * bought {@link ItemProducto} instances and applies the corresponding
- * {@link Oferta} instances.
+ * {@link OfertaDinero} instances.
  */
 public class Compra {
 	private Evento<Compra> onItemsCambiados = new Evento<Compra>(this);
 	private Evento<Compra> onCompraConfirmada = new Evento<Compra>(this);
 
+	private Cliente cliente;
 	private boolean cancelada;
 	private boolean esJubilado;
 	private MedioPago medioPago;
@@ -31,15 +35,18 @@ public class Compra {
 	private final Stack<ItemProducto> items = new Stack<>();
 	private final Stack<ItemDescuento> descuentos = new Stack<>();
 	private final ListadoProductos productos;
-	private final List<Oferta> ofertas;
+	private final ListaPuntos puntos;
+	private final List<IOferta> ofertas;
 	private String codigoCupon;
 
 	public Compra(final Caja caja, final ProveedorOfertas proveedorOfertas,
 			final ProveedorProductos proveedorProductos,
-			final ProveedorFechaActual proveedorFechaActual) {
+			final ProveedorFechaActual proveedorFechaActual,
+			final ProveedorPuntos proveedorPuntos) {
 		this.caja = caja;
 		this.ofertas = proveedorOfertas.proveer();
 		this.productos = proveedorProductos.proveer();
+		this.puntos = proveedorPuntos.proveer();
 		this.fechaCreacion = proveedorFechaActual.proveer();
 		this.medioPago = MedioPago.EFECTIVO;
 		this.esJubilado = false;
@@ -93,9 +100,10 @@ public class Compra {
 	 * parent {@link Caja} to switch back to "open" state.
 	 */
 	public void confirmar() {
-		for (Oferta oferta : ofertas) {
+		for (IOferta oferta : ofertas) {
 			oferta.aplicarSiCorresponde(this);
 		}
+		cliente.confirmar();
 		onCompraConfirmada.notificar();
 		caja.terminarCompra();
 	}
@@ -164,6 +172,22 @@ public class Compra {
 	public ListadoProductos getListadoProductos() {
 		return productos;
 	}
+	
+	public ListaPuntos getListadoPuntos() {
+		return puntos;
+	}
+
+	public float getTotalDescontandoPuntos() {
+		float resultado = getTotal();
+		resultado -= cliente.getPuntos();
+		return resultado < 0 ? 0.0f : resultado;
+	}
+	
+	public void descontarPuntos() {
+		int puntosADescontar = (int)(Math.min(cliente.getPuntos(), getTotal()));
+		cliente.removerPuntos(puntosADescontar);
+		descuentos.add(new ItemDescuento("Puntos descontados", puntosADescontar));
+	}
 
 	/**
 	 * Obtains the net total amount that the customer should be charged for this
@@ -230,5 +254,13 @@ public class Compra {
 	 */
 	public String getCodigoCupon() {
 		return codigoCupon;
+	}
+	
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+	
+	public Cliente getCliente() {
+		return cliente;
 	}
 }

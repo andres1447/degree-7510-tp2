@@ -15,10 +15,12 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import sucursal.modelo.Sucursal;
 import sucursal.modelo.caja.Caja;
+import sucursal.modelo.cliente.Cliente;
 import sucursal.modelo.compras.Compra;
 import sucursal.modelo.compras.MedioPago;
 import sucursal.modelo.compras.ProveedorFechaActual;
-import sucursal.modelo.ofertas.Oferta;
+import sucursal.modelo.ofertas.IOferta;
+import sucursal.modelo.ofertas.OfertaDinero;
 import sucursal.modelo.ofertas.ProveedorOfertas;
 import sucursal.modelo.ofertas.descuentos.DescuentoLlevaXPagaY;
 import sucursal.modelo.ofertas.descuentos.DescuentoPorcentual;
@@ -31,6 +33,7 @@ import sucursal.modelo.productos.Marca;
 import sucursal.modelo.productos.Producto;
 import sucursal.modelo.productos.ProveedorProductos;
 import sucursal.modelo.productos.Rubro;
+import sucursal.modelo.puntos.ProveedorPuntos;
 
 import com.google.common.base.Functions;
 import com.google.common.base.Predicates;
@@ -45,6 +48,9 @@ public class IntegracionCaso1Test {
 	
 	@Mock
 	private ProveedorOfertas mockOfertas;
+	
+	@Mock
+	private ProveedorPuntos mockPuntos;
 
 	@Test
 	public void verifcarCaso() {
@@ -52,7 +58,7 @@ public class IntegracionCaso1Test {
 		ListadoProductosMapaMemoria listadoProductos = new ListadoProductosMapaMemoria();
 		Mockito.stub(mockProductos.proveer()).toReturn(listadoProductos);
 		
-		List<Oferta> ofertas = new ArrayList<Oferta>();
+		List<IOferta> ofertas = new ArrayList<IOferta>();
 		Mockito.stub(mockOfertas.proveer()).toReturn(ofertas);
 
 		// - es jueves
@@ -75,12 +81,12 @@ public class IntegracionCaso1Test {
 		Producto maceta = new Producto(jardin, generica, "333", "Maceta", "", 10);
 		listadoProductos.add(maceta);
 		// - existe promo coca lleve 2 pague 1
-		ofertas.add(new Oferta("Coca 2X1", 
+		ofertas.add(new OfertaDinero("Coca 2X1", 
 				Predicates.<Compra>alwaysTrue(),
 				new DescuentoLlevaXPagaY("1-11-111", 2, 1)));		
 
 		// - hay descuento 10% para tarjeta de debito los dias jueves
-		ofertas.add(new Oferta("10% descuento tarjeta debito jueves",
+		ofertas.add(new OfertaDinero("10% descuento tarjeta debito jueves",
 				Predicates.and(
 						Predicates.compose(
 								new PredicadoDiaSemana(Calendar.THURSDAY), 
@@ -96,10 +102,11 @@ public class IntegracionCaso1Test {
 
 		// - se realiza una compra de 2 cocas, 1 cepillo y 1 maceta pagando con
 		// tarjeta debito
-		Sucursal sucursal = new Sucursal(mockOfertas, mockProductos, mockFecha);
+		Sucursal sucursal = new Sucursal(mockOfertas, mockProductos, mockFecha, mockPuntos);
 		Caja caja = sucursal.habilitarCaja();
 		caja.abrir();
 		Compra compra = caja.iniciarCompra();
+		compra.setCliente(new Cliente("asasd"));
 		compra.agregarItem(cocaCola, 2);
 		compra.agregarItem(cepillo, 1);
 		compra.agregarItem(maceta, 1);

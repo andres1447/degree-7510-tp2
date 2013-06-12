@@ -7,6 +7,7 @@ import sucursal.modelo.caja.Caja;
 import sucursal.modelo.compras.ProveedorFechaActual;
 import sucursal.modelo.ofertas.ProveedorOfertas;
 import sucursal.modelo.productos.ProveedorProductos;
+import sucursal.modelo.puntos.ProveedorPuntos;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -20,15 +21,19 @@ public class Sucursal {
 	private final ProveedorOfertas proveedorOfertas;
 	private final ProveedorProductos proveedorProductos;
 	private final ProveedorFechaActual proveedorFechaActual;
+	private final ProveedorPuntos proveedorPuntos;
+	
 	private List<Caja> cajas = new ArrayList<>();
 
 	@Inject
 	public Sucursal(final ProveedorOfertas proveedorOfertas,
 			final ProveedorProductos proveedorProductos,
-			final ProveedorFechaActual proveedorFechaActual) {
+			final ProveedorFechaActual proveedorFechaActual,
+			final ProveedorPuntos proveedorPuntos) {
 		this.proveedorOfertas = proveedorOfertas;
 		this.proveedorProductos = proveedorProductos;
 		this.proveedorFechaActual = proveedorFechaActual;
+		this.proveedorPuntos = proveedorPuntos;
 	}
 
 	/**
@@ -37,7 +42,7 @@ public class Sucursal {
 	 */
 	public Caja habilitarCaja() {
 		Caja caja = new Caja(proveedorOfertas, proveedorProductos,
-				proveedorFechaActual);
+				proveedorFechaActual, proveedorPuntos);
 		cajas.add(caja);
 		return caja;
 	}

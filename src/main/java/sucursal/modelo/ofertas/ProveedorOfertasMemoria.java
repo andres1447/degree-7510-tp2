@@ -10,6 +10,7 @@ import sucursal.modelo.ofertas.descuentos.DescuentoEnSegundoProducto;
 import sucursal.modelo.ofertas.descuentos.DescuentoFijo;
 import sucursal.modelo.ofertas.descuentos.DescuentoLlevaXPagaY;
 import sucursal.modelo.ofertas.descuentos.DescuentoPorcentual;
+import sucursal.modelo.ofertas.descuentos.DescuentoPuntos;
 import sucursal.modelo.ofertas.extractores.ExtraerFechaCreacion;
 import sucursal.modelo.ofertas.extractores.ExtraerMedioPago;
 import sucursal.modelo.ofertas.extractores.ExtraerTotalBruto;
@@ -28,11 +29,11 @@ import com.google.inject.Singleton;
 
 /**
  * Simple {@link ProveedorOfertas} implementation which provides hardcoded,
- * in-memory {@link Oferta} instances.
+ * in-memory {@link OfertaDinero} instances.
  */
 @Singleton
 public class ProveedorOfertasMemoria implements ProveedorOfertas {
-	private final List<Oferta> ofertas = new ArrayList<>();
+	private final List<IOferta> ofertas = new ArrayList<>();
 
 	@Inject
 	public ProveedorOfertasMemoria() {
@@ -43,9 +44,10 @@ public class ProveedorOfertasMemoria implements ProveedorOfertas {
 		ofertas.add(buildOfertaEjemplo5());
 		ofertas.add(buildOfertaEjemplo6());
 		ofertas.add(buildOfertaEjemplo7());
+		ofertas.add(buildOfertaPuntos());
 	}
 
-	private Oferta buildOfertaEjemplo1() {
+	private IOferta buildOfertaEjemplo1() {
 		// 5% de descuento en todos los productos si pagas en
 		// efectivo
 		Predicate<Compra> condicion = Predicates.compose(
@@ -56,10 +58,10 @@ public class ProveedorOfertasMemoria implements ProveedorOfertas {
 				new DescuentoPorcentual(5.0f),
 				new ExtraerTotalBruto());
 
-		return new Oferta("5% descuento pago en efectivo", condicion, descuento);
+		return new OfertaDinero("5% descuento pago en efectivo", condicion, descuento);
 	}
 
-	private Oferta buildOfertaEjemplo2() {
+	private IOferta buildOfertaEjemplo2() {
 		// 10% de descuento en todos los productos del rubro comida si es
 		// miercoles
 		Predicate<Compra> condicion = Predicates.compose(
@@ -68,29 +70,29 @@ public class ProveedorOfertasMemoria implements ProveedorOfertas {
 		Function<Compra, Float> descuento = Functions.compose(
 				new DescuentoPorcentual(10.0f), 
 				new ExtraerTotalBrutoProductos(new PredicadoRubro("11")));
-		return new Oferta("10% descuento comida los jueves", condicion,
+		return new OfertaDinero("10% descuento comida los jueves", condicion,
 				descuento);
 	}
 	
-	private Oferta buildOfertaEjemplo3() {
+	private IOferta buildOfertaEjemplo3() {
 		// Te devolvemos $10 los sabados si compras con tarjeta de debito
 		Predicate<Compra> condicion = Predicates.compose(
 				new PredicadoDiaSemana(Calendar.SATURDAY),
 				new ExtraerFechaCreacion());
 		Function<Compra, Float> descuento = new DescuentoFijo<>(10.0f);
-		return new Oferta("10$ descuento sabados", condicion,
+		return new OfertaDinero("10$ descuento sabados", condicion,
 				descuento);
 	}
 	
-	private Oferta buildOfertaEjemplo4() {
+	private IOferta buildOfertaEjemplo4() {
 		// Llevas 3 cocas pagas 2
 		Predicate<Compra> condicion = Predicates.alwaysTrue();
 		Function<Compra, Float> descuento = new DescuentoLlevaXPagaY("11-111-1111", 3, 2);
-		return new Oferta("Lleva 3 paga 2 en Coca-Cola", condicion,
+		return new OfertaDinero("Lleva 3 paga 2 en Coca-Cola", condicion,
 				descuento);
 	}
 	
-	private Oferta buildOfertaEjemplo5() {
+	private IOferta buildOfertaEjemplo5() {
 		// 5% de descuento en todos los productos si pagas en
 		// efectivo
 		Predicate<Compra> condicion = new PredicadoJubilado();
@@ -99,10 +101,10 @@ public class ProveedorOfertasMemoria implements ProveedorOfertas {
 				new DescuentoPorcentual(10.0f),
 				new ExtraerTotalBruto());
 
-		return new Oferta("10% descuento jubilados", condicion, descuento);
+		return new OfertaDinero("10% descuento jubilados", condicion, descuento);
 	}
 	
-	private Oferta buildOfertaEjemplo6() {
+	private IOferta buildOfertaEjemplo6() {
 		// $10 si tiene el cupon 11111
 		Predicate<Compra> condicion = new PredicadoCupon("11111");
 
@@ -110,18 +112,24 @@ public class ProveedorOfertasMemoria implements ProveedorOfertas {
 				new DescuentoFijo<>(10.0f),
 				new ExtraerTotalBruto());
 
-		return new Oferta("$10 cupon", condicion, descuento);
+		return new OfertaDinero("$10 cupon", condicion, descuento);
 	}
 	
-	private Oferta buildOfertaEjemplo7() {
+	private IOferta buildOfertaEjemplo7() {
 		// Descuento en el 2do producto distinto al 1ro
 		Predicate<Compra> condicion = Predicates.alwaysTrue();
 		Function<Compra, Float> descuento = new DescuentoEnSegundoProducto("11-111-1111", "11-111-1112", 50);
-		return new Oferta("50% en Sprite, comprando 1 Coca", condicion,	descuento);
+		return new OfertaDinero("50% en Sprite, comprando 1 Coca", condicion,	descuento);
+	}
+	
+	private IOferta buildOfertaPuntos() {
+		Predicate<Compra> condicion = Predicates.alwaysTrue();
+		Function<Compra, Integer> descuento = new DescuentoPuntos();
+		return new OfertaPuntos(condicion, descuento);
 	}
 
 	@Override
-	public List<Oferta> proveer() {
+	public List<IOferta> proveer() {
 		return ofertas;
 	}
 

@@ -18,6 +18,7 @@ import sucursal.modelo.exceptions.CompraEnProcesoException;
 import sucursal.modelo.exceptions.CompraNoIniciadaException;
 import sucursal.modelo.ofertas.ProveedorOfertas;
 import sucursal.modelo.productos.ProveedorProductos;
+import sucursal.modelo.puntos.ProveedorPuntos;
 import sucursal.utilities.Observador;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -36,10 +37,13 @@ public class CajaTest {
 	@Mock
 	private ProveedorFechaActual mockProveedorFechaActual;
 
+	@Mock
+	private ProveedorPuntos mockProveedorPuntos;
+
 	@Before
 	public void setup() {
 		subject = new Caja(mockProveedorOfertas, mockProveedorProductos,
-				mockProveedorFechaActual);
+				mockProveedorFechaActual, mockProveedorPuntos);
 	}
 
 	@Test
